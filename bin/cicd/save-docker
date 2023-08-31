@@ -1,0 +1,21 @@
+#!/bin/sh
+
+version=$(jq -r .version package.json)
+
+IMAGE_NAME="markethub-web"
+IMAGE_TAG="$version"
+
+case "$1" in
+dev)
+    IMAGE_TAG="$IMAGE_TAG-dev"
+    ;;
+*) ;;
+esac
+
+FILENAME="${IMAGE_NAME}_${IMAGE_TAG}.tar.gz"
+# FILENAME="sample-web.tar.gz"
+echo "Saving to $FILENAME..."
+docker save "$IMAGE_NAME:$IMAGE_TAG" | gzip >$FILENAME
+echo "Done!"
+
+# replace sample with an acronym for project name

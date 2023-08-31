@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+    workspace:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        container_name: ${APP_NAME}-project-${APP_ENV}
+        volumes:
+            - ../:/workspace:rw
+            # TODO: fix the mounting of ssh
+            - ~/.ssh:/home/node/.ssh:ro
+        ports:
+            - 3000:80
+            - 3001:3001
+        env_file:
+            - ./.env
+        tty: true
+
+    database:
+        image: postgres:alpine
+        container_name: ${APP_NAME}-database-${APP_ENV}
+        env_file:
+            - ./.env
+        ports:
+            - 5432:5432
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        restart: always
+
+volumes:
+    pgdata:

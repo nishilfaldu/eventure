@@ -1,0 +1,111 @@
+image: node:16
+
+clone:
+    depth: full
+
+definitions:
+    services:
+        docker:
+            memory: 4096
+    caches:
+        node-client: client/node_modules
+        node-server: server/node_modules
+    steps:
+        - step: &install
+              name: "Install Dependencies"
+              caches:
+                  - node
+                  - node-client
+                  - node-server
+              script:
+                  - yarn install
+        - step: &compile-test
+              name: compile-test
+              caches:
+                  - node
+                  - node-client
+                  - node-server
+              script:
+                  - yarn compile && yarn test
+        - step: &lint
+              name: Lint
+              caches:
+                  - node
+                  - node-client
+                  - node-server
+              script:
+                  - yarn generate && yarn lint
+        - step: &test
+              name: Test
+              caches:
+                  - node
+                  - node-client
+                  - node-server
+              script:
+                  - yarn test
+        # - step: &sonar-scan
+        #       image: atlassian/default-image:2
+        #       size: 2x
+        #       name: SonarCloud Scan - Static Code Analysis
+        #       services:
+        #           - docker
+        #       script:
+        #           - pipe: sonarsource/sonarcloud-scan:1.4.0
+        #             variables:
+        #                 EXTRA_ARGS: -Dsonar.sources=\"server, client\" -Dsonar.exclusions=\"**/*.js\"
+        - step: &build-docker
+              name: Build and Push Docker Image
+              size: 2x
+              services:
+                  - docker
+              script:
+                  - apt-get update && apt-get install -y jq gzip
+                  - ./bin/cicd/build-docker
+                  - ./bin/cicd/save-docker
+                  #   - ./bin/cicd/build-docker -c ${CONTAINER_REGISTRY_URL} -b dev-${BITBUCKET_BUILD_NUMBER} ${APP_NAME} $(./bin/version)
+                  #   - docker login -u ${CONTAINER_REGISTRY_USER} -p ${CONTAINER_REGISTRY_PASSWORD} ${CONTAINER_REGISTRY_URL}
+                  #   - docker push ${CONTAINER_REGISTRY_URL}/${APP_NAME}:$(./bin/version)-dev-${BITBUCKET_BUILD_NUMBER}
+              artifacts:
+                  download: false
+                  paths:
+                      - 7west-marketplace-web_*.tar.gz
+
+        # - step: &sync-argocd
+        #       name: Send Sync Request to ArgoCD
+        #       script:
+        #           - apt-get update && apt-get install -y jq gzip
+        #           - curl -sSL -o /usr/local/bin/argocd https://${ARGOCD_SERVER}/download/argocd-linux-amd64
+        #           - chmod +x /usr/local/bin/argocd
+        #           - argocd app set 7west-marketplace-test -p image.tag=$(./bin/version)-dev-${BITBUCKET_BUILD_NUMBER} --grpc-web
+        #           - argocd app sync 7west-marketplace-test --grpc-web
+
+pipelines:
+    branches:
+        develop:
+            - step: *install
+            - parallel:
+                  - step: *lint
+                  - step: *compile-test
+                  #   - step: *sonar-scan
+            # - step: *test
+            - step: *build-docker
+            # - step: *sync-argocd
+    pull-requests:
+        feature/*:
+            - step: *install
+            - parallel:
+                  - step: *lint
+                  - step: *compile-test
+                  #   - step: *sonar-scan
+            # - step: *test
+        hotfix/*:
+            - step: *install
+            - parallel:
+                  - step: *lint
+                  - step: *compile-test
+                  #   - step: *sonar-scan
+            # - step: *test
+        release/*:
+            - parallel:
+                  - step: *build-docker
+                  #   - step: *sonar-scan

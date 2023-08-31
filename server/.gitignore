@@ -1,0 +1,16 @@
+node_modules
+.keystone/admin
+keystone.db
+*.log
+
+*-journal
+
+# Local databases
+/keystone.db
+
+# Makefile stubs
+/.*-mstub
+
+dist/
+src/generated/
+package-lock.json

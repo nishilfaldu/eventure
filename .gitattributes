@@ -1,0 +1,5 @@
+# Auto-convert between \n on Mac/Linux and \r\n on Windows
+* text=auto
+
+# Always use \n for shell scripts
+*.sh text eol=lf

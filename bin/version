@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+yarn version --no-git-tag-version
+
+update_file_version() {
+    tmp="$(jq .version=$2 $1 --indent 2)"
+    echo "$tmp" >$1
+}
+
+root_version=$(jq .version package.json)
+update_file_version client/package.json $root_version
+update_file_version server/package.json $root_version

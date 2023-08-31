@@ -1,0 +1,55 @@
+#!/usr/bin/env sh
+
+# File Name: tag-version
+# Version: 2022.10.31
+# Purpose: Creates a git tag for the current commit
+#   using the version found in a package.json file.
+#
+# Flags:
+# - `-d` to delete tag instead of creating one.
+# - `-p <project directory>` to override the directory that will be searched for a package.json file.
+# - `-t <tag prefix>` to prefix the tag with something other than "v"
+
+usage() {
+    echo "Usage: $0 [-d] [-p <project directory>] [-t <tag prefix>]\n" 1>&2
+    echo "Optional Flags:" 1>&2
+    echo " -d \n\tDelete the tag instead of creating one" 1>&2
+    echo " -p <project directory> \n\tOverride the directory that will be searched for a package.json file" 1>&2
+    echo " -t <tag prefix> \n\tPrefix the tag with somethign other than \"v\"" 1>&2
+    exit 0
+}
+
+# Define default variables
+PROJECT_DIR=.
+TAG_PREFIX=v
+DELETE_FLAG=0
+
+# Override default variables with parsed flags
+while getopts ":dp:t:" o; do
+    case "${o}" in
+    t)
+        TAG_PREFIX=${OPTARG}
+        ;;
+    p)
+        PROJECT_DIR="${OPTARG}"
+        ;;
+    d)
+        DELETE_FLAG=1
+        ;;
+    *)
+        usage
+        ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+PROJECT_VERSION=$(jq -r .version "${PROJECT_DIR}/package.json")
+TAG_STRING="${TAG_PREFIX}${PROJECT_VERSION}"
+
+if [ "$DELETE_FLAG" = "1" ]; then
+    # git tag -d $TAG_STRING
+    echo "Removed a git tag with the name: ${TAG_STRING}"
+else
+    # git tag $TAG_STRING
+    echo "Created a git tag with the name: ${TAG_STRING}"
+fi
