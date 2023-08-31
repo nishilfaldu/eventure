@@ -1,11 +1,12 @@
 {
-    "name": "7west-marketplace-next-app",
-    "description": "7west Marketplace Web Application - Client",
+    "name": "eventure-marketplace-next-app",
+    "description": "Eventure Web Application - Client",
     "version": "0.1.0",
     "private": true,
     "author": "eventure",
     "contributors": [
-        "Nishil Faldu <faldund@outlook.com>"
+        "Nishil Faldu <faldund@outlook.com>",
+        "Anusha Chitranshi <chitraaa@mail.uc.edu>"
     ],
     "engines": {
         "node": ">=16.0.0",
@@ -13,7 +14,7 @@
         "npm": "please-use-yarn"
     },
     "license": "UNLICENSED",
-    "repository": "https://bitbucket.org/7west/marketplace-web-application/src/main/",
+    "repository": "https://bitbucket.org/eventureapp/eventure/src/master/",
     "scripts": {
         "dev": "yarn generate && next dev",
         "compile": "yarn generate && tsc -p . --pretty",

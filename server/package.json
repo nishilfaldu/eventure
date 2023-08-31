@@ -1,13 +1,14 @@
 {
-    "name": "7west-marketplace-keystone-app",
-    "description": "7west Marketplace Web Application - Server",
+    "name": "eventure-marketplace-keystone-app",
+    "description": "Eventure Web Application - Server",
     "version": "0.1.0",
     "private": true,
-    "author": "7west",
+    "author": "eventure",
     "contributors": [
-        "Nishil Faldu <faldund@outlook.com>"
+        "Nishil Faldu <faldund@outlook.com>",
+        "Anusha Chitranshi <chitraaa@mail.uc.edu>"
     ],
-    "repository": "https://bitbucket.org/7west/marketplace-web-application/src/main/",
+    "repository": "https://bitbucket.org/eventureapp/eventure/src/master/",
     "scripts": {
         "dev": "keystone dev",
         "start": "keystone start",

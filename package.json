@@ -1,13 +1,14 @@
 {
     "private": true,
-    "name": "fullstack-app-template",
+    "name": "eventure-app",
     "version": "1.0.0",
-    "description": "Enter Description Here",
+    "description": "an event management application",
     "main": "index.js",
-    "author": "Nishil Faldu",
+    "author": "eventure",
     "license": "MIT",
     "contributors": [
-        "Nishil Faldu <faldund@outlook.com>"
+        "Nishil Faldu <faldund@outlook.com>",
+        "Anusha Chitranshi <chitraaa@mail.uc.edu>"
     ],
     "scripts": {
         "prepare": "husky install",

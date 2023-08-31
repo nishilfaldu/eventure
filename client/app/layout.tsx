@@ -10,8 +10,8 @@ const nunito = Nunito({
 });
 
 export const metadata = {
-  title: "7west Marketplace Web Application",
-  description: "Welcome to 7west Marketplace Web Application",
+  title: "Eventure Web Application",
+  description: "Welcome to Eventure Web Application",
 };
 
 export default function RootLayout({
