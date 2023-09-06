@@ -1,0 +1,21 @@
+## Individual Capstone Assessment - Nishil Faldu
+
+## Introduction:
+
+-   Our senior design project centers around the development of an event management application aimed at streamlining the process of organizing and coordinating events. From my individual academic perspective, this project aligns closely with my background in computer science, where I've completed most of my core courses and gained substantial experience in full-stack web development through co-op opportunities. This application is designed to help individuals and group keep everything organized, ensuring that no detail is overlooked during event planning and execution.
+
+## College Curriculum and Co-op Experiences:
+
+-   My college curriculum has equipped me with a strong foundation in computer science, covering a wide range of topics such as data structures (CS2028 Data Structures), algorithms (CS 4071 Design and Analysis Algorithms), database management (CS4092 Database Design and Development), cloud (CS6065 Cloud Computing), and software engineering (CS3093C Software Engineering). These classes have honed my problem-solving skills, while learning web development in my free time has provided hands-on experience in creating dynamic web applications.
+
+-   My co-op experiences, notably at Kinetic Vision and the Digital Scholarship Center, have been invaluable. At Kinetic Vision, I developed full-stack applications, collaborating with cross-functional teams to ensure seamless integration. I designed and implemented a versatile breadcrumbs library, reducing development time and enhancing user experience across multiple client projects. These experiences instilled in me technical skills and the importance of effective teamwork. In my role as a software engineering intern at the Digital Scholarship Center, I proposed and implemented scalable solutions, improving data exploration through machine learning techniques. I researched ML models, optimized data processing, and contributed to a collaborative research platform, emphasizing the importance of innovation and user satisfaction.
+
+## Motivation and Preliminary Approach:
+
+-   I am highly motivated to participate in this project because it combines my academic knowledge and co-op experiences, allowing me to leverage my technical skills in creating a practical solution. Moreover, event management is a ubiquitous need and developing an application to simplify this process excites me. There is no one-stop solution for event planning, and we hope to be that platform for the users. I am also excited to implement features that I have never before: a chat feature, a feature where users can be added to the same space, and manipulating database through emails. Furthermore, the new technology stack with Next and Keystone further excites me to work on this project.
+
+-   Our preliminary approach involves designing an intuitive and user-friendly interface that covers all aspects of event management, from creating a checklist to contacting vendors to removing things off the checklist. We plan to incorporate the following features: adding multiple organizers to a space, budget tracking, communication tools to facilitate collaboration among organizers, exploring different vendors, generating checklist based on user needs, and personalizing suggestions. Our expected results include a fully functional event management application that meets the needs of a diverse user base.
+
+-   To evaluate our contributions, we will establish clear project milestones and continuously assess our progress. User feedback (which might be carried out on a smaller scale) and testing will be integral to ensuring that the application aligns with our expectations. We aim to deliver a comprehensive solution that not only streamlines event organization but also exceeds user satisfaction.
+
+-   In summary, our senior design project is an exciting opportunity to apply our collective knowledge and experiences to create a valuable event management application. It leverages our technical skills gained through coursework and co-op experiences, and our motivation stems from addressing a real-world need. Through careful planning, user-centered design, and iterative development, we aim to achieve a successful and impactful project outcome.
