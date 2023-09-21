@@ -17,14 +17,12 @@ import { lists } from "./schema";
 // when you write your list-level access control functions, as they typically rely on session data
 // dotenv.config();
 // eslint-disable-next-line max-len
-// const dbUrl = process.env.POSTGRES_URL || `postgresql://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.APP_NAME}-database-development:5432/${process.env.POSTGRES_DB}`;
-// console.log(process.env.POSTGRES_URL);
-
+const dbUrl = process.env.POSTGRES_URL || `postgresql://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.APP_NAME}-database-development:5432/${process.env.POSTGRES_DB}`;
 
 export const keystoneConfig = config({
     db: {
         provider: "postgresql",
-        url: "postgresql://eventure-web-user:test@eventure-web-app-database-development:5432/eventure-web",
+        url: dbUrl,
         enableLogging: true,
         idField: { kind: "cuid" },
     },
