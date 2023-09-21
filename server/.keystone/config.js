@@ -86,11 +86,10 @@ var lists = {
 };
 
 // src/index.ts
-var dbUrl = process.env.POSTGRES_URL || `postgresql://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.APP_NAME}-database-development:5432/${process.env.POSTGRES_DB}`;
 var keystoneConfig = (0, import_core2.config)({
   db: {
     provider: "postgresql",
-    url: dbUrl,
+    url: "postgresql://eventure-web-user:test@eventure-web-app-database-development:5432/eventure-web",
     enableLogging: true,
     idField: { kind: "cuid" }
   },

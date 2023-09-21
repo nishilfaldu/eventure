@@ -23,7 +23,7 @@
         "start": "run-p start:client start:server",
         "start:client": "cd client && yarn start",
         "start:server": "cd server && make start",
-        "dev:server": "cd server && make dev",
+        "dev:server": "cd server && yarn dev",
         "docker:build-demo": "DOCKER_ENV=demo ./scripts/docker-build.sh",
         "docker:export-demo": "DOCKER_ENV=demo ./scripts/docker-export.sh",
         "generate": "run-s generate:server generate:client",
