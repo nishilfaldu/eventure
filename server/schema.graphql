@@ -3,15 +3,15 @@
 
 type User {
   id: ID!
-  name: String
-  ssoId: String
+  firstName: String
+  lastName: String
   email: String
-  admin: Boolean
+  country: String
+  phoneNumber: String
 }
 
 input UserWhereUniqueInput {
   id: ID
-  ssoId: String
   email: String
 }
 
@@ -20,10 +20,11 @@ input UserWhereInput {
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
   id: IDFilter
-  name: StringFilter
-  ssoId: StringFilter
+  firstName: StringNullableFilter
+  lastName: StringNullableFilter
   email: StringFilter
-  admin: BooleanFilter
+  country: StringFilter
+  phoneNumber: StringFilter
 }
 
 input IDFilter {
@@ -35,6 +36,26 @@ input IDFilter {
   gt: ID
   gte: ID
   not: IDFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: StringNullableFilter
+}
+
+enum QueryMode {
+  default
+  insensitive
 }
 
 input StringFilter {
@@ -52,11 +73,6 @@ input StringFilter {
   not: NestedStringFilter
 }
 
-enum QueryMode {
-  default
-  insensitive
-}
-
 input NestedStringFilter {
   equals: String
   in: [String!]
@@ -71,17 +87,13 @@ input NestedStringFilter {
   not: NestedStringFilter
 }
 
-input BooleanFilter {
-  equals: Boolean
-  not: BooleanFilter
-}
-
 input UserOrderByInput {
   id: OrderDirection
-  name: OrderDirection
-  ssoId: OrderDirection
+  firstName: OrderDirection
+  lastName: OrderDirection
   email: OrderDirection
-  admin: OrderDirection
+  country: OrderDirection
+  phoneNumber: OrderDirection
 }
 
 enum OrderDirection {
@@ -90,10 +102,11 @@ enum OrderDirection {
 }
 
 input UserUpdateInput {
-  name: String
-  ssoId: String
+  firstName: String
+  lastName: String
   email: String
-  admin: Boolean
+  country: String
+  phoneNumber: String
 }
 
 input UserUpdateArgs {
@@ -102,10 +115,11 @@ input UserUpdateArgs {
 }
 
 input UserCreateInput {
-  name: String
-  ssoId: String
+  firstName: String
+  lastName: String
   email: String
-  admin: Boolean
+  country: String
+  phoneNumber: String
 }
 
 """
