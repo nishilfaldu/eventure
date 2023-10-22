@@ -1,4 +1,3 @@
-import type { ListConfig } from "@keystone-6/core";
 import { list } from "@keystone-6/core";
 import { allowAll } from "@keystone-6/core/access";
 import { text } from "@keystone-6/core/fields";
@@ -6,7 +5,7 @@ import { text } from "@keystone-6/core/fields";
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const UserTable: ListConfig<Lists.User.TypeInfo<any>, any> = list({
+export const User = list({
     access: allowAll,
     fields: {
         firstName: text({

@@ -1,9 +1,9 @@
 import type { Lists } from ".keystone/types";
 
-import { UserTable } from "./User";
+import { User } from "./User";
 
 
 
-export const lists: Lists = {
-    User: UserTable,
-};
+export const lists = {
+    User,
+} as Lists;

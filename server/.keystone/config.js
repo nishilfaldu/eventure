@@ -64,7 +64,7 @@ var session = (0, import_session.statelessSessions)({
 var import_core = require("@keystone-6/core");
 var import_access = require("@keystone-6/core/access");
 var import_fields = require("@keystone-6/core/fields");
-var UserTable = (0, import_core.list)({
+var User = (0, import_core.list)({
   access: import_access.allowAll,
   fields: {
     firstName: (0, import_fields.text)({
@@ -104,7 +104,7 @@ var UserTable = (0, import_core.list)({
 
 // src/schema/index.ts
 var lists = {
-  User: UserTable
+  User
 };
 
 // src/index.ts
