@@ -5,6 +5,7 @@ import { Entertainment } from "./Entertainment";
 import { Event } from "./Event";
 import { Food } from "./Food";
 import { Guest } from "./Guest";
+import { Supplies } from "./Supplies";
 import { User } from "./User";
 
 
@@ -16,4 +17,5 @@ export const lists = {
     Decoration,
     Entertainment,
     Food,
+    Supplies,
 } as Lists;
