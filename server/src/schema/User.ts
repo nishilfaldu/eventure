@@ -4,10 +4,10 @@ import { text } from "@keystone-6/core/fields";
 
 
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const User = list({
     access: allowAll,
     fields: {
+        // fields unique to the user table
         firstName: text({
             validation: { isRequired: false },
             db: { isNullable: true },
@@ -29,6 +29,12 @@ export const User = list({
             db: { isNullable: false },
             validation: { isRequired: true },
         }),
+
+        // relationships
+        // events: relationship({
+        //     ref: "Event",
+        // }),
+
         // ssoId: text({
         //     validation: { isRequired: false },
         //     isIndexed: "unique",
@@ -37,8 +43,6 @@ export const User = list({
         // admin: checkbox({
         //     defaultValue: false,
         // }),
-        // events: relationship({
-        //     ref: "Event",
-        // }),
+
     },
 });

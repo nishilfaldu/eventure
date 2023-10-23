@@ -25,7 +25,7 @@ __export(keystone_exports, {
 module.exports = __toCommonJS(keystone_exports);
 
 // src/index.ts
-var import_core2 = require("@keystone-6/core");
+var import_core = require("@keystone-6/core");
 
 // src/auth.ts
 var import_crypto = require("crypto");
@@ -60,48 +60,6 @@ var session = (0, import_session.statelessSessions)({
   secret: sessionSecret
 });
 
-// src/schema/User.ts
-var import_core = require("@keystone-6/core");
-var import_access = require("@keystone-6/core/access");
-var import_fields = require("@keystone-6/core/fields");
-var User = (0, import_core.list)({
-  access: import_access.allowAll,
-  fields: {
-    firstName: (0, import_fields.text)({
-      validation: { isRequired: false },
-      db: { isNullable: true }
-    }),
-    lastName: (0, import_fields.text)({
-      validation: { isRequired: false },
-      db: { isNullable: true }
-    }),
-    email: (0, import_fields.text)({
-      validation: { isRequired: true },
-      db: { isNullable: false },
-      isIndexed: "unique"
-    }),
-    country: (0, import_fields.text)({
-      validation: { isRequired: false },
-      db: { isNullable: false }
-    }),
-    phoneNumber: (0, import_fields.text)({
-      db: { isNullable: false },
-      validation: { isRequired: true }
-    })
-    // ssoId: text({
-    //     validation: { isRequired: false },
-    //     isIndexed: "unique",
-    // }),
-    // // "checkbox" is keystone's weird way of saying "boolean field"
-    // admin: checkbox({
-    //     defaultValue: false,
-    // }),
-    // events: relationship({
-    //     ref: "Event",
-    // }),
-  }
-});
-
 // src/schema/index.ts
 var lists = {
   User
@@ -109,7 +67,7 @@ var lists = {
 
 // src/index.ts
 var dbUrl = process.env.POSTGRES_URL_WITH_LOCALHOST || `postgresql://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.APP_NAME}-database-development:5432/${process.env.POSTGRES_DB}`;
-var keystoneConfig = (0, import_core2.config)({
+var keystoneConfig = (0, import_core.config)({
   db: {
     provider: "postgresql",
     url: dbUrl,
