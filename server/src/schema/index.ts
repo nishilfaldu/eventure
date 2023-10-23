@@ -1,8 +1,10 @@
 import type { Lists } from ".keystone/types";
 
+import { Clean } from "./Clean";
 import { Decoration } from "./Decoration";
 import { Entertainment } from "./Entertainment";
 import { Event } from "./Event";
+import { Favors } from "./Favors";
 import { Food } from "./Food";
 import { Guest } from "./Guest";
 import { Supplies } from "./Supplies";
@@ -18,4 +20,6 @@ export const lists = {
     Entertainment,
     Food,
     Supplies,
+    Favors,
+    Clean,
 } as Lists;
