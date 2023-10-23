@@ -4,23 +4,23 @@ import { checkbox } from "@keystone-6/core/fields";
 
 
 
-export const Entertainment = list({
+export const Food = list({
     access: allowAll,
     fields: {
-        // fields unique to the entertainment table
-        music: checkbox({
+        // fields unique to the food table
+        appetizers: checkbox({
             defaultValue: false,
         }),
-        entertainers: checkbox({
+        mainCourse: checkbox({
             defaultValue: false,
         }),
-        activities: checkbox({
+        beverages: checkbox({
             defaultValue: false,
         }),
-        photobooth: checkbox({
+        dessert: checkbox({
             defaultValue: false,
         }),
-        prizes: checkbox({
+        cake: checkbox({
             defaultValue: false,
         }),
 
