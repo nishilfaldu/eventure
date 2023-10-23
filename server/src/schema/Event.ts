@@ -10,15 +10,19 @@ export const Event = list({
         // fields unique to the event table
         name: text({
             validation: { isRequired: true },
+            db: { isNullable: false },
         }),
         type: text({
             validation: { isRequired: true },
+            db: { isNullable: false },
         }),
         location: text({
             validation: { isRequired: false },
+            db: { isNullable: true },
         }),
         date: timestamp({
             validation: { isRequired: true },
+            db: { isNullable: false },
         }),
 
         // relationships
