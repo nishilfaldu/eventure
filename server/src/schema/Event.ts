@@ -1,6 +1,6 @@
 import { list } from "@keystone-6/core";
 import { allowAll } from "@keystone-6/core/access";
-import { text, timestamp } from "@keystone-6/core/fields";
+import { relationship, text, timestamp } from "@keystone-6/core/fields";
 
 
 
@@ -26,26 +26,37 @@ export const Event = list({
         }),
 
         // relationships
-        // guests: relationship({
-        //     ref: "Guest",
-        // }),
-        // decorations: relationship({
-        //     ref: "Decoration",
-        // }),
-        // entertainment: relationship({
-        //     ref: "Entertainment",
-        // }),
-        // food: relationship({
-        //     ref: "Food",
-        // }),
-        // supplies: relationship({
-        //     ref: "Supply",
-        // }),
-        // favors: relationship({
-        //     ref: "Favor",
-        // }),
-        // clean: relationship({
-        //     ref: "Clean",
-        // }),
+        user: relationship({
+            ref: "User.events",
+            many: false,
+        }),
+        guests: relationship({
+            ref: "Guest.event",
+            many: true,
+        }),
+        decorations: relationship({
+            ref: "Decoration.event",
+            many: false,
+        }),
+        entertainment: relationship({
+            ref: "Entertainment.event",
+            many: false,
+        }),
+        food: relationship({
+            ref: "Food.event",
+            many: false,
+        }),
+        essentials: relationship({
+            ref: "Essential.event",
+            many: false,
+        }),
+        favors: relationship({
+            ref: "Favor.event",
+            many: false,
+        }),
+        cleanup: relationship({
+            ref: "Cleanup.event",
+            many: false,
+        }),
     },
 });

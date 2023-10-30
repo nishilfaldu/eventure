@@ -1,6 +1,6 @@
 import { list } from "@keystone-6/core";
 import { allowAll } from "@keystone-6/core/access";
-import { checkbox, text } from "@keystone-6/core/fields";
+import { checkbox, relationship, text } from "@keystone-6/core/fields";
 
 
 
@@ -29,8 +29,9 @@ export const Decoration = list({
         }),
 
         // relationships
-        // event: relationship({
-        //     ref: "Event", many: false,
-        // }),
+        event: relationship({
+            ref: "Event.decorations",
+            many: false,
+        }),
     },
 });

@@ -1,10 +1,10 @@
 import { list } from "@keystone-6/core";
 import { allowAll } from "@keystone-6/core/access";
-import { checkbox } from "@keystone-6/core/fields";
+import { checkbox, relationship } from "@keystone-6/core/fields";
 
 
 
-export const Supplies = list({
+export const Essential = list({
     access: allowAll,
     fields: {
         // fields unique to the supplies table
@@ -25,8 +25,9 @@ export const Supplies = list({
         }),
 
         // relationships
-        // event: relationship({
-        //     ref: "Event", many: false,
-        // }),
+        event: relationship({
+            ref: "Event.essentials",
+            many: false,
+        }),
     },
 });

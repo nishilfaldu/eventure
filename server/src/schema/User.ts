@@ -1,6 +1,6 @@
 import { list } from "@keystone-6/core";
 import { allowAll } from "@keystone-6/core/access";
-import { text } from "@keystone-6/core/fields";
+import { relationship, text } from "@keystone-6/core/fields";
 
 
 
@@ -31,9 +31,10 @@ export const User = list({
         }),
 
         // relationships
-        // events: relationship({
-        //     ref: "Event",
-        // }),
+        events: relationship({
+            ref: "Event.user",
+            many: true,
+        }),
 
         // ssoId: text({
         //     validation: { isRequired: false },

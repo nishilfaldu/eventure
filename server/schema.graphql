@@ -8,6 +8,8 @@ type User {
   email: String
   country: String
   phoneNumber: String
+  events(where: EventWhereInput! = {}, orderBy: [EventOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: EventWhereUniqueInput): [Event!]
+  eventsCount(where: EventWhereInput! = {}): Int
 }
 
 input UserWhereUniqueInput {
@@ -25,6 +27,7 @@ input UserWhereInput {
   email: StringFilter
   country: StringFilter
   phoneNumber: StringFilter
+  events: EventManyRelationFilter
 }
 
 input IDFilter {
@@ -87,6 +90,12 @@ input NestedStringFilter {
   not: NestedStringFilter
 }
 
+input EventManyRelationFilter {
+  every: EventWhereInput
+  some: EventWhereInput
+  none: EventWhereInput
+}
+
 input UserOrderByInput {
   id: OrderDirection
   firstName: OrderDirection
@@ -107,6 +116,14 @@ input UserUpdateInput {
   email: String
   country: String
   phoneNumber: String
+  events: EventRelateToManyForUpdateInput
+}
+
+input EventRelateToManyForUpdateInput {
+  disconnect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
+  create: [EventCreateInput!]
+  connect: [EventWhereUniqueInput!]
 }
 
 input UserUpdateArgs {
@@ -120,6 +137,607 @@ input UserCreateInput {
   email: String
   country: String
   phoneNumber: String
+  events: EventRelateToManyForCreateInput
+}
+
+input EventRelateToManyForCreateInput {
+  create: [EventCreateInput!]
+  connect: [EventWhereUniqueInput!]
+}
+
+type Event {
+  id: ID!
+  name: String
+  type: String
+  location: String
+  date: DateTime
+  user: User
+  guests(where: GuestWhereInput! = {}, orderBy: [GuestOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: GuestWhereUniqueInput): [Guest!]
+  guestsCount(where: GuestWhereInput! = {}): Int
+  decorations: Decoration
+  entertainment: Entertainment
+  food: Food
+  essentials: Essential
+  favors: Favor
+  cleanup: Cleanup
+}
+
+scalar DateTime @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
+
+input EventWhereUniqueInput {
+  id: ID
+}
+
+input EventWhereInput {
+  AND: [EventWhereInput!]
+  OR: [EventWhereInput!]
+  NOT: [EventWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  type: StringFilter
+  location: StringNullableFilter
+  date: DateTimeFilter
+  user: UserWhereInput
+  guests: GuestManyRelationFilter
+  decorations: DecorationWhereInput
+  entertainment: EntertainmentWhereInput
+  food: FoodWhereInput
+  essentials: EssentialWhereInput
+  favors: FavorWhereInput
+  cleanup: CleanupWhereInput
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: DateTimeFilter
+}
+
+input GuestManyRelationFilter {
+  every: GuestWhereInput
+  some: GuestWhereInput
+  none: GuestWhereInput
+}
+
+input EventOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  type: OrderDirection
+  location: OrderDirection
+  date: OrderDirection
+}
+
+input EventUpdateInput {
+  name: String
+  type: String
+  location: String
+  date: DateTime
+  user: UserRelateToOneForUpdateInput
+  guests: GuestRelateToManyForUpdateInput
+  decorations: DecorationRelateToOneForUpdateInput
+  entertainment: EntertainmentRelateToOneForUpdateInput
+  food: FoodRelateToOneForUpdateInput
+  essentials: EssentialRelateToOneForUpdateInput
+  favors: FavorRelateToOneForUpdateInput
+  cleanup: CleanupRelateToOneForUpdateInput
+}
+
+input UserRelateToOneForUpdateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+}
+
+input GuestRelateToManyForUpdateInput {
+  disconnect: [GuestWhereUniqueInput!]
+  set: [GuestWhereUniqueInput!]
+  create: [GuestCreateInput!]
+  connect: [GuestWhereUniqueInput!]
+}
+
+input DecorationRelateToOneForUpdateInput {
+  create: DecorationCreateInput
+  connect: DecorationWhereUniqueInput
+  disconnect: Boolean
+}
+
+input EntertainmentRelateToOneForUpdateInput {
+  create: EntertainmentCreateInput
+  connect: EntertainmentWhereUniqueInput
+  disconnect: Boolean
+}
+
+input FoodRelateToOneForUpdateInput {
+  create: FoodCreateInput
+  connect: FoodWhereUniqueInput
+  disconnect: Boolean
+}
+
+input EssentialRelateToOneForUpdateInput {
+  create: EssentialCreateInput
+  connect: EssentialWhereUniqueInput
+  disconnect: Boolean
+}
+
+input FavorRelateToOneForUpdateInput {
+  create: FavorCreateInput
+  connect: FavorWhereUniqueInput
+  disconnect: Boolean
+}
+
+input CleanupRelateToOneForUpdateInput {
+  create: CleanupCreateInput
+  connect: CleanupWhereUniqueInput
+  disconnect: Boolean
+}
+
+input EventUpdateArgs {
+  where: EventWhereUniqueInput!
+  data: EventUpdateInput!
+}
+
+input EventCreateInput {
+  name: String
+  type: String
+  location: String
+  date: DateTime
+  user: UserRelateToOneForCreateInput
+  guests: GuestRelateToManyForCreateInput
+  decorations: DecorationRelateToOneForCreateInput
+  entertainment: EntertainmentRelateToOneForCreateInput
+  food: FoodRelateToOneForCreateInput
+  essentials: EssentialRelateToOneForCreateInput
+  favors: FavorRelateToOneForCreateInput
+  cleanup: CleanupRelateToOneForCreateInput
+}
+
+input UserRelateToOneForCreateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+input GuestRelateToManyForCreateInput {
+  create: [GuestCreateInput!]
+  connect: [GuestWhereUniqueInput!]
+}
+
+input DecorationRelateToOneForCreateInput {
+  create: DecorationCreateInput
+  connect: DecorationWhereUniqueInput
+}
+
+input EntertainmentRelateToOneForCreateInput {
+  create: EntertainmentCreateInput
+  connect: EntertainmentWhereUniqueInput
+}
+
+input FoodRelateToOneForCreateInput {
+  create: FoodCreateInput
+  connect: FoodWhereUniqueInput
+}
+
+input EssentialRelateToOneForCreateInput {
+  create: EssentialCreateInput
+  connect: EssentialWhereUniqueInput
+}
+
+input FavorRelateToOneForCreateInput {
+  create: FavorCreateInput
+  connect: FavorWhereUniqueInput
+}
+
+input CleanupRelateToOneForCreateInput {
+  create: CleanupCreateInput
+  connect: CleanupWhereUniqueInput
+}
+
+type Guest {
+  id: ID!
+  name: String
+  email: String
+  phoneNumber: String
+  event: Event
+}
+
+input GuestWhereUniqueInput {
+  id: ID
+}
+
+input GuestWhereInput {
+  AND: [GuestWhereInput!]
+  OR: [GuestWhereInput!]
+  NOT: [GuestWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  email: StringFilter
+  phoneNumber: StringFilter
+  event: EventWhereInput
+}
+
+input GuestOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  email: OrderDirection
+  phoneNumber: OrderDirection
+}
+
+input GuestUpdateInput {
+  name: String
+  email: String
+  phoneNumber: String
+  event: EventRelateToOneForUpdateInput
+}
+
+input EventRelateToOneForUpdateInput {
+  create: EventCreateInput
+  connect: EventWhereUniqueInput
+  disconnect: Boolean
+}
+
+input GuestUpdateArgs {
+  where: GuestWhereUniqueInput!
+  data: GuestUpdateInput!
+}
+
+input GuestCreateInput {
+  name: String
+  email: String
+  phoneNumber: String
+  event: EventRelateToOneForCreateInput
+}
+
+input EventRelateToOneForCreateInput {
+  create: EventCreateInput
+  connect: EventWhereUniqueInput
+}
+
+type Decoration {
+  id: ID!
+  balloons: Boolean
+  posters: Boolean
+  tableDecorations: Boolean
+  wallDecorations: Boolean
+  lights: Boolean
+  personalizedTouches: String
+  event: Event
+}
+
+input DecorationWhereUniqueInput {
+  id: ID
+}
+
+input DecorationWhereInput {
+  AND: [DecorationWhereInput!]
+  OR: [DecorationWhereInput!]
+  NOT: [DecorationWhereInput!]
+  id: IDFilter
+  balloons: BooleanFilter
+  posters: BooleanFilter
+  tableDecorations: BooleanFilter
+  wallDecorations: BooleanFilter
+  lights: BooleanFilter
+  personalizedTouches: StringNullableFilter
+  event: EventWhereInput
+}
+
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
+}
+
+input DecorationOrderByInput {
+  id: OrderDirection
+  balloons: OrderDirection
+  posters: OrderDirection
+  tableDecorations: OrderDirection
+  wallDecorations: OrderDirection
+  lights: OrderDirection
+  personalizedTouches: OrderDirection
+}
+
+input DecorationUpdateInput {
+  balloons: Boolean
+  posters: Boolean
+  tableDecorations: Boolean
+  wallDecorations: Boolean
+  lights: Boolean
+  personalizedTouches: String
+  event: EventRelateToOneForUpdateInput
+}
+
+input DecorationUpdateArgs {
+  where: DecorationWhereUniqueInput!
+  data: DecorationUpdateInput!
+}
+
+input DecorationCreateInput {
+  balloons: Boolean
+  posters: Boolean
+  tableDecorations: Boolean
+  wallDecorations: Boolean
+  lights: Boolean
+  personalizedTouches: String
+  event: EventRelateToOneForCreateInput
+}
+
+type Entertainment {
+  id: ID!
+  music: Boolean
+  entertainers: Boolean
+  activities: Boolean
+  photobooth: Boolean
+  prizes: Boolean
+  event: Event
+}
+
+input EntertainmentWhereUniqueInput {
+  id: ID
+}
+
+input EntertainmentWhereInput {
+  AND: [EntertainmentWhereInput!]
+  OR: [EntertainmentWhereInput!]
+  NOT: [EntertainmentWhereInput!]
+  id: IDFilter
+  music: BooleanFilter
+  entertainers: BooleanFilter
+  activities: BooleanFilter
+  photobooth: BooleanFilter
+  prizes: BooleanFilter
+  event: EventWhereInput
+}
+
+input EntertainmentOrderByInput {
+  id: OrderDirection
+  music: OrderDirection
+  entertainers: OrderDirection
+  activities: OrderDirection
+  photobooth: OrderDirection
+  prizes: OrderDirection
+}
+
+input EntertainmentUpdateInput {
+  music: Boolean
+  entertainers: Boolean
+  activities: Boolean
+  photobooth: Boolean
+  prizes: Boolean
+  event: EventRelateToOneForUpdateInput
+}
+
+input EntertainmentUpdateArgs {
+  where: EntertainmentWhereUniqueInput!
+  data: EntertainmentUpdateInput!
+}
+
+input EntertainmentCreateInput {
+  music: Boolean
+  entertainers: Boolean
+  activities: Boolean
+  photobooth: Boolean
+  prizes: Boolean
+  event: EventRelateToOneForCreateInput
+}
+
+type Food {
+  id: ID!
+  appetizers: Boolean
+  mainCourse: Boolean
+  beverages: Boolean
+  dessert: Boolean
+  cake: Boolean
+  event: Event
+}
+
+input FoodWhereUniqueInput {
+  id: ID
+}
+
+input FoodWhereInput {
+  AND: [FoodWhereInput!]
+  OR: [FoodWhereInput!]
+  NOT: [FoodWhereInput!]
+  id: IDFilter
+  appetizers: BooleanFilter
+  mainCourse: BooleanFilter
+  beverages: BooleanFilter
+  dessert: BooleanFilter
+  cake: BooleanFilter
+  event: EventWhereInput
+}
+
+input FoodOrderByInput {
+  id: OrderDirection
+  appetizers: OrderDirection
+  mainCourse: OrderDirection
+  beverages: OrderDirection
+  dessert: OrderDirection
+  cake: OrderDirection
+}
+
+input FoodUpdateInput {
+  appetizers: Boolean
+  mainCourse: Boolean
+  beverages: Boolean
+  dessert: Boolean
+  cake: Boolean
+  event: EventRelateToOneForUpdateInput
+}
+
+input FoodUpdateArgs {
+  where: FoodWhereUniqueInput!
+  data: FoodUpdateInput!
+}
+
+input FoodCreateInput {
+  appetizers: Boolean
+  mainCourse: Boolean
+  beverages: Boolean
+  dessert: Boolean
+  cake: Boolean
+  event: EventRelateToOneForCreateInput
+}
+
+type Essential {
+  id: ID!
+  utensils: Boolean
+  cupsAndStraws: Boolean
+  accessories: Boolean
+  candles: Boolean
+  cakeToppers: Boolean
+  event: Event
+}
+
+input EssentialWhereUniqueInput {
+  id: ID
+}
+
+input EssentialWhereInput {
+  AND: [EssentialWhereInput!]
+  OR: [EssentialWhereInput!]
+  NOT: [EssentialWhereInput!]
+  id: IDFilter
+  utensils: BooleanFilter
+  cupsAndStraws: BooleanFilter
+  accessories: BooleanFilter
+  candles: BooleanFilter
+  cakeToppers: BooleanFilter
+  event: EventWhereInput
+}
+
+input EssentialOrderByInput {
+  id: OrderDirection
+  utensils: OrderDirection
+  cupsAndStraws: OrderDirection
+  accessories: OrderDirection
+  candles: OrderDirection
+  cakeToppers: OrderDirection
+}
+
+input EssentialUpdateInput {
+  utensils: Boolean
+  cupsAndStraws: Boolean
+  accessories: Boolean
+  candles: Boolean
+  cakeToppers: Boolean
+  event: EventRelateToOneForUpdateInput
+}
+
+input EssentialUpdateArgs {
+  where: EssentialWhereUniqueInput!
+  data: EssentialUpdateInput!
+}
+
+input EssentialCreateInput {
+  utensils: Boolean
+  cupsAndStraws: Boolean
+  accessories: Boolean
+  candles: Boolean
+  cakeToppers: Boolean
+  event: EventRelateToOneForCreateInput
+}
+
+type Favor {
+  id: ID!
+  goodyBags: Boolean
+  thankyouNote: Boolean
+  event: Event
+}
+
+input FavorWhereUniqueInput {
+  id: ID
+}
+
+input FavorWhereInput {
+  AND: [FavorWhereInput!]
+  OR: [FavorWhereInput!]
+  NOT: [FavorWhereInput!]
+  id: IDFilter
+  goodyBags: BooleanFilter
+  thankyouNote: BooleanFilter
+  event: EventWhereInput
+}
+
+input FavorOrderByInput {
+  id: OrderDirection
+  goodyBags: OrderDirection
+  thankyouNote: OrderDirection
+}
+
+input FavorUpdateInput {
+  goodyBags: Boolean
+  thankyouNote: Boolean
+  event: EventRelateToOneForUpdateInput
+}
+
+input FavorUpdateArgs {
+  where: FavorWhereUniqueInput!
+  data: FavorUpdateInput!
+}
+
+input FavorCreateInput {
+  goodyBags: Boolean
+  thankyouNote: Boolean
+  event: EventRelateToOneForCreateInput
+}
+
+type Cleanup {
+  id: ID!
+  trashBags: Boolean
+  supplies: Boolean
+  recycle: Boolean
+  containers: Boolean
+  event: Event
+}
+
+input CleanupWhereUniqueInput {
+  id: ID
+}
+
+input CleanupWhereInput {
+  AND: [CleanupWhereInput!]
+  OR: [CleanupWhereInput!]
+  NOT: [CleanupWhereInput!]
+  id: IDFilter
+  trashBags: BooleanFilter
+  supplies: BooleanFilter
+  recycle: BooleanFilter
+  containers: BooleanFilter
+  event: EventWhereInput
+}
+
+input CleanupOrderByInput {
+  id: OrderDirection
+  trashBags: OrderDirection
+  supplies: OrderDirection
+  recycle: OrderDirection
+  containers: OrderDirection
+}
+
+input CleanupUpdateInput {
+  trashBags: Boolean
+  supplies: Boolean
+  recycle: Boolean
+  containers: Boolean
+  event: EventRelateToOneForUpdateInput
+}
+
+input CleanupUpdateArgs {
+  where: CleanupWhereUniqueInput!
+  data: CleanupUpdateInput!
+}
+
+input CleanupCreateInput {
+  trashBags: Boolean
+  supplies: Boolean
+  recycle: Boolean
+  containers: Boolean
+  event: EventRelateToOneForCreateInput
 }
 
 """
@@ -134,6 +752,54 @@ type Mutation {
   updateUsers(data: [UserUpdateArgs!]!): [User]
   deleteUser(where: UserWhereUniqueInput!): User
   deleteUsers(where: [UserWhereUniqueInput!]!): [User]
+  createEvent(data: EventCreateInput!): Event
+  createEvents(data: [EventCreateInput!]!): [Event]
+  updateEvent(where: EventWhereUniqueInput!, data: EventUpdateInput!): Event
+  updateEvents(data: [EventUpdateArgs!]!): [Event]
+  deleteEvent(where: EventWhereUniqueInput!): Event
+  deleteEvents(where: [EventWhereUniqueInput!]!): [Event]
+  createGuest(data: GuestCreateInput!): Guest
+  createGuests(data: [GuestCreateInput!]!): [Guest]
+  updateGuest(where: GuestWhereUniqueInput!, data: GuestUpdateInput!): Guest
+  updateGuests(data: [GuestUpdateArgs!]!): [Guest]
+  deleteGuest(where: GuestWhereUniqueInput!): Guest
+  deleteGuests(where: [GuestWhereUniqueInput!]!): [Guest]
+  createDecoration(data: DecorationCreateInput!): Decoration
+  createDecorations(data: [DecorationCreateInput!]!): [Decoration]
+  updateDecoration(where: DecorationWhereUniqueInput!, data: DecorationUpdateInput!): Decoration
+  updateDecorations(data: [DecorationUpdateArgs!]!): [Decoration]
+  deleteDecoration(where: DecorationWhereUniqueInput!): Decoration
+  deleteDecorations(where: [DecorationWhereUniqueInput!]!): [Decoration]
+  createEntertainment(data: EntertainmentCreateInput!): Entertainment
+  createEntertainments(data: [EntertainmentCreateInput!]!): [Entertainment]
+  updateEntertainment(where: EntertainmentWhereUniqueInput!, data: EntertainmentUpdateInput!): Entertainment
+  updateEntertainments(data: [EntertainmentUpdateArgs!]!): [Entertainment]
+  deleteEntertainment(where: EntertainmentWhereUniqueInput!): Entertainment
+  deleteEntertainments(where: [EntertainmentWhereUniqueInput!]!): [Entertainment]
+  createFood(data: FoodCreateInput!): Food
+  createFoods(data: [FoodCreateInput!]!): [Food]
+  updateFood(where: FoodWhereUniqueInput!, data: FoodUpdateInput!): Food
+  updateFoods(data: [FoodUpdateArgs!]!): [Food]
+  deleteFood(where: FoodWhereUniqueInput!): Food
+  deleteFoods(where: [FoodWhereUniqueInput!]!): [Food]
+  createEssential(data: EssentialCreateInput!): Essential
+  createEssentials(data: [EssentialCreateInput!]!): [Essential]
+  updateEssential(where: EssentialWhereUniqueInput!, data: EssentialUpdateInput!): Essential
+  updateEssentials(data: [EssentialUpdateArgs!]!): [Essential]
+  deleteEssential(where: EssentialWhereUniqueInput!): Essential
+  deleteEssentials(where: [EssentialWhereUniqueInput!]!): [Essential]
+  createFavor(data: FavorCreateInput!): Favor
+  createFavors(data: [FavorCreateInput!]!): [Favor]
+  updateFavor(where: FavorWhereUniqueInput!, data: FavorUpdateInput!): Favor
+  updateFavors(data: [FavorUpdateArgs!]!): [Favor]
+  deleteFavor(where: FavorWhereUniqueInput!): Favor
+  deleteFavors(where: [FavorWhereUniqueInput!]!): [Favor]
+  createCleanup(data: CleanupCreateInput!): Cleanup
+  createCleanups(data: [CleanupCreateInput!]!): [Cleanup]
+  updateCleanup(where: CleanupWhereUniqueInput!, data: CleanupUpdateInput!): Cleanup
+  updateCleanups(data: [CleanupUpdateArgs!]!): [Cleanup]
+  deleteCleanup(where: CleanupWhereUniqueInput!): Cleanup
+  deleteCleanups(where: [CleanupWhereUniqueInput!]!): [Cleanup]
   endSession: Boolean!
 }
 
@@ -141,6 +807,30 @@ type Query {
   users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   user(where: UserWhereUniqueInput!): User
   usersCount(where: UserWhereInput! = {}): Int
+  events(where: EventWhereInput! = {}, orderBy: [EventOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: EventWhereUniqueInput): [Event!]
+  event(where: EventWhereUniqueInput!): Event
+  eventsCount(where: EventWhereInput! = {}): Int
+  guests(where: GuestWhereInput! = {}, orderBy: [GuestOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: GuestWhereUniqueInput): [Guest!]
+  guest(where: GuestWhereUniqueInput!): Guest
+  guestsCount(where: GuestWhereInput! = {}): Int
+  decorations(where: DecorationWhereInput! = {}, orderBy: [DecorationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: DecorationWhereUniqueInput): [Decoration!]
+  decoration(where: DecorationWhereUniqueInput!): Decoration
+  decorationsCount(where: DecorationWhereInput! = {}): Int
+  entertainments(where: EntertainmentWhereInput! = {}, orderBy: [EntertainmentOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: EntertainmentWhereUniqueInput): [Entertainment!]
+  entertainment(where: EntertainmentWhereUniqueInput!): Entertainment
+  entertainmentsCount(where: EntertainmentWhereInput! = {}): Int
+  foods(where: FoodWhereInput! = {}, orderBy: [FoodOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: FoodWhereUniqueInput): [Food!]
+  food(where: FoodWhereUniqueInput!): Food
+  foodsCount(where: FoodWhereInput! = {}): Int
+  essentials(where: EssentialWhereInput! = {}, orderBy: [EssentialOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: EssentialWhereUniqueInput): [Essential!]
+  essential(where: EssentialWhereUniqueInput!): Essential
+  essentialsCount(where: EssentialWhereInput! = {}): Int
+  favors(where: FavorWhereInput! = {}, orderBy: [FavorOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: FavorWhereUniqueInput): [Favor!]
+  favor(where: FavorWhereUniqueInput!): Favor
+  favorsCount(where: FavorWhereInput! = {}): Int
+  cleanups(where: CleanupWhereInput! = {}, orderBy: [CleanupOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: CleanupWhereUniqueInput): [Cleanup!]
+  cleanup(where: CleanupWhereUniqueInput!): Cleanup
+  cleanupsCount(where: CleanupWhereInput! = {}): Int
   keystone: KeystoneMeta!
 }
 

@@ -1,13 +1,13 @@
 import { list } from "@keystone-6/core";
 import { allowAll } from "@keystone-6/core/access";
-import { checkbox } from "@keystone-6/core/fields";
+import { checkbox, relationship } from "@keystone-6/core/fields";
 
 
 
-export const Clean = list({
+export const Cleanup = list({
     access: allowAll,
     fields: {
-        // fields unique to the guest table
+        // fields unique to the cleanup table
         trashBags: checkbox({
             defaultValue: false,
         }),
@@ -22,8 +22,9 @@ export const Clean = list({
         }),
 
         // relationships
-        // event: relationship({
-        //     ref: "Event", many: false,
-        // }),
+        event: relationship({
+            ref: "Event.cleanup",
+            many: false,
+        }),
     },
 });
