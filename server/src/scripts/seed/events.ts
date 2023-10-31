@@ -1,16 +1,10 @@
-import type { Prisma } from "@prisma/client";
-
-
-
-
-export const events: Prisma.EventCreateArgs[] = [
+export const events = [
     {
-        data: {
-            id: "1",
-            date: new Date("2015-03-25"),
-            name: "Wedding",
-            type: "Unknown",
-            location: "California",
-        },
+        id: 1,
+        date: new Date("2015-03-25"),
+        name: "Wedding",
+        type: "Unknown",
+        location: "California",
+        userId: 1,
     },
 ];

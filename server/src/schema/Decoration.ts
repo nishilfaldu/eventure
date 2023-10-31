@@ -32,6 +32,7 @@ export const Decoration = list({
         event: relationship({
             ref: "Event.decorations",
             many: false,
+            db: { foreignKey: true },
         }),
     },
 });

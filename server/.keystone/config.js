@@ -83,7 +83,8 @@ var Cleanup = (0, import_core.list)({
     // relationships
     event: (0, import_fields.relationship)({
       ref: "Event.cleanup",
-      many: false
+      many: false,
+      db: { foreignKey: true }
     })
   }
 });
@@ -118,7 +119,8 @@ var Decoration = (0, import_core2.list)({
     // relationships
     event: (0, import_fields2.relationship)({
       ref: "Event.decorations",
-      many: false
+      many: false,
+      db: { foreignKey: true }
     })
   }
 });
@@ -149,7 +151,8 @@ var Entertainment = (0, import_core3.list)({
     // relationships
     event: (0, import_fields3.relationship)({
       ref: "Event.entertainment",
-      many: false
+      many: false,
+      db: { foreignKey: true }
     })
   }
 });
@@ -180,7 +183,8 @@ var Essential = (0, import_core4.list)({
     // relationships
     event: (0, import_fields4.relationship)({
       ref: "Event.essentials",
-      many: false
+      many: false,
+      db: { foreignKey: true }
     })
   }
 });
@@ -262,7 +266,8 @@ var Favor = (0, import_core6.list)({
     // relationships
     event: (0, import_fields6.relationship)({
       ref: "Event.favors",
-      many: false
+      many: false,
+      db: { foreignKey: true }
     })
   }
 });
@@ -293,7 +298,8 @@ var Food = (0, import_core7.list)({
     // relationships
     event: (0, import_fields7.relationship)({
       ref: "Event.food",
-      many: false
+      many: false,
+      db: { foreignKey: true }
     })
   }
 });
@@ -321,7 +327,8 @@ var Guest = (0, import_core8.list)({
     // relationships
     event: (0, import_fields8.relationship)({
       ref: "Event.guests",
-      many: false
+      many: false,
+      db: { foreignKey: true }
     })
   }
 });
@@ -391,7 +398,7 @@ var keystoneConfig = (0, import_core10.config)({
     provider: "postgresql",
     url: dbUrl,
     enableLogging: true,
-    idField: { kind: "cuid" }
+    idField: { kind: "autoincrement" }
   },
   lists,
   //   extendGraphqlSchema,

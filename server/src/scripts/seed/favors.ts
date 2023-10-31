@@ -1,14 +1,8 @@
-import type { Prisma } from "@prisma/client";
-
-
-
-
-export const events: Prisma.FavorCreateArgs[] = [
+export const favors = [
     {
-        data: {
-            id: "1",
-            goodyBags: true,
-            thankyouNote: true,
-        },
+        id: 1,
+        goodyBags: true,
+        thankyouNote: true,
+        eventId: 1,
     },
 ];

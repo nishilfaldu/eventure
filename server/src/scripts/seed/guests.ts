@@ -1,15 +1,9 @@
-import type { Prisma } from "@prisma/client";
-
-
-
-
-export const events: Prisma.GuestCreateArgs[] = [
+export const guests = [
     {
-        data: {
-            id: "1",
-            email: "joeburrow@gmail.com",
-            name: "Joe Burrow",
-            phoneNumber: "5135560576",
-        },
+        id: 1,
+        email: "joeburrow@gmail.com",
+        name: "Joe Burrow",
+        phoneNumber: "5135560576",
+        eventId: 1,
     },
 ];

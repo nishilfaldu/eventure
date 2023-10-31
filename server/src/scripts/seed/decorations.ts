@@ -1,18 +1,12 @@
-import type { Prisma } from "@prisma/client";
-
-
-
-
-export const events: Prisma.DecorationCreateArgs[] = [
+export const decorations = [
     {
-        data: {
-            id: "1",
-            balloons: true,
-            posters: true,
-            tableDecorations: true,
-            wallDecorations: true,
-            lights: true,
-            personalizedTouches: "Sample Personalized Touches",
-        },
+        id: 1,
+        balloons: true,
+        posters: true,
+        tableDecorations: true,
+        wallDecorations: true,
+        lights: true,
+        personalizedTouches: "Sample Personalized Touches",
+        eventId: 1,
     },
 ];

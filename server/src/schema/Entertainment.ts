@@ -28,6 +28,7 @@ export const Entertainment = list({
         event: relationship({
             ref: "Event.entertainment",
             many: false,
+            db: { foreignKey: true },
         }),
     },
 });

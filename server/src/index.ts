@@ -24,7 +24,7 @@ export const keystoneConfig = config({
         provider: "postgresql",
         url: dbUrl,
         enableLogging: true,
-        idField: { kind: "cuid" },
+        idField: { kind: "autoincrement" },
     },
     lists,
     //   extendGraphqlSchema,

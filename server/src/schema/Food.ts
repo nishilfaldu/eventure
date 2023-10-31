@@ -28,6 +28,7 @@ export const Food = list({
         event: relationship({
             ref: "Event.food",
             many: false,
+            db: { foreignKey: true },
         }),
     },
 });

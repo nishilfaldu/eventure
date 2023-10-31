@@ -12,7 +12,7 @@ generator client {
 }
 
 model User {
-  id          String  @id @default(cuid())
+  id          Int     @id @default(autoincrement())
   firstName   String?
   lastName    String?
   email       String  @unique @default("")
@@ -22,39 +22,37 @@ model User {
 }
 
 model Event {
-  id            String         @id @default(cuid())
+  id            Int            @id @default(autoincrement())
   name          String         @default("")
   type          String         @default("")
   location      String?
   date          DateTime
   user          User?          @relation("Event_user", fields: [userId], references: [id])
-  userId        String?        @map("user")
+  userId        Int?           @map("user")
   guests        Guest[]        @relation("Guest_event")
   decorations   Decoration?    @relation("Decoration_event")
   entertainment Entertainment? @relation("Entertainment_event")
-  food          Food?          @relation("Event_food", fields: [foodId], references: [id])
-  foodId        String?        @unique @map("food")
+  food          Food?          @relation("Food_event")
   essentials    Essential?     @relation("Essential_event")
-  favors        Favor?         @relation("Event_favors", fields: [favorsId], references: [id])
-  favorsId      String?        @unique @map("favors")
+  favors        Favor?         @relation("Favor_event")
   cleanup       Cleanup?       @relation("Cleanup_event")
 
   @@index([userId])
 }
 
 model Guest {
-  id          String  @id @default(cuid())
-  name        String  @default("")
-  email       String  @default("")
-  phoneNumber String  @default("")
-  event       Event?  @relation("Guest_event", fields: [eventId], references: [id])
-  eventId     String? @map("event")
+  id          Int    @id @default(autoincrement())
+  name        String @default("")
+  email       String @default("")
+  phoneNumber String @default("")
+  event       Event? @relation("Guest_event", fields: [eventId], references: [id])
+  eventId     Int?   @map("event")
 
   @@index([eventId])
 }
 
 model Decoration {
-  id                  String  @id @default(cuid())
+  id                  Int     @id @default(autoincrement())
   balloons            Boolean @default(false)
   posters             Boolean @default(false)
   tableDecorations    Boolean @default(false)
@@ -62,54 +60,56 @@ model Decoration {
   lights              Boolean @default(false)
   personalizedTouches String?
   event               Event?  @relation("Decoration_event", fields: [eventId], references: [id])
-  eventId             String? @unique @map("event")
+  eventId             Int?    @unique @map("event")
 }
 
 model Entertainment {
-  id           String  @id @default(cuid())
+  id           Int     @id @default(autoincrement())
   music        Boolean @default(false)
   entertainers Boolean @default(false)
   activities   Boolean @default(false)
   photobooth   Boolean @default(false)
   prizes       Boolean @default(false)
   event        Event?  @relation("Entertainment_event", fields: [eventId], references: [id])
-  eventId      String? @unique @map("event")
+  eventId      Int?    @unique @map("event")
 }
 
 model Food {
-  id         String  @id @default(cuid())
+  id         Int     @id @default(autoincrement())
   appetizers Boolean @default(false)
   mainCourse Boolean @default(false)
   beverages  Boolean @default(false)
   dessert    Boolean @default(false)
   cake       Boolean @default(false)
-  event      Event?  @relation("Event_food")
+  event      Event?  @relation("Food_event", fields: [eventId], references: [id])
+  eventId    Int?    @unique @map("event")
 }
 
 model Essential {
-  id            String  @id @default(cuid())
+  id            Int     @id @default(autoincrement())
   utensils      Boolean @default(false)
   cupsAndStraws Boolean @default(false)
   accessories   Boolean @default(false)
   candles       Boolean @default(false)
   cakeToppers   Boolean @default(false)
   event         Event?  @relation("Essential_event", fields: [eventId], references: [id])
-  eventId       String? @unique @map("event")
+  eventId       Int?    @unique @map("event")
 }
 
 model Favor {
-  id           String  @id @default(cuid())
+  id           Int     @id @default(autoincrement())
   goodyBags    Boolean @default(false)
   thankyouNote Boolean @default(false)
-  event        Event?  @relation("Event_favors")
+  event        Event?  @relation("Favor_event", fields: [eventId], references: [id])
+  eventId      Int?    @unique @map("event")
 }
 
 model Cleanup {
-  id         String  @id @default(cuid())
+  id         Int     @id @default(autoincrement())
   trashBags  Boolean @default(false)
   supplies   Boolean @default(false)
   recycle    Boolean @default(false)
   containers Boolean @default(false)
   event      Event?  @relation("Cleanup_event", fields: [eventId], references: [id])
-  eventId    String? @unique @map("event")
+  eventId    Int?    @unique @map("event")
 }

@@ -25,6 +25,7 @@ export const Cleanup = list({
         event: relationship({
             ref: "Event.cleanup",
             many: false,
+            db: { foreignKey: true },
         }),
     },
 });

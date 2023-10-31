@@ -1,17 +1,11 @@
-import type { Prisma } from "@prisma/client";
-
-
-
-
-export const events: Prisma.FoodCreateArgs[] = [
+export const food = [
     {
-        data: {
-            id: "1",
-            appetizers: true,
-            mainCourse: true,
-            beverages: true,
-            dessert: true,
-            cake: true,
-        },
+        id: 1,
+        appetizers: true,
+        mainCourse: true,
+        beverages: true,
+        dessert: true,
+        cake: true,
+        eventId: 1,
     },
 ];

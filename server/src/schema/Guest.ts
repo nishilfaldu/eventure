@@ -25,6 +25,7 @@ export const Guest = list({
         event: relationship({
             ref: "Event.guests",
             many: false,
+            db: { foreignKey: true },
         }),
     },
 });

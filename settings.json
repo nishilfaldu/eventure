@@ -55,7 +55,7 @@
     "[css][scss]": {
         "editor.codeActionsOnSave": {
             "source.fixAll.stylelint": true,
-            "source.fixAll.eslint": true,
+            "source.fixAll.eslint": true
         }
     },
     "[yaml]": {

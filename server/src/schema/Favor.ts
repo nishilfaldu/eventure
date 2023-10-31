@@ -19,6 +19,7 @@ export const Favor = list({
         event: relationship({
             ref: "Event.favors",
             many: false,
+            db: { foreignKey: true },
         }),
     },
 });

@@ -28,6 +28,7 @@ export const Essential = list({
         event: relationship({
             ref: "Event.essentials",
             many: false,
+            db: { foreignKey: true },
         }),
     },
 });
