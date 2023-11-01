@@ -91,6 +91,13 @@ pipelines:
             # - step: *test
             # - step: *build-docker
             # - step: *sync-argocd
+        feature/*:
+            - step: *install
+            - parallel:
+                  - step: *lint
+                  - step: *compile-test
+                  #   - step: *sonar-scan
+            # - step: *test
     pull-requests:
         feature/*:
             - step: *install
