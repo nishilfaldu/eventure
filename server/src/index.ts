@@ -9,7 +9,7 @@ import { config } from "@keystone-6/core";
 // to keep this file tidy, we define our schema in a different file
 
 import { session } from "./auth";
-// import { extendExpressApp } from "./express-app";
+import { extendExpressApp } from "./express-app";
 import { lists } from "./schema";
 // import { extendGraphqlSchema } from "./schema/extendGraphqlSchema";
 
@@ -29,7 +29,7 @@ export const keystoneConfig = config({
     lists,
     //   extendGraphqlSchema,
     server: {
-        // extendExpressApp,
+        extendExpressApp,
         port: parseInt(process.env.SERVER_PORT ?? "") || 3001,
     },
     session,

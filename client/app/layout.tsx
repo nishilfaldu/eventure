@@ -1,7 +1,9 @@
 import { Nunito } from "next/font/google";
-
-
 import "@/styles/index.scss";
+
+import Provider from "@/components/Provider";
+
+
 
 
 
@@ -20,10 +22,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${nunito.className}`}>
-        {children}
-      </body>
-    </html>
+    <Provider>
+      <html lang="en">
+        <body className={`${nunito.className}`}>
+          {children}
+        </body>
+      </html>
+    </Provider>
   );
 }
