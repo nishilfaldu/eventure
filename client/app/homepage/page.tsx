@@ -1,3 +1,4 @@
+// import { Quicksand } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -6,7 +7,7 @@ import logo from "@/public/assets/logo.svg";
 
 
 
-function Homepage() {
+function Landing() {
   return (
     <div
       style={{
@@ -84,6 +85,7 @@ function Homepage() {
               position: "absolute",
               color: "white",
               fontSize: 20,
+              fontWeight: "400",
               wordWrap: "break-word",
             }}
           >
@@ -99,6 +101,8 @@ function Homepage() {
             position: "absolute",
             color: "white",
             fontSize: 13,
+            fontFamily: "Quicksand",
+            fontWeight: "400",
             wordWrap: "break-word",
           }}
         >
@@ -125,6 +129,7 @@ function Homepage() {
             position: "absolute",
             color: "black",
             fontSize: 15,
+            fontWeight: "400",
             textDecoration: "underline",
             wordWrap: "break-word",
           }}
@@ -136,4 +141,4 @@ function Homepage() {
   );
 }
 
-export default Homepage;
+export default Landing;

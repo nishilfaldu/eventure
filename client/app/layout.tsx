@@ -1,11 +1,11 @@
-import { Nunito } from "next/font/google";
+import { League_Spartan } from "next/font/google";
 
 
 import "@/styles/index.scss";
 
 
 
-const nunito = Nunito({
+const leagueSpartan = League_Spartan({
   subsets: ["latin"],
 });
 
@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${nunito.className}`}>
+      <body className={`${leagueSpartan.className}`}>
         {children}
       </body>
     </html>

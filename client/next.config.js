@@ -13,7 +13,7 @@ const nextConfig = {
     },
   },
   images: {
-    // domains: ["a0.muscache.com"],
+    domains: ["images.unsplash.com"],
   },
   reactStrictMode: true,
   swcMinify: true,
