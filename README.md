@@ -43,17 +43,17 @@ Eventure is an event planning application.
 - Project Topic Area: Fullstack Web Development
 
 ## 3. User Stories and Design Diagrams
-- User Stories [User_Stories.md](https://bitbucket.org/eventureapp/eventure/src/develop/senior_design/User_Stories.md)
+- User Stories: [User_Stories.md](https://bitbucket.org/eventureapp/eventure/src/develop/senior_design/User_Stories.md)
 - Design Diagrams: Level 0, Level 1 and Level 2 [design_diagrams](https://bitbucket.org/eventureapp/eventure/src/develop/senior_design/design_diagrams/)
 - Description of the Diagrams: including conventions and a brief description of the purpose of each component.
 
 ## 4. Project Tasks and Timeline
-- Task List [TaskList.md](https://bitbucket.org/eventureapp/eventure/src/develop/senior_design/TaskList.md)
-- Timeline [timeline.md](https://bitbucket.org/eventureapp/eventure/src/8cd0665907a3/senior_design/timeline.md?at=develop)
-- Effort Matrix [EffortMatrix.md](https://bitbucket.org/eventureapp/eventure/src/develop/senior_design/EffortMatrix.md)
+- Task List: [TaskList.md](https://bitbucket.org/eventureapp/eventure/src/develop/senior_design/TaskList.md)
+- Timeline: [timeline.md](https://bitbucket.org/eventureapp/eventure/src/8cd0665907a3/senior_design/timeline.md?at=develop)
+- Effort Matrix: [EffortMatrix.md](https://bitbucket.org/eventureapp/eventure/src/develop/senior_design/EffortMatrix.md)
 
 ## 5. ABET Concerns Essay
-- []()
+- [ABET_Concerns.md](https://bitbucket.org/eventureapp/eventure/src/develop/senior_design/ABET_Concerns.md)
 
 ## 6. PPT Slideshow
 - [Slideshow_Fall2023](https://docs.google.com/presentation/d/1ieHQh_m14ma98bE--ONzPvmpm8qnWEzNSEhZ-Mcs-mQ/edit#slide=id.g54dda1946d_6_322)
