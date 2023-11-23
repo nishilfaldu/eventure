@@ -80,5 +80,42 @@ Eventure is an event planning application.
 
 ## 10. Appendix
 
--   include appropriate references, citations, links to code repositories, and meeting notes.
--   there should be evidence justifying 45 hours of effort for each team member.
+-   Figma Design (10 hours):
+    -- Collaboratively design and iterate on all pages for the application using Figma.
+    -- Include brainstorming sessions, feedback loops, and design refinements.
+
+-   Team Meetings (12 weeks x 2 hours/week = 24 hours):
+    -- Regular one-hour team meetings per week to discuss progress, challenges, and plan the next steps.
+    -- Include any additional time spent preparing for meetings and reviewing action items.
+
+-   Infrastructure Setup (8 hours):
+    -- Devcontainer, Husky commit rules, Vim configurations, Docker configurations for the database, Keystone configurations for the backend, and Next configurations for the frontend.
+
+-   Code Foundations (10 hours):
+    -- Set up linting configurations for maintaining code quality.
+    -- Configure Bitbucket Pipelines for continuous integration.
+    -- Set up the Redux store for global state management.
+
+-   Authentication and Pages (5 hours):
+    -- Set up Clerk authentication for the sign-in and sign-up pages.
+    -- Code the homepage and ensure integration with the authentication system.
+
+-   Backend Development (12 hours):
+    -- Define the database schema.
+    -- Write Keystone schema based on the database schema.
+    -- Generate the initial version of the Prisma schema.
+
+-   GraphQL Endpoints and Data Handling (15 hours):
+    -- Write GraphQL endpoints for querying data.
+    -- Develop logic for handling template data insertion into the database.
+    -- Implement a script for automating data population into the database.
+    -- Create an endpoint with webhook connection for keeping user data updated.
+
+-   Weekly Assignments and Class Work (6 hours):
+    -- Complete weekly assignments for the class related to the project.
+    -- Allocate time for studying and implementing concepts learned during the semester.
+
+-   Additional Tasks (5 hours):
+    -- Miscellaneous smaller tasks that contribute to the project's progress.
+
+-   Total Hours: 100 hours (50 hours per person)
