@@ -49,7 +49,7 @@ Eventure is an event planning application.
 
 -   User Stories: [User_Stories.md](https://bitbucket.org/eventureapp/eventure/src/develop/senior_design/User_Stories.md)
 -   Design Diagrams: Level 0, Level 1 and Level 2 [design_diagrams](https://bitbucket.org/eventureapp/eventure/src/develop/senior_design/design_diagrams/)
--   Description of the Diagrams (TODO: Nishil): including conventions and a brief description of the purpose of each component.
+-   Description of the Diagrams: [description.md](https://bitbucket.org/eventureapp/eventure/src/develop/senior_design/design_diagrams/description.md)
 
 ## 4. Project Tasks and Timeline
 
