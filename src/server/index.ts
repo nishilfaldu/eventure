@@ -1,4 +1,5 @@
-import { postRouter } from "./post";
+import { eventRouter } from "./event";
+import { guestRouter } from "./guest";
 import { router } from "./trpc";
 import { userRouter } from "./user";
 
@@ -6,7 +7,8 @@ import { userRouter } from "./user";
 
 export const appRouter = router({
   user: userRouter,
-  post: postRouter,
+  guest: guestRouter,
+  event: eventRouter,
 });
 
 export type AppRouter = typeof appRouter;
