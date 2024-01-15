@@ -11,9 +11,9 @@ import { eventTypesTuple, rolesTuple, statesTuple } from "@/lib/enums";
 export const events = mysqlTable("events", {
   id: serial("id").primaryKey(),
   type: mysqlEnum("role", eventTypesTuple),
-  location: text("description").notNull(),
-  date: timestamp("date", { mode: "string" }).defaultNow().notNull(),
-  userId: int("userId").notNull(),
+  location: text("location").notNull(),
+  datetime: timestamp("date", { mode: "string" }).notNull(),
+  userId: varchar("userId", { length: 256 }).notNull(),
   decorationId: int("decorationId").notNull(),
   entertainmentId: int("entertainmentId").notNull(),
   foodId: int("foodId").notNull(),
@@ -58,7 +58,7 @@ export const eventsRelations = relations(events, ({ one, many }) => ({
 
 export const users = mysqlTable("users", {
   // TODO: might have to change this later according to clerk as clerk stores most of the data
-  externalId: varchar("externalId", { length: 256 }).primaryKey(),
+  externalId: varchar("externalId", { length: 256 }),
   role: mysqlEnum("role", rolesTuple),
   email: varchar("email", { length: 256 }).notNull(),
   firstName: varchar("firstName", { length: 256 }).notNull(),
@@ -85,7 +85,8 @@ export const cleanup = mysqlTable("cleanup", {
   supplies: boolean("supplies"),
   recycle: boolean("recycle"),
   containers: boolean("containers"),
-  eventId: int("eventId").notNull(),
+  //   TODO: should eventId be null?
+  eventId: int("eventId"),
 }, cleanup => ({
   idIdx: uniqueIndex("idIdx").on(cleanup.id),
 }));
@@ -99,13 +100,14 @@ export const cleanupRelations = relations(cleanup, ({ one }) => ({
 
 export const decoration = mysqlTable("decoration", {
   id: serial("id").primaryKey(),
-  balloons: boolean("trashBags"),
+  balloons: boolean("balloons"),
   posters: boolean("posters"),
   tableDecorations: boolean("tableDecorations"),
   wallDecorations: boolean("wallDecorations"),
   lights: boolean("lights"),
   personalizedTouches: boolean("personalizedTouches"),
-  eventId: int("eventId").notNull(),
+  //   TODO: should eventId be null?
+  eventId: int("eventId"),
 }, decoration => ({
   idIdx: uniqueIndex("idIdx").on(decoration.id),
 }));
@@ -124,7 +126,8 @@ export const entertainment = mysqlTable("entertainment", {
   activities: boolean("activities"),
   photobooth: boolean("photobooth"),
   prizes: boolean("prizes"),
-  eventId: int("eventId").notNull(),
+  //   TODO: should eventId be null?
+  eventId: int("eventId"),
 }, entertainment => ({
   idIdx: uniqueIndex("idIdx").on(entertainment.id),
 }));
@@ -143,7 +146,8 @@ export const essential = mysqlTable("essential", {
   accessories: boolean("accessories"),
   candles: boolean("candles"),
   cakeToppers: boolean("cakeToppers"),
-  eventId: int("eventId").notNull(),
+  //   TODO: should eventId be null?
+  eventId: int("eventId"),
 }, essential => ({
   idIdx: uniqueIndex("idIdx").on(essential.id),
 }));
@@ -159,7 +163,8 @@ export const favor = mysqlTable("favor", {
   id: serial("id").primaryKey(),
   goodyBags: boolean("bags"),
   thankyouNote: boolean("thankyouNote"),
-  eventId: int("eventId").notNull(),
+  //   TODO: should eventId be null?
+  eventId: int("eventId"),
 }, favor => ({
   idIdx: uniqueIndex("idIdx").on(favor.id),
 }));
@@ -177,7 +182,8 @@ export const food = mysqlTable("food", {
   mainCourse: boolean("mainCourse"),
   desserts: boolean("desserts"),
   drinks: boolean("drinks"),
-  eventId: int("eventId").notNull(),
+  //   TODO: should eventId be null?
+  eventId: int("eventId"),
 }, food => ({
   idIdx: uniqueIndex("idIdx").on(food.id),
 }));
@@ -195,6 +201,7 @@ export const guests = mysqlTable("guests", {
   email: varchar("email", { length: 256 }).notNull(),
   phoneNumber: varchar("phoneNumber", { length: 256 }).notNull(),
   eventId: int("eventId").notNull(),
+  registered: boolean("registered").default(false),
 }, guests => ({
   idIdx: uniqueIndex("idIdx").on(guests.id),
 }));

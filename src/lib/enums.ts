@@ -1,3 +1,6 @@
+import { z } from "zod";
+
+
 // Define a tuple type that matches the expected type
 type Tuple = [string, ...string[]];
 
@@ -27,3 +30,5 @@ const eventTypes: readonly string[] = [
 export const statesTuple: Tuple = states as Tuple;
 export const rolesTuple: Tuple = roles as Tuple;
 export const eventTypesTuple: Tuple = eventTypes as Tuple;
+
+export const EventTypesEnum = z.enum(eventTypes as [string]);
