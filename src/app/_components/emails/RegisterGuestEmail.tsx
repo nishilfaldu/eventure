@@ -12,6 +12,7 @@ import {
   Section,
   Text,
   Link,
+  render,
 } from "@react-email/components";
 import dayjs from "dayjs";
 import * as React from "react";
@@ -129,7 +130,14 @@ export const RegisterGuestEmail = ({
   );
 };
 
-export default RegisterGuestEmail;
+
+export const RegisterGuestEmailHtml = (
+  props: RegisterGuestEmailProps
+) =>
+  render(<RegisterGuestEmail {...props} />, {
+    pretty: true,
+  });
+
 
 const main = {
   backgroundColor: "#fff",
