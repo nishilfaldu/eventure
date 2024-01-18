@@ -49,13 +49,13 @@
     ],
     "[javascript][typescript][javascriptreact][typescriptreact]": {
         "editor.codeActionsOnSave": {
-            "source.fixAll.eslint": true
+            "source.fixAll.eslint": "explicit"
         }
     },
     "[css][scss]": {
         "editor.codeActionsOnSave": {
-            "source.fixAll.stylelint": true,
-            "source.fixAll.eslint": true,
+            "source.fixAll.stylelint": "explicit",
+            "source.fixAll.eslint": "explicit"
         }
     },
     "[yaml]": {
