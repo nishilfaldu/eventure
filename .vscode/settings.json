@@ -16,7 +16,6 @@
         "dev-ops"
     ],
     "typescript.enablePromptUseWorkspaceTsdk": true,
-    "eslint.packageManager": "yarn",
     "eslint.workingDirectories": [
         "client",
         "server"
