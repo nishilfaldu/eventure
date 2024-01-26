@@ -18,7 +18,7 @@ const filterOption = (input: string, option?: { label: string; value: string }) 
 
 const Options: React.FC = () => (
   <Select
-    style={{ width: 492, height: 30, left: 25, top: 37, position: "relative", background: "white" }}
+    style={{ width: 492, height: 30, left: 25, top: 37, position: "relative" }}
     showSearch
     placeholder="Select an event"
     onChange={onChange}
