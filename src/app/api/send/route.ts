@@ -1,3 +1,5 @@
+"use client";
+
 import { headers } from "next/headers";
 import type * as React from "react";
 import { Resend } from "resend";
@@ -32,13 +34,13 @@ export async function POST() {
       subject: "Invitation",
       react: RegisterGuestEmailHtml({
         registerHref: registerHref,
-        contactEmail: contactEmail ?? "",
-        contactPhone: contactPhone ?? "",
+        contactEmail: contactEmail,
+        contactPhone: contactPhone,
         eventDate: new Date(eventDate),
-        eventLocation: eventLocation ?? "",
-        eventName: eventName ?? "",
-        guestFirstName: guestFirstName ?? "",
-      }) as React.ReactElement,
+        eventLocation: eventLocation,
+        eventName: eventName,
+        guestFirstName: guestFirstName,
+      }) as unknown as React.ReactElement,
     });
 
     if (error) {

@@ -1,3 +1,5 @@
+// "use client";
+
 import {
   Body,
   Button,
@@ -129,7 +131,6 @@ export const RegisterGuestEmail = ({
     </Html>
   );
 };
-
 
 export const RegisterGuestEmailHtml = (
   props: RegisterGuestEmailProps

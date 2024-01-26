@@ -65,6 +65,25 @@ export const eventRouter = router({
         type: EventTypesEnum,
         location: z.string(),
         datetime: z.string().datetime(),
+      })
+    ).mutation(({ ctx, input }) => {
+      const userId = ctx.auth.userId;
+
+      return ctx.db
+        .insert(events)
+        .values({
+          userId: userId,
+          location: input.location,
+          datetime: input.datetime,
+          type: input.type,
+          name: input.name,
+        });
+    }),
+
+  populateEventById: protectedProcedure
+    .input(
+      z.object({
+        eventId: z.number(),
         // decoration details
         balloons: z.boolean(),
         posters: z.boolean(),
@@ -99,7 +118,6 @@ export const eventRouter = router({
         drinks: z.boolean(),
       })
     ).mutation(async ({ ctx, input }) => {
-      const userId = ctx.auth.userId;
       await ctx.db.transaction(async tx => {
         const newDecoration = await tx
           .insert(decoration)
@@ -157,21 +175,14 @@ export const eventRouter = router({
             drinks: input.drinks,
           });
 
-        await tx
-          .insert(events)
-          .values({
-            userId: userId,
-            name: input.name,
-            type: input.type,
-            location: input.location,
-            datetime: input.datetime,
-            cleanupId: newCleanup.insertId,
-            decorationId: newDecoration.insertId,
-            entertainmentId: newEntertainment.insertId,
-            essentialId: newEssential.insertId,
-            favorId: newFavor.insertId,
-            foodId: newFood.insertId,
-          });
+        await tx.update(events).set({
+          cleanupId: Number(newCleanup.insertId),
+          decorationId: Number(newDecoration.insertId),
+          entertainmentId: Number(newEntertainment.insertId),
+          essentialId: Number(newEssential.insertId),
+          favorId: Number(newFavor.insertId),
+          foodId: Number(newFood.insertId),
+        }).where(eq(events.id, input.eventId));
       });
     }),
 });
