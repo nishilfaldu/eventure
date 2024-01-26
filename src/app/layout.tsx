@@ -2,7 +2,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Nunito } from "next/font/google";
 
 import "@/styles/index.scss";
-import Provider from "@/app/_components/Provider";
+import Provider from "@/app/_trpc/Provider";
 
 
 

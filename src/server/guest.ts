@@ -118,6 +118,12 @@ export const guestRouter = router({
     }),
 
   // TODO: send email to guest - route
+  //   sendEmailToGuestByEventId: protectedProcedure
+  //     .input(
+  //       z.object({
+  //         eventId: z.string(),
 
+//       })
+//     ),
 //   TODO: send email to guests - route
 });
