@@ -5,19 +5,20 @@ import { v } from "convex/values";
 
 export default defineSchema({
   users: defineTable({
-    externalId: v.string(),
     role: v.union(v.literal("USER"), v.literal("ADMIN")),
-    firstName: v.string(),
-    lastName: v.string(),
-    email: v.string(),
-    phoneNumber: v.string(),
-    country: v.string(),
-    address: v.string(),
-    apartment: v.string(),
-    city: v.string(),
-    zipCode: v.string(),
-    state: v.string(),
-  }).index("byExternalId", ["externalId"]),
+    username: v.string(),
+    name: v.string(),
+    // firstName: v.string(),
+    // lastName: v.string(),
+    // email: v.string(),
+    // phoneNumber: v.string(),
+    // country: v.string(),
+    // address: v.string(),
+    // apartment: v.string(),
+    // city: v.string(),
+    // zipCode: v.string(),
+    // state: v.string(),
+  }).index("byUsername", ["username"]),
 
   cleanup: defineTable({
     id: v.id("cleanup"),
