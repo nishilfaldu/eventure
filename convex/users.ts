@@ -32,14 +32,14 @@ export const createUser = mutation({
       return user._id;
     }
 
-    if (!identity.name) {
-      throw new Error("Name is undefined in identity object");
+    if (!identity.name || !identity.email) {
+      throw new Error("Name or email is undefined in identity object");
     }
 
     return await ctx.db.insert("users", {
       name: identity.name,
-      role: "USER",
       username: identity.nickname,
+      email: identity.email,
     });
   },
 });
