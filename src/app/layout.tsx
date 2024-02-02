@@ -1,8 +1,8 @@
-import { ClerkProvider } from "@clerk/nextjs";
 import { Nunito } from "next/font/google";
 
+import ConvexClientProvider from "./_components/ConvexClientProvider";
+import { Navbar } from "./_components/Navbar";
 import "@/styles/index.scss";
-
 
 
 
@@ -21,12 +21,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={`${nunito.className}`}>
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={`${nunito.className}`}>
+        <ConvexClientProvider>
+          <Navbar/>
+          <main>
+            {children}
+          </main>
+        </ConvexClientProvider>
+      </body>
+    </html>
   );
 }
