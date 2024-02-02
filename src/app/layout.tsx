@@ -2,8 +2,6 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Nunito } from "next/font/google";
 
 import "@/styles/index.scss";
-import Provider from "@/app/_trpc/Provider";
-
 
 
 
@@ -24,13 +22,11 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <Provider>
-        <html lang="en">
-          <body className={`${nunito.className}`}>
-            {children}
-          </body>
-        </html>
-      </Provider>
+      <html lang="en">
+        <body className={`${nunito.className}`}>
+          {children}
+        </body>
+      </html>
     </ClerkProvider>
   );
 }
