@@ -17,19 +17,9 @@
     }
 }
 
-body {
-  color: theme("colors.7west.secondary.ink");
-}
-
 /* Override annoying antd properties with specificity */
 
 /* Ant design icons don't sit properly with tailwind's override */
 svg {
   vertical-align: unset;
-}
-
-.text-antd-primary-500 {
-  &.anticon {
-    @apply text-7west-primary-500;
-  }
 }
