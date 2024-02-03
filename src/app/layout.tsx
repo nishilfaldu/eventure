@@ -2,7 +2,7 @@ import { Nunito } from "next/font/google";
 
 import ConvexClientProvider from "./_components/ConvexClientProvider";
 import { Navbar } from "./_components/Navbar";
-import "@/styles/index.scss";
+import "@/app/globals.css";
 
 
 
