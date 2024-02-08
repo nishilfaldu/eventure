@@ -8,6 +8,7 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -24,16 +25,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 
 
 
-const genders = [
-  { label: "Male", value: "male" },
-  { label: "Female", value: "female" },
-  { label: "Other", value: "other" },
-] as const;
 
 const areaCodes = [
   { label: "United States", value: "+1US" },
@@ -47,22 +45,122 @@ const countries = [
   { label: "Ghana", value: "ghana" },
 ] as const;
 
+const categories = [
+  {
+    id: "eventPlanner",
+    label: "Event Planner",
+  },
+  {
+    id: "venueManager",
+    label: "Venue Manager",
+  },
+  {
+    id: "caterer",
+    label: "Caterer",
+  },
+  {
+    id: "entertainmentProvider",
+    label: "Entertainment Provider",
+  },
+  {
+    id: "photographer",
+    label: "Photographer",
+  },
+  {
+    id: "videographer",
+    label: "Videographer",
+  },
+  {
+    id: "florist",
+    label: "Florist",
+  },
+  {
+    id: "makeupArtist",
+    label: "Makeup Artist",
+  },
+  {
+    id: "hairStylist",
+    label: "Hair Stylist",
+  },
+  {
+    id: "transportationProvider",
+    label: "Transportation Provider",
+  },
+  {
+    id: "musician",
+    label: "Musician",
+  },
+  {
+    id: "dj",
+    label: "DJ",
+  },
+  {
+    id: "officiant",
+    label: "Officiant",
+  },
+  {
+    id: "jeweler",
+    label: "Jeweler",
+  },
+  {
+    id: "attireProvider",
+    label: "Attire Provider",
+  },
+  {
+    id: "stationeryProvider",
+    label: "Stationery Provider",
+  },
+  {
+    id: "cakeBaker",
+    label: "Cake Baker",
+  },
+  {
+    id: "rentalProvider",
+    label: "Rental Provider",
+  },
+  {
+    id: "planner",
+    label: "Planner",
+  },
+  {
+    id: "designer",
+    label: "Designer",
+  },
+  {
+    id: "technicalSupport",
+    label: "Technical Support / AV Specialist",
+  },
+  {
+    id: "eventTechnology",
+    label: "Event Technology",
+  },
+  {
+    id: "healthAndSafetyConsultant",
+    label: "Health and Safety Consultant",
+  },
+  {
+    id: "other",
+    label: "Other",
+  },
+] as const;
+
+
 const accountFormSchema = z.object({
   firstName: z
     .string()
     .min(2, {
-      message: "First name must be at least 2 characters.",
+      message: "Name must be at least 2 characters.",
     })
     .max(30, {
-      message: "First name must not be longer than 30 characters.",
+      message: "Name must not be longer than 30 characters.",
     }),
   lastName: z
     .string()
     .min(2, {
-      message: "Last name must be at least 2 characters.",
+      message: "Name must be at least 2 characters.",
     })
     .max(30, {
-      message: "Last name must not be longer than 30 characters.",
+      message: "Name must not be longer than 30 characters.",
     }),
   gender: z.string({
     required_error: "Please select a gender.",
@@ -90,26 +188,36 @@ const accountFormSchema = z.object({
     .max(10, {
       message: "Phone number must be 10 characters.",
     }),
+  bio: z.string().max(1000, {
+    message: "Bio must not be longer than 1000 characters.",
+  }).min(10, {
+    message: "Bio must be at least 10 characters.",
+  }),
+  categories: z.array(z.string()).refine(value => value.some(item => item), {
+    message: "You have to select at least one category.",
+  }),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>
 
 // This can come from your database or API.
 const defaultValues: Partial<AccountFormValues> = {
-  firstName: "",
-  lastName: "",
+//   firstName: "",
+//   lastName: "",
   areaCode: "+1US",
-  city: "",
-  country: "",
-  gender: "",
-  phoneNumber: "",
+  //   city: "",
+  //   country: "",
+  //   gender: "",
+  //   phoneNumber: "",
   dob: new Date("2023-01-23"),
+  categories: ["other"],
 };
 
-export function GeneralForm() {
+export function ProfessionalForm() {
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
     defaultValues,
+    mode: "onChange",
   });
 
   function onSubmit(data: AccountFormValues) {
@@ -163,6 +271,7 @@ export function GeneralForm() {
             </FormItem>
           )}
         />
+        {/* dob */}
         <FormField
           control={form.control}
           name="dob"
@@ -213,20 +322,18 @@ export function GeneralForm() {
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Gender</FormLabel>
-              <FormControl>
-                <Select>
+              <Select onValueChange={field.onChange} defaultValue={field.value} {...field}>
+                <FormControl>
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Your gender" {...field}/>
+                    <SelectValue placeholder="Your gender" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {genders.map(({ label, value }) => (
-                        <SelectItem value={label} key={value}>{label}</SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </FormControl>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
               <FormDescription>
                 This is the gender that will be displayed in the dashboard.
               </FormDescription>
@@ -241,22 +348,20 @@ export function GeneralForm() {
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Country</FormLabel>
-              <FormControl>
-                <Select>
+              <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                <FormControl>
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Your country" {...field}/>
+                    <SelectValue placeholder="Your country" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {countries.map(({ label, value }) => (
-                        <SelectItem value={label} key={value}>{label}</SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </FormControl>
+                </FormControl>
+                <SelectContent>
+                  {countries.map(({ label, value }) => (
+                    <SelectItem value={label} key={value}>{label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormDescription>
-                This is the country that will be displayed in the dashboard.
+                    This is the gender that will be displayed in the dashboard.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -338,10 +443,87 @@ export function GeneralForm() {
               )}
             />
           </div>
-          <FormDescription className="mt-2">
-            This is the zip code that will be displayed in the dashboard
+          <FormDescription>
+            This phone number will never be displayed to anyone
           </FormDescription>
         </div>
+
+        <Separator />
+
+        {/* bio */}
+        <FormField
+          control={form.control}
+          name="bio"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bio</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Tell us a little bit about yourself"
+                  className="resize-none"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                This is the bio that will be displayed on your professional profile
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Separator />
+
+        {/* Category */}
+        <FormField
+          control={form.control}
+          name="categories"
+          render={() => (
+            <FormItem>
+              <div className="mb-4">
+                <FormLabel className="text-base">Categories</FormLabel>
+                <FormDescription>
+                  Select the categories that best describe your professional services
+                </FormDescription>
+              </div>
+              {categories.map(item => (
+                <FormField
+                  key={item.id}
+                  control={form.control}
+                  name="categories"
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={item.id}
+                        className="flex flex-row items-start space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value?.includes(item.id)}
+                            onCheckedChange={checked => {
+                              return checked
+                                ? field.onChange([...field.value, item.id])
+                                : field.onChange(
+                                  field.value?.filter(
+                                    value => value !== item.id
+                                  )
+                                );
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          {item.label}
+                        </FormLabel>
+                      </FormItem>
+                    );
+                  }}
+                />
+              ))}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <Button type="submit">Update account</Button>
       </form>
     </Form>

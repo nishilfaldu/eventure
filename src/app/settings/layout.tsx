@@ -17,8 +17,8 @@ const sidebarNavItems = [
     href: "/settings/transactions",
   },
   {
-    title: "Become a Vendor",
-    href: "/settings/become-a-vendor",
+    title: "Become a Professional",
+    href: "/settings/become-a-professional",
   },
 ];
 
