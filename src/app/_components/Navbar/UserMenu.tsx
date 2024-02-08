@@ -52,7 +52,7 @@ export function UserMenu() {
           </div>
 
           {/* MenuItems Group 1 */}
-          <MenuItem label="General" href="#" otherClassName="mt-2" />
+          <MenuItem label="General" href="/settings/general" otherClassName="mt-2" />
           <MenuItem label="Transactions" href="#"/>
           <MenuItem label="Become an expert" href="#" />
 

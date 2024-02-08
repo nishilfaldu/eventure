@@ -28,7 +28,7 @@ const vendors = [
     linkedIn: "https://www.linkedin.com/in/johndoe",
     instagram: "https://www.instagram.com/johndoe",
     twitter: "https://twitter.com/johndoe",
-    pictureUrl: "https://wwd.com/wp-content/uploads/2022/09/Alex-Hormozi.jpg",
+    pictureUrl: "https://avatars.githubusercontent.com/u/9693884?v=4",
     verified: true,
   },
   {
@@ -56,7 +56,7 @@ const vendors = [
     linkedIn: "https://www.linkedin.com/in/johndoe",
     instagram: "https://www.instagram.com/johndoe",
     twitter: "https://twitter.com/johndoe",
-    pictureUrl: "https://wwd.com/wp-content/uploads/2022/09/Alex-Hormozi.jpg",
+    pictureUrl: "https://avatars.githubusercontent.com/u/9693884?v=4",
     verified: true,
   },
   {
@@ -84,7 +84,7 @@ const vendors = [
     linkedIn: "https://www.linkedin.com/in/johndoe",
     instagram: "https://www.instagram.com/johndoe",
     twitter: "https://twitter.com/johndoe",
-    pictureUrl: "https://wwd.com/wp-content/uploads/2022/09/Alex-Hormozi.jpg",
+    pictureUrl: "https://avatars.githubusercontent.com/u/9693884?v=4",
     verified: true,
   },
   {
@@ -112,7 +112,7 @@ const vendors = [
     linkedIn: "https://www.linkedin.com/in/johndoe",
     instagram: "https://www.instagram.com/johndoe",
     twitter: "https://twitter.com/johndoe",
-    pictureUrl: "https://wwd.com/wp-content/uploads/2022/09/Alex-Hormozi.jpg",
+    pictureUrl: "https://avatars.githubusercontent.com/u/9693884?v=4",
     verified: true,
   },
   {
@@ -140,7 +140,7 @@ const vendors = [
     linkedIn: "https://www.linkedin.com/in/johndoe",
     instagram: "https://www.instagram.com/johndoe",
     twitter: "https://twitter.com/johndoe",
-    pictureUrl: "https://wwd.com/wp-content/uploads/2022/09/Alex-Hormozi.jpg",
+    pictureUrl: "https://avatars.githubusercontent.com/u/9693884?v=4",
     verified: true,
   },
   {
@@ -168,7 +168,7 @@ const vendors = [
     linkedIn: "https://www.linkedin.com/in/johndoe",
     instagram: "https://www.instagram.com/johndoe",
     twitter: "https://twitter.com/johndoe",
-    pictureUrl: "https://wwd.com/wp-content/uploads/2022/09/Alex-Hormozi.jpg",
+    pictureUrl: "https://avatars.githubusercontent.com/u/9693884?v=4",
     verified: true,
   },
   {
@@ -196,7 +196,7 @@ const vendors = [
     linkedIn: "https://www.linkedin.com/in/johndoe",
     instagram: "https://www.instagram.com/johndoe",
     twitter: "https://twitter.com/johndoe",
-    pictureUrl: "https://wwd.com/wp-content/uploads/2022/09/Alex-Hormozi.jpg",
+    pictureUrl: "https://avatars.githubusercontent.com/u/9693884?v=4",
     verified: true,
   },
 ];
