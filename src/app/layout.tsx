@@ -1,6 +1,7 @@
 import { Nunito } from "next/font/google";
 
 import ConvexClientProvider from "./_components/ConvexClientProvider";
+import { Footer } from "./_components/Footer/Footer";
 import { Navbar } from "./_components/Navbar";
 import "@/app/globals.css";
 import { Toaster as DefaultToaster } from "@/components/ui/toaster";
@@ -30,6 +31,7 @@ export default function RootLayout({
           <main className="container">
             {children}
           </main>
+          <Footer/>
           <DefaultToaster />
         </ConvexClientProvider>
       </body>

@@ -12,7 +12,7 @@ export function ReviewModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <span className="flex md:px-20 mt-8">
+        <span className="flex md:px-20 my-8">
           <Button size="lg" variant="outline" className="bg-white text-black hover:bg-black hover:text-white border-neutral-800 font-bold">Show all reviews</Button>
         </span>
       </DialogTrigger>
