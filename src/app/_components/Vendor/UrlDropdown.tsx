@@ -1,3 +1,5 @@
+import { ChevronDown } from "lucide-react";
+
 import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon, WebsiteIcon } from "../Icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +15,7 @@ export function UrlDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="bg-black text-white hover:bg-neutral-800 hover:text-white">Socials</Button>
+        <Button variant="outline" className="bg-black text-white hover:bg-neutral-800 hover:text-white">Socials <ChevronDown/></Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuItem>
