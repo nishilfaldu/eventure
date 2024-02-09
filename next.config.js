@@ -18,7 +18,7 @@ const nextConfig = {
       "www.magestore.com",
       "blog.carts.guru",
       "images.unsplash.com",
-      "avatars.githubusercontent.com",
+      "api.minnect.com",
     ],
   },
   reactStrictMode: true,
