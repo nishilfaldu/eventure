@@ -2,6 +2,7 @@ import { MessagesSquare, ShieldCheck, StarIcon } from "lucide-react";
 import Image from "next/image";
 
 import { ReviewCard } from "@/app/_components/Vendor/ReviewCard";
+import { ReviewModal } from "@/app/_components/Vendor/ReviewModal";
 import { UrlDropdown } from "@/app/_components/Vendor/UrlDropdown";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -74,6 +75,8 @@ export default function ProfessionalPage() {
         <ReviewCard />
         <ReviewCard />
       </div>
+      {/* ReviewModal for seeing more reviews */}
+      <ReviewModal/>
     </section>
   );
 }
