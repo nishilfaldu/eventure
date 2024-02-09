@@ -28,7 +28,7 @@ export function UserMenu() {
 
 
   return(
-    <div className="relative inline-block text-left">
+    <div className="relative inline-block text-left z-20">
       <div>
         <Button
           aria-expanded="true"
@@ -59,8 +59,10 @@ export function UserMenu() {
           <MenuItemDivider/>
 
           {/* MenuItems Group 2 */}
-          <MenuItem label="Events" href="#" />
-          <MenuItem label="Notifications" href="#" />
+          <MenuItem label="Home" href="/" />
+          <MenuItem label="Events" href="/events" />
+          <MenuItem label="Chats" href="/chats" />
+          <MenuItem label="Schedule" href="/schedule" />
 
           <MenuItemDivider/>
 
