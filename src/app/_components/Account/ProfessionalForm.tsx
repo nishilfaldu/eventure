@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -196,6 +196,13 @@ const accountFormSchema = z.object({
   categories: z.array(z.string()).refine(value => value.some(item => item), {
     message: "You have to select at least one category.",
   }),
+  urls: z
+    .array(
+      z.object({
+        value: z.string().url({ message: "Please enter a valid URL." }),
+      })
+    )
+    .optional(),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>
@@ -211,13 +218,26 @@ const defaultValues: Partial<AccountFormValues> = {
   //   phoneNumber: "",
   dob: new Date("2023-01-23"),
   categories: ["other"],
+  urls: [
+    { value: "https://www.yourwebsite.com" },
+    { value: "https://www.yourlinkedin.com" },
+    { value: "https://www.yourinstagram.com" },
+    { value: "https://www.yourfacebook.com" },
+    { value: "https://www.yourtwitter.com" },
+  ],
 };
+
 
 export function ProfessionalForm() {
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
     defaultValues,
     mode: "onChange",
+  });
+
+  const { fields } = useFieldArray({
+    name: "urls",
+    control: form.control,
   });
 
   function onSubmit(data: AccountFormValues) {
@@ -524,6 +544,32 @@ export function ProfessionalForm() {
           )}
         />
 
+        <Separator />
+
+        {/* urls */}
+        <div>
+          {fields.map((field, index) => (
+            <FormField
+              control={form.control}
+              key={field.id}
+              name={`urls.${index}.value`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className={cn(index !== 0 && "sr-only")}>
+                    URLs
+                  </FormLabel>
+                  <FormDescription className={cn(index !== 0 && "sr-only")}>
+                    Add links to your website, blog, or social media profiles.
+                  </FormDescription>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+        </div>
         <Button type="submit">Update account</Button>
       </form>
     </Form>

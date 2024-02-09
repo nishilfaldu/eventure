@@ -53,8 +53,8 @@ export function UserMenu() {
 
           {/* MenuItems Group 1 */}
           <MenuItem label="General" href="/settings/general" otherClassName="mt-2" />
-          <MenuItem label="Transactions" href="#"/>
-          <MenuItem label="Become an expert" href="#" />
+          <MenuItem label="Transactions" href="/settings/transactions"/>
+          <MenuItem label="Become a professional" href="/settings/become-a-professional" />
 
           <MenuItemDivider/>
 
