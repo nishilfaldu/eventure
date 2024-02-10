@@ -1,7 +1,7 @@
 import { Nunito } from "next/font/google";
 
 import ConvexClientProvider from "./_components/ConvexClientProvider";
-import { Footer } from "./_components/Footer/Footer";
+import { Footer } from "./_components/Footer";
 import { Navbar } from "./_components/Navbar";
 import "@/app/globals.css";
 import { Toaster as DefaultToaster } from "@/components/ui/toaster";

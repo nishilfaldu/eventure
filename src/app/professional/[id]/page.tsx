@@ -30,7 +30,10 @@ export default function ProfessionalPage() {
           </div>
           {/* description */}
           <div className="lg:w-full flex lg:items-start flex-col items-center">
-            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">The Catcher in the Rye</h1>
+            <span className="flex items-center gap-x-2">
+              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">The Catcher in the Rye</h1>
+              <UrlDropdown/>
+            </span>
             <div className="mb-4">
               <span className="flex items-center gap-x-3">
                 <span className="flex items-center gap-x-1">
@@ -43,10 +46,6 @@ export default function ProfessionalPage() {
                 </span>
 
                 <Separator orientation="vertical" className="mx-2 bg-black"/>
-
-                <span className="flex items-center gap-x-2">
-                  <UrlDropdown/>
-                </span>
               </span>
             </div>
             <p className="leading-relaxed lg:text-left text-center">Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY. XOXO fam indxgo juiceramps cornhole raw denim forage brooklyn. Everyday carry +1 seitan poutine tumeric. Gastropub blue bottle austin listicle pour-over, neutra jean shorts keytar banjo tattooed umami cardigan.</p>

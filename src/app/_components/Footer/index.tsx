@@ -6,7 +6,7 @@ import { MoreDrawer } from "./MoreDrawer";
 
 export function Footer() {
   return(
-    <div className="bg-gray-100 body-font shadow-sm border-t border-gray-200">
+    <div className="bg-gray-100 body-font shadow-sm border-t border-gray-200 h-16">
       <div className="container px-5 py-6 mx-auto flex items-center sm:flex-row flex-col">
         <p className="text-sm text-gray-500 sm:ml-6 sm:mt-0 mt-4">© {dayjs().year()} Eventure —
           <a href="https://instagram.com/eventure" rel="noopener noreferrer" className="text-gray-600 ml-1" target="_blank">@eventure</a>

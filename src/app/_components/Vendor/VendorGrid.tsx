@@ -2,7 +2,7 @@ import { VendorListing } from "./VendorListing";
 
 
 
-const vendors = [
+const professionals = [
   {
     id: "1",
     userId: "1234567890", // Example user ID from the "users" table
@@ -28,7 +28,7 @@ const vendors = [
     linkedIn: "https://www.linkedin.com/in/johndoe",
     instagram: "https://www.instagram.com/johndoe",
     twitter: "https://twitter.com/johndoe",
-    pictureUrl: "https://avatars.githubusercontent.com/u/9693884?v=4",
+    pictureUrl: "https://api.minnect.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHRUIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3dea5d6a4113127153e54ab2b29a635b9bc6ea83/imagename.png",
     verified: true,
   },
   {
@@ -56,7 +56,7 @@ const vendors = [
     linkedIn: "https://www.linkedin.com/in/johndoe",
     instagram: "https://www.instagram.com/johndoe",
     twitter: "https://twitter.com/johndoe",
-    pictureUrl: "https://avatars.githubusercontent.com/u/9693884?v=4",
+    pictureUrl: "https://api.minnect.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHRUIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3dea5d6a4113127153e54ab2b29a635b9bc6ea83/imagename.png",
     verified: true,
   },
   {
@@ -84,7 +84,7 @@ const vendors = [
     linkedIn: "https://www.linkedin.com/in/johndoe",
     instagram: "https://www.instagram.com/johndoe",
     twitter: "https://twitter.com/johndoe",
-    pictureUrl: "https://avatars.githubusercontent.com/u/9693884?v=4",
+    pictureUrl: "https://api.minnect.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHRUIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3dea5d6a4113127153e54ab2b29a635b9bc6ea83/imagename.png",
     verified: true,
   },
   {
@@ -112,7 +112,7 @@ const vendors = [
     linkedIn: "https://www.linkedin.com/in/johndoe",
     instagram: "https://www.instagram.com/johndoe",
     twitter: "https://twitter.com/johndoe",
-    pictureUrl: "https://avatars.githubusercontent.com/u/9693884?v=4",
+    pictureUrl: "https://api.minnect.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHRUIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3dea5d6a4113127153e54ab2b29a635b9bc6ea83/imagename.png",
     verified: true,
   },
   {
@@ -140,7 +140,7 @@ const vendors = [
     linkedIn: "https://www.linkedin.com/in/johndoe",
     instagram: "https://www.instagram.com/johndoe",
     twitter: "https://twitter.com/johndoe",
-    pictureUrl: "https://avatars.githubusercontent.com/u/9693884?v=4",
+    pictureUrl: "https://api.minnect.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHRUIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3dea5d6a4113127153e54ab2b29a635b9bc6ea83/imagename.png",
     verified: true,
   },
   {
@@ -168,7 +168,7 @@ const vendors = [
     linkedIn: "https://www.linkedin.com/in/johndoe",
     instagram: "https://www.instagram.com/johndoe",
     twitter: "https://twitter.com/johndoe",
-    pictureUrl: "https://avatars.githubusercontent.com/u/9693884?v=4",
+    pictureUrl: "https://api.minnect.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHRUIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3dea5d6a4113127153e54ab2b29a635b9bc6ea83/imagename.png",
     verified: true,
   },
   {
@@ -196,7 +196,7 @@ const vendors = [
     linkedIn: "https://www.linkedin.com/in/johndoe",
     instagram: "https://www.instagram.com/johndoe",
     twitter: "https://twitter.com/johndoe",
-    pictureUrl: "https://avatars.githubusercontent.com/u/9693884?v=4",
+    pictureUrl: "https://api.minnect.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHRUIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3dea5d6a4113127153e54ab2b29a635b9bc6ea83/imagename.png",
     verified: true,
   },
 ];
@@ -204,11 +204,11 @@ const vendors = [
 export async function VendorGrid() {
   return(
     <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
-      {vendors.map((vendor, i) => (
+      {professionals.map((professional, i) => (
         <VendorListing
           //   currentUser={currentUser}
-          key={`vendor-${vendor.id}`}
-          vendor={vendor}
+          key={`professional-${professional.id}`}
+          professional={professional}
           index={i}
         />
       ))}

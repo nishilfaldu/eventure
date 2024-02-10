@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
 
 
 
@@ -15,9 +16,10 @@ export function UrlDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="bg-black text-white hover:bg-neutral-800 hover:text-white">Socials <ChevronDown/></Button>
+        <Button variant="outline" size="icon" className="h-4 w-4"><ChevronDown/></Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
+        <Separator orientation="vertical"/>
         <DropdownMenuItem>
           <FacebookIcon className="mr-2 h-4 w-4" />
           <a href={"https://www.facebook.com"} target="_blank" rel="noopener noreferrer">Facebook</a>
