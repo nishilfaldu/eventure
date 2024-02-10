@@ -5,54 +5,51 @@ import { v } from "convex/values";
 
 export default defineSchema({
   users: defineTable({
+    // user related
     username: v.string(),
-    name: v.string(),
-    email: v.string(),
-    // gender: v.string(),
-    // dob: v.string(),
-    // country: v.string(),
-    // phoneNumber: v.string(),
-    // city: v.string(),
-    // zipCode: v.string(),
-  }).index("byUsername", ["username"]),
-
-  experts: defineTable({
-    userId: v.id("users"),
     firstName: v.string(),
     lastName: v.string(),
-    gender: v.union(v.literal("Male"), v.literal("Female"), v.literal("Other")),
-    dob: v.string(),
-    country: v.string(),
+    email: v.string(),
     phoneNumber: v.string(),
-    city: v.string(),
-    zipCode: v.string(),
-    tagLine: v.string(),
-    bio: v.string(),
-    question1: v.string(),
-    question2: v.string(),
+
+    // expert related
+    expert: v.boolean(),
+    verified: v.boolean(),
+
+    gender: v.optional(v.union(v.literal("Male"), v.literal("Female"), v.literal("Other"))),
+    dob: v.optional(v.string()),
+    country: v.optional(v.string()),
+    city: v.optional(v.string()),
+    zipCode: v.optional(v.string()),
+    tagLine: v.optional(v.string()),
+    bio: v.optional(v.string()),
+    question1: v.optional(v.string()),
+    question2: v.optional(v.string()),
     question3: v.optional(v.string()),
     question4: v.optional(v.string()),
     question5: v.optional(v.string()),
-    textAnswerPrice: v.number(),
-    videoAnswerPrice: v.number(),
-    videoCallPrice: v.number(),
     portfolio: v.optional(v.string()),
     linkedIn: v.optional(v.string()),
     instagram: v.optional(v.string()),
     twitter: v.optional(v.string()),
-    pictureUrl: v.string(),
-    verified: v.boolean(),
-  }).index("byFirstName", ["firstName"]),
+    pictureUrl: v.optional(v.string()),
+  }).index("byUsername", ["username"]),
+
+  //   many to many relationship
+  userConversations: defineTable({
+    userId: v.id("users"),
+    conversationId: v.id("conversations"),
+  }).index("byUserId", ["userId"]),
 
   categories: defineTable({
     name: v.string(),
     description: v.string(),
   }).index("byName", ["name"]),
 
-  expertCategories: defineTable({
-    expertId: v.id("experts"),
+  userCategories: defineTable({
+    userId: v.id("users"),
     categoryId: v.id("categories"),
-  }).index("byExpertId", ["expertId"]),
+  }).index("byUserId", ["userId"]),
 
   events: defineTable({
     type: v.union(v.literal("Birthday"), v.literal("Wedding")),
@@ -73,11 +70,19 @@ export default defineSchema({
     note: v.string(),
   }).index("byEventId", ["eventId"]),
 
+  conversations: defineTable({
+    name: v.string(),
+
+
+  }).index("byName", ["name"]),
+
   messages: defineTable({
-    senderId: v.union(v.id("experts"), v.id("users")),
-    receiverId: v.union(v.id("experts"), v.id("users")),
-    content: v.string(),
-  }).index("bySenderAndReceiverId", ["senderId", "receiverId"]),
+    body: v.string(),
+    image: v.string(),
+
+    conversationId: v.id("conversations"),
+    senderId: v.id("users"),
+  }).index("byConversationId", ["conversationId"]),
 
   reviews: defineTable({
     userId: v.id("users"),

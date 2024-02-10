@@ -17,29 +17,36 @@ export const createUser = mutation({
     }
 
     const user = await getUserHelper(ctx, identity.nickname);
-
+    console.log(user);
     if (user !== null) {
       if (
-        user.name !== identity.name ||
+        user.firstName !== identity.name ||
           user.username !== identity.nickname
       ) {
         await ctx.db.patch(user._id, {
-          name: identity.name,
+          firstName: identity.name,
+          lastName: identity.familyName,
+          phoneNumber: identity.phoneNumber,
           username: identity.nickname,
+          email: identity.email,
         });
       }
 
       return user._id;
     }
 
-    if (!identity.name || !identity.email) {
+    if (!identity.name || !identity.email || !identity.nickname || !identity.familyName || !identity.phoneNumber) {
       throw new Error("Name or email is undefined in identity object");
     }
 
     return await ctx.db.insert("users", {
-      name: identity.name,
+      firstName: identity.name,
+      lastName: identity.familyName,
+      phoneNumber: identity.phoneNumber,
       username: identity.nickname,
       email: identity.email,
+      expert: false,
+      verified: false,
     });
   },
 });
@@ -59,3 +66,16 @@ export function getUserHelper(ctx: QueryCtx, username: string) {
     .withIndex("byUsername", q => q.eq("username", username))
     .unique();
 }
+
+export const getUsers = query({
+  args: {
+    email: v.string(),
+  },
+  handler: async (ctx, { email }) => {
+    return await ctx.db
+      .query("users")
+      .order("desc")
+      .filter(q => q.not(q.eq("email", email)))
+      .collect();
+  },
+});

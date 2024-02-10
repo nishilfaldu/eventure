@@ -63,6 +63,7 @@ export function UserMenu() {
           <MenuItem label="Events" href="/events" />
           <MenuItem label="Chats" href="/chats" />
           <MenuItem label="Schedule" href="/schedule" />
+          <MenuItem label="Users" href="/users" />
 
           <MenuItemDivider/>
 

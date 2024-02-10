@@ -1,6 +1,5 @@
-// import { UserProfile } from "@clerk/nextjs";
-
 import { VendorGrid } from "./_components/Vendor/VendorGrid";
+
 
 
 
