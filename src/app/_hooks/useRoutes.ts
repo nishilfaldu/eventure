@@ -1,7 +1,7 @@
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import { HiChat } from "react-icons/hi";
-import { HiArrowLeftOnRectangle, HiUsers } from "react-icons/hi2";
+import { HiUsers } from "react-icons/hi2";
 
 import useConversation from "./useConversation";
 
@@ -25,12 +25,6 @@ const useRoutes = () => {
       href: "/users",
       icon: HiUsers,
       active: pathname === "/users",
-    },
-    {
-      label: "Logout",
-      onClick: () => {},
-      href: "#",
-      icon: HiArrowLeftOnRectangle,
     },
   ], [pathname, conversationId]);
 
