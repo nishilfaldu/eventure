@@ -33,13 +33,13 @@ export default defineSchema({
     instagram: v.optional(v.string()),
     twitter: v.optional(v.string()),
     pictureUrl: v.optional(v.string()),
-  }).index("byUsername", ["username"]),
+  }).index("byUsernameAndEmail", ["username", "email"]),
 
   //   many to many relationship
   userConversations: defineTable({
     userId: v.id("users"),
     conversationId: v.id("conversations"),
-  }).index("byUserId", ["userId"]),
+  }).index("userId", ["userId", "conversationId"]),
 
   categories: defineTable({
     name: v.string(),
@@ -72,8 +72,6 @@ export default defineSchema({
 
   conversations: defineTable({
     name: v.string(),
-
-
   }).index("byName", ["name"]),
 
   messages: defineTable({
