@@ -105,5 +105,5 @@ export default defineSchema({
     phoneNumber: v.string(),
     eventId: v.id("events"),
     registered: v.boolean(),
-  }).index("byEventId", ["eventId"]),
+  }).index("eventId", ["eventId"]),
 });
