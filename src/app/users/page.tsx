@@ -1,3 +1,4 @@
+import Component from "../_components/Chat/Temp";
 import { ChatWindow } from "../_components/Chat/Window";
 
 
@@ -20,6 +21,7 @@ export default function PeoplePage() {
         defaultCollapsed={undefined}
         navCollapsedSize={4}
       />
+      <Component/>
     </div>
   );
 };

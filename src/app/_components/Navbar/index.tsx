@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 
 export function Navbar() {
   return(
-    <header className="text-gray-600 body-font shadow-sm border-b border-gray-200">
+    <header className="fixed w-full top-0 bg-white text-gray-600 body-font shadow-sm border-b border-gray-200 z-50">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <Link href="/" className="text-black no-underline flex font-medium items-center mb-4 md:mb-0">
           <LogoSquare/>

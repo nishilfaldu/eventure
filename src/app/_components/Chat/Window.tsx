@@ -2,14 +2,17 @@
 
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
-import { MessageSquareText, UsersRound } from "lucide-react";
+import { MessageSquareIcon, MessageSquareText, UsersRound } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
+import { AvatarGeneral } from "./AvatarGeneral";
 import { ChatDisplay } from "./ChatDisplay";
 import { Nav } from "./Nav";
 import UserList from "./UserList";
 import { api } from "../../../../convex/_generated/api";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import { Separator } from "@/components/ui/separator";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
@@ -57,7 +60,7 @@ export function ChatWindow(
             collapsible={true}
             minSize={15}
             maxSize={20}
-            onCollapse={(collapsed : boolean) => {
+            onCollapse={collapsed => {
               setIsCollapsed(collapsed);
               document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
                 collapsed
@@ -65,25 +68,43 @@ export function ChatWindow(
             }}
             className={cn(isCollapsed && "min-w-[50px] transition-all duration-300 ease-in-out")}
           >
-
+            <div className={cn("flex h-[52px] items-center justify-center", isCollapsed ? "h-[52px]": "px-2")}>
+              <Link className="flex items-center gap-2 font-semibold" href="#">
+                <MessageSquareIcon className="h-6 w-6" />
+                <span className="">Chats</span>
+              </Link>
+            </div>
+            <Separator />
             <Nav
               isCollapsed={isCollapsed}
-              links={[
-                {
-                  title: "People",
-                  label: "128",
-                  icon: UsersRound,
-                  variant: "ghost",
-                  href: "/users",
-                },
-                {
-                  title: "Conversations",
-                  label: "9",
-                  icon: MessageSquareText,
-                  variant: "ghost",
-                  href: "/conversations",
-                },
-              ]}
+              links={
+                //     [
+                //     {
+                //       title: "People",
+                //       label: "128",
+                //       icon: UsersRound,
+                //       variant: "ghost",
+                //       href: "/users",
+                //     },
+                //     {
+                //       title: "Conversations",
+                //       label: "9",
+                //       icon: MessageSquareText,
+                //       variant: "ghost",
+                //       href: "/conversations",
+                //     },
+                //   ]
+                users ? users.map(user => (
+                  {
+                    title: user.firstName + " " + user.lastName,
+                    label: "4",
+                    // eslint-disable-next-line max-len
+                    icon: <AvatarGeneral key={user._id} firstName={user.firstName} lastName={user.lastName} pictureUrl={user.pictureUrl} />,
+                    variant: "ghost",
+                    href: "/users",
+                  }))
+                  : []
+              }
             />
           </ResizablePanel>
 

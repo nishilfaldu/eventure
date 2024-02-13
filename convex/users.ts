@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { getManyFrom, getManyVia } from "convex-helpers/server/relationships";
+import { getManyVia } from "convex-helpers/server/relationships";
 
 import type { QueryCtx } from "./_generated/server";
 import { mutation, query } from "./_generated/server";
@@ -81,13 +81,27 @@ export const getUsers = query({
   },
 });
 
-export const getUsersForConversationById = query({
+// get conversationById
+export const getUsersForConversationId = query({
   args: {
     conversationId: v.id("conversations"),
   },
   handler: async (ctx, { conversationId }) => {
-    const conversation = await ctx.db.get(conversationId);
     // Get the users in this conversation and their associated user ids
-    const users_ = await getManyVia(ctx.db, "userConversations", "userId", "userId", conversationId, "conversationId");
+    const users = await getManyVia(ctx.db, "userConversations", "userId", "conversationId", conversationId, "conversationId");
+
+    return users;
+  },
+});
+
+export const getUsersForCategoryId = query({
+  args: {
+    categoryId: v.id("categories"),
+  },
+  handler: async (ctx, { categoryId }) => {
+    // Get the users in this category and their associated user ids
+    const users = await getManyVia(ctx.db, "userCategories", "userId", "categoryId", categoryId, "categoryId");
+
+    return users;
   },
 });

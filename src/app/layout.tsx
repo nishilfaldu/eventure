@@ -28,7 +28,7 @@ export default function RootLayout({
       <body className={`${nunito.className}`}>
         <ConvexClientProvider>
           <Navbar/>
-          <main className="container">
+          <main className="m-20">
             {children}
           </main>
           <Footer/>

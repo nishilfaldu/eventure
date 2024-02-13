@@ -1,6 +1,7 @@
 import { v } from "convex/values";
+import { getManyFrom } from "convex-helpers/server/relationships";
 
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 
 
 
@@ -21,5 +22,25 @@ export const createEvent = mutation({
         type: type as "Birthday" | "Wedding",
         userId: userId,
       });
+  },
+});
+
+export const deleteEvent = mutation({
+  args: {
+    eventId: v.id("events"),
+  },
+  handler: async (ctx, { eventId }) => {
+    return ctx.db.delete(eventId);
+  },
+});
+
+export const getEventsByUserId = query({
+  args: {
+    userId: v.id("users"),
+  },
+  handler: async (ctx, { userId }) => {
+    const events = await getManyFrom(ctx.db, "events", "userId", userId);
+
+    return events;
   },
 });

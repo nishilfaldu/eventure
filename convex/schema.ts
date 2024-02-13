@@ -39,7 +39,8 @@ export default defineSchema({
   userConversations: defineTable({
     userId: v.id("users"),
     conversationId: v.id("conversations"),
-  }).index("userId", ["userId", "conversationId"]),
+  }).index("userId", ["userId"])
+    .index("conversationId", ["conversationId"]),
 
   categories: defineTable({
     name: v.string(),
@@ -49,7 +50,8 @@ export default defineSchema({
   userCategories: defineTable({
     userId: v.id("users"),
     categoryId: v.id("categories"),
-  }).index("byUserId", ["userId"]),
+  }).index("userId", ["userId"])
+    .index("categoryId", ["categoryId"]),
 
   events: defineTable({
     type: v.union(v.literal("Birthday"), v.literal("Wedding")),
@@ -57,22 +59,17 @@ export default defineSchema({
     location: v.string(),
     name: v.string(),
     userId: v.id("users"),
-    decorationId: v.optional(v.id("decoration")),
-    cleanupId: v.optional(v.id("cleanup")),
-    foodId: v.optional(v.id("food")),
-    essentialId: v.optional(v.id("essential")),
-    favorId: v.optional(v.id("favor")),
-    entertainmentId: v.optional(v.id("entertainment")),
-  }).index("byEventName", ["name"]),
+  }).index("userId", ["userId"]),
 
-  notes: defineTable({
+  tasks: defineTable({
     eventId: v.id("events"),
-    note: v.string(),
-  }).index("byEventId", ["eventId"]),
+    description: v.string(),
+    header: v.string(),
+  }).index("eventId", ["eventId"]),
 
   conversations: defineTable({
-    name: v.string(),
-  }).index("byName", ["name"]),
+    lastMessageAt: v.string(),
+  }).index("lastMessageAt", ["lastMessageAt"]),
 
   messages: defineTable({
     body: v.string(),
@@ -80,7 +77,7 @@ export default defineSchema({
 
     conversationId: v.id("conversations"),
     senderId: v.id("users"),
-  }).index("byConversationId", ["conversationId"]),
+  }).index("conversationId", ["conversationId"]),
 
   reviews: defineTable({
     userId: v.id("users"),
