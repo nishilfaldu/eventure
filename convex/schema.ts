@@ -65,6 +65,7 @@ export default defineSchema({
     eventId: v.id("events"),
     description: v.string(),
     header: v.string(),
+    done: v.boolean(),
   }).index("eventId", ["eventId"]),
 
   conversations: defineTable({
