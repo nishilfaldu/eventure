@@ -81,11 +81,12 @@ export default defineSchema({
   }).index("conversationId", ["conversationId"]),
 
   reviews: defineTable({
-    userId: v.id("users"),
-    expertId: v.id("experts"),
-    review: v.string(),
-    ratingValue: v.int64(),
-  }).index("byUserAndExpertId", ["expertId", "userId"]),
+    reviewerId: v.id("users"),
+    revieweeId: v.id("users"),
+    description: v.string(),
+    ratingValue: v.number(),
+  }).index("reviewerId", ["reviewerId"])
+    .index("revieweeId", ["revieweeId"]),
 
   transactions: defineTable({
     paymentIntentId: v.string(),
