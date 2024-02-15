@@ -52,7 +52,7 @@ export function ChatWindow(
               sizes
             )}`;
           }}
-          className="h-full max-h-[800px] items-stretch"
+          className="items-stretch"
         >
           <ResizablePanel
             defaultSize={defaultLayout[0]}
@@ -68,32 +68,17 @@ export function ChatWindow(
             }}
             className={cn(isCollapsed && "min-w-[50px] transition-all duration-300 ease-in-out")}
           >
-            <div className={cn("flex h-[52px] items-center justify-center", isCollapsed ? "h-[52px]": "px-2")}>
+            <div className={cn("flex h-[57px] items-center justify-center", isCollapsed ? "h-[52px]": "px-2")}>
               <Link className="flex items-center gap-2 font-semibold" href="#">
                 <MessageSquareIcon className="h-6 w-6" />
                 <span className="">Chats</span>
               </Link>
             </div>
             <Separator />
+
             <Nav
               isCollapsed={isCollapsed}
               links={
-                //     [
-                //     {
-                //       title: "People",
-                //       label: "128",
-                //       icon: UsersRound,
-                //       variant: "ghost",
-                //       href: "/users",
-                //     },
-                //     {
-                //       title: "Conversations",
-                //       label: "9",
-                //       icon: MessageSquareText,
-                //       variant: "ghost",
-                //       href: "/conversations",
-                //     },
-                //   ]
                 users ? users.map(user => (
                   {
                     title: user.firstName + " " + user.lastName,
@@ -108,8 +93,8 @@ export function ChatWindow(
             />
           </ResizablePanel>
 
-          <ResizableHandle />
-          <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
+          <ResizableHandle withHandle/>
+          {/* <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
             <UserList
               // items={mails}
               users={users ?? []}
@@ -117,7 +102,7 @@ export function ChatWindow(
 
           </ResizablePanel>
 
-          <ResizableHandle/>
+          <ResizableHandle/> */}
 
           <ResizablePanel defaultSize={defaultLayout[2]}>
             <ChatDisplay
@@ -125,6 +110,8 @@ export function ChatWindow(
               user={users ? users[0] : null}
             />
           </ResizablePanel>
+
+          <ResizableHandle withHandle/>
         </ResizablePanelGroup>
       </TooltipProvider>
     </>

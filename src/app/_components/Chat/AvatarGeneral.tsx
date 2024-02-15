@@ -12,7 +12,7 @@ export function AvatarGeneral({ pictureUrl, firstName, lastName } : AvatarGenera
   return(
     <Avatar className="h-8 w-8">
       <AvatarImage alt="User Avatar" src={pictureUrl}/>
-      <AvatarFallback>{firstName} {lastName}</AvatarFallback>
+      <AvatarFallback>{firstName[0]} {lastName[0]}</AvatarFallback>
     </Avatar>
   );
 }

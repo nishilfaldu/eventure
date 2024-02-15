@@ -2,8 +2,6 @@ import { VendorGrid } from "./_components/Vendor/VendorGrid";
 
 
 
-
-
 export default function Home() {
   return (
     <div>

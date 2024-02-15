@@ -1,4 +1,3 @@
-import Component from "../_components/Chat/Temp";
 import { ChatWindow } from "../_components/Chat/Window";
 
 
@@ -15,13 +14,12 @@ export default function PeoplePage() {
     // <div className="hidden lg:block lg:pl-80">
     //   <EmptyState />
     // </div>
-    <div>
+    <div className="overflow-hidden rounded-lg border bg-background shadow-lg w-full relative">
       <ChatWindow
         defaultLayout={undefined}
         defaultCollapsed={undefined}
         navCollapsedSize={4}
       />
-      <Component/>
     </div>
   );
 };

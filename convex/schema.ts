@@ -45,7 +45,7 @@ export default defineSchema({
   categories: defineTable({
     name: v.string(),
     description: v.string(),
-  }).index("byName", ["name"]),
+  }).index("name", ["name"]),
 
   userCategories: defineTable({
     userId: v.id("users"),

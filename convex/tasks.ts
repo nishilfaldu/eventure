@@ -5,7 +5,7 @@ import type { Id } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 
 
-
+// display all the tasks for a specific event UI - it will return an array of tasks with their headers/categories
 export const getTasksByEventId = query({
   args: {
     eventId: v.id("events"),
@@ -22,6 +22,7 @@ export const getTasksByEventId = query({
   },
 });
 
+// populateEvent button maybe? - just puts our initial checklist all at one in the database
 export const createTasksByEventId = mutation({
   args: {
     tasksArray: v.array(v.object({
@@ -42,6 +43,8 @@ export const createTasksByEventId = mutation({
   },
 });
 
+// create tasks one at a time - so one add tasks button somewhere at the top
+// the button opens up a modal - user selects a header/category to put under and writes a description?
 export const createTaskByEventId = mutation({
   args: {
     eventId: v.id("events"),
@@ -60,6 +63,7 @@ export const createTaskByEventId = mutation({
   },
 });
 
+// update tasks one at a time - so every task/checkbox with a edit button?
 export const updateTaskById = mutation({
   args: {
     taskId: v.id("tasks"),
@@ -82,6 +86,7 @@ export const updateTaskById = mutation({
   },
 });
 
+// delete tasks one at a time - so every task/checkbox with a delete button?
 export const deleteTaskById = mutation({
   args: {
     taskId: v.id("tasks"),
