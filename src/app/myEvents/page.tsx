@@ -3,14 +3,12 @@ import Meta from "antd/es/card/Meta";
 // import Image from "next/image";
 // import Link from "next/link";
 
-import SideNav from "../_components/SideNav";
 
 
 
 export default function myEvents() {
   return (
     <div style={{ width: "100%", height: "100%", position: "relative", background: "white" }}>
-      <SideNav/>
       <div style={{ width: 216, height: 47, left: 355, top: 68, position: "absolute" }}>
         <div style={{ color: "black", fontSize: 45, fontWeight: "500", wordWrap: "break-word" }}>My Events<br/></div>
         <div style={{ color: "#958F8F", fontSize: 30, fontWeight: "500", wordWrap: "break-word" }}><br/></div>
@@ -28,10 +26,12 @@ export default function myEvents() {
               type="card"
               size="large"
               items={new Array(2).fill(null).map((_, i) => {
-                const id = String(i + 1);
+                const id = String(i);
+
+                const names: string[] =["Current Events" , "Past Events"];
 
                 return {
-                  label: `Current Events ${id}`,
+                  label: `${names[i]}`,
                   key: id,
                   children: <EventCard/>,
                 };
