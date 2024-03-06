@@ -1,3 +1,4 @@
+import { VendorGrid } from "./_components/Vendor/VendorGrid";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,6 +11,15 @@ import logo from "../public/assets/logo2.png";
 
 export default function Home() {
   return (
+    <div>
+      {/* <UserProfile /> */}
+      <div className="flex items-center justify-center text-6xl font-bold my-16">
+        <h1 className="text-center">Browse Event Professionals</h1>
+      </div>
+      <div>
+        <VendorGrid/>
+      </div>
+    </div>
     <div>
       <div style={{ width: "100%", height: "100%", position: "relative", background: "white" }}>
         <Image style={{ width: 485, height: 202, left: 824, top: 180, position: "absolute" }} src={logo} alt="Logo"/>

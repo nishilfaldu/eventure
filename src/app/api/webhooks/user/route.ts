@@ -13,7 +13,7 @@ import { Webhook } from "svix";
 
 
 const webhookSecret = process.env.CLERK_WEBHOOK_SECRET_KEY || "";
-console.log(webhookSecret);
+// console.log(webhookSecret);
 
 async function handler(request: Request) {
   const payload = await request.json();

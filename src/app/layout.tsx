@@ -1,8 +1,10 @@
-import { ClerkProvider } from "@clerk/nextjs";
-import { League_Spartan } from "next/font/google";
+import { Nunito } from "next/font/google";
 
-import "@/styles/index.scss";
-
+import ConvexClientProvider from "./_components/ConvexClientProvider";
+import { Footer } from "./_components/Footer";
+import { Navbar } from "./_components/Navbar";
+import "@/app/globals.css";
+import { Toaster as DefaultToaster } from "@/components/ui/toaster";
 
 
 
@@ -21,12 +23,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={`${league_spartan.className}`}>
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={`${nunito.className}`}>
+        <ConvexClientProvider>
+          <Navbar/>
+          <main className="m-20">
+            {children}
+          </main>
+          <Footer/>
+          <DefaultToaster />
+        </ConvexClientProvider>
+      </body>
+    </html>
   );
 }
