@@ -18,7 +18,8 @@
     "typescript.enablePromptUseWorkspaceTsdk": true,
     "eslint.workingDirectories": [
         "client",
-        "server"
+        "server",
+        "src"
     ],
     "eslint.validate": [
         "javascript",

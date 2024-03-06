@@ -59,3 +59,29 @@ export function useWindowSize() {
 
   return windowSize;
 }
+
+// export function useOutsideClick(ref: React.RefObject<HTMLElement>) {
+//   const [clickedOutside, setClickedOutside] = useState<boolean | null>();
+
+//   useEffect(() => {
+//     /**
+//          * Alert if clicked on outside of element
+//          */
+//     function handleClickOutside(event: Event) {
+//       if (ref && ref.current && !ref.current.contains(event.target)) {
+//         setClickedOutside(true);
+//         alert("You clicked outside of me!");
+//       }
+//     }
+
+//     // Bind the event listener
+//     document.addEventListener("mousedown", handleClickOutside);
+
+//     return () => {
+//       // Unbind the event listener on clean up
+//       document.removeEventListener("mousedown", handleClickOutside);
+//     };
+//   }, [ref]);
+
+//   return clickedOutside;
+// }

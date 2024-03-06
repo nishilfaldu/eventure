@@ -1,9 +1,10 @@
-import { ClerkProvider } from "@clerk/nextjs";
 import { Nunito } from "next/font/google";
 
-import "@/styles/index.scss";
-import Provider from "@/app/_trpc/Provider";
-
+import ConvexClientProvider from "./_components/ConvexClientProvider";
+import { Footer } from "./_components/Footer";
+import { Navbar } from "./_components/Navbar";
+import "@/app/globals.css";
+import { Toaster as DefaultToaster } from "@/components/ui/toaster";
 
 
 
@@ -23,14 +24,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <Provider>
-        <html lang="en">
-          <body className={`${nunito.className}`}>
+    <html lang="en">
+      <body className={`${nunito.className}`}>
+        <ConvexClientProvider>
+          <Navbar/>
+          <main className="m-20">
             {children}
-          </body>
-        </html>
-      </Provider>
-    </ClerkProvider>
+          </main>
+          <Footer/>
+          <DefaultToaster />
+        </ConvexClientProvider>
+      </body>
+    </html>
   );
 }
