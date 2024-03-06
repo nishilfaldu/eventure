@@ -1,7 +1,7 @@
-import { Button, Card, Tabs } from "antd";
+import { Card, Tabs } from "antd";
 import Meta from "antd/es/card/Meta";
 // import Image from "next/image";
-// import Link from "next/link";
+import Link from "next/link";
 
 
 
@@ -57,11 +57,12 @@ function EventCard() {
         />
       }
     >
-      <Meta
-        // avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
-        title="Card title"
-        description="This is the description"
-      />
+      <Link href="/myEvents/1">
+        <Meta
+          title="Card title"
+          description="This is the description"
+        />
+      </Link>
     </Card>
   );
 }
