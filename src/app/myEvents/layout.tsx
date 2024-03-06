@@ -1,7 +1,3 @@
-import SideNav from "../_components/SideNav";
-
-
-
 export default function EventLayout({
   children,
 }: {
@@ -9,7 +5,6 @@ export default function EventLayout({
 }) {
   return (
     <>
-      <SideNav/>
       <div>
         {children}
       </div>
