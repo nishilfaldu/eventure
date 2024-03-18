@@ -23,8 +23,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+//   console.log(process.env.CLERK_JWT_ISSUER_DOMAIN, "CLERK_JWT_ISSUER_DOMAIN");
+
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <body className={`${nunito.className}`}>
         <ConvexClientProvider>
           <Navbar/>

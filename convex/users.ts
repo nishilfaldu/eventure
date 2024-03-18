@@ -13,16 +13,20 @@ export const createUser = mutation({
     if (!identity) {
       throw new Error("Called storeUser without authentication present");
     }
-    if(!identity.nickname) {
-      throw new Error("nickname is undefined in identity object");
+    if(!identity.email) {
+      throw new Error("email is undefined in identity object");
     }
 
-    const user = await getUserHelper(ctx, identity.nickname);
-    console.log(user);
+    const user = await getUserHelper(ctx, identity.email);
     if (user !== null) {
+      console.log("user already exists");
       if (
         user.firstName !== identity.name ||
-          user.username !== identity.nickname
+          user.username !== identity.nickname ||
+            user.email !== identity.email ||
+                user.lastName !== identity.familyName ||
+                    user.phoneNumber !== identity.phoneNumber ||
+                    user.pictureUrl !== identity.pictureUrl
       ) {
         await ctx.db.patch(user._id, {
           firstName: identity.name,
@@ -30,6 +34,7 @@ export const createUser = mutation({
           phoneNumber: identity.phoneNumber,
           username: identity.nickname,
           email: identity.email,
+          pictureUrl: identity.pictureUrl,
         });
       }
 
@@ -40,7 +45,11 @@ export const createUser = mutation({
       throw new Error("Name or email is undefined in identity object");
     }
 
+    console.log("here in store - new user created");
+
     return await ctx.db.insert("users", {
+      pictureUrl: identity.pictureUrl,
+      tokenIdentifier: identity.tokenIdentifier,
       firstName: identity.name,
       lastName: identity.familyName,
       phoneNumber: identity.phoneNumber,
@@ -61,10 +70,10 @@ export const getUser = query({
   },
 });
 
-export function getUserHelper(ctx: QueryCtx, username: string) {
+export function getUserHelper(ctx: QueryCtx, email: string) {
   return ctx.db
     .query("users")
-    .withIndex("byUsernameAndEmail", q => q.eq("username", username))
+    .withIndex("byEmail", q => q.eq("email", email))
     .unique();
 }
 

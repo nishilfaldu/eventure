@@ -1,7 +1,9 @@
 "use client";
 
+import { useQuery } from "convex/react";
 import * as React from "react";
 
+import { api } from "../../../../convex/_generated/api";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -9,65 +11,28 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-//   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 
 
 
-const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "Advisory",
-    href: "/docs/primitives/alert-dialog",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
-  },
-  {
-    title: "Agriculture",
-    href: "/docs/primitives/hover-card",
-    description:
-      "For sighted users to preview content available behind a link.",
-  },
-  {
-    title: "Art",
-    href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-  },
-  {
-    title: "Beauty",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Bitcoin",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Boxing",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-  },
-];
-
 export function CategoryNavigationMenu() {
+  const categories = useQuery(api.category.getCategories, {});
+
   return (
-    <NavigationMenu>
+    <NavigationMenu className="scroll-auto">
       <NavigationMenuList>
         <NavigationMenuItem>
           <div className="ml-6">
-            <NavigationMenuTrigger><span className="text-xl">Components</span></NavigationMenuTrigger>
+            <NavigationMenuTrigger><span className="text-xl">Categories</span></NavigationMenuTrigger>
           </div>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-              {components.map(component => (
+              {categories?.map(component => (
                 <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
+                  key={component._id}
+                  title={component.name}
+                  href={`/find-an-expert?categoryId=${component._id}`}
                 >
                   {component.description}
                 </ListItem>

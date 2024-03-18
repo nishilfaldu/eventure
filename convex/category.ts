@@ -28,3 +28,10 @@ export const getCategoriesForUserByUsername = query({
     return await getManyVia(ctx.db, "userCategories", "categoryId", "userId", user._id, "userId");
   },
 });
+
+export const getCategories = query({
+  args: {},
+  handler: async ctx => {
+    return await ctx.db.query("categories").collect();
+  },
+});

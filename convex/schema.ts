@@ -6,6 +6,7 @@ import { v } from "convex/values";
 export default defineSchema({
   users: defineTable({
     // user related
+    tokenIdentifier: v.string(),
     username: v.string(),
     firstName: v.string(),
     lastName: v.string(),
@@ -23,17 +24,16 @@ export default defineSchema({
     zipCode: v.optional(v.string()),
     tagLine: v.optional(v.string()),
     bio: v.optional(v.string()),
-    question1: v.optional(v.string()),
-    question2: v.optional(v.string()),
-    question3: v.optional(v.string()),
-    question4: v.optional(v.string()),
-    question5: v.optional(v.string()),
+
     portfolio: v.optional(v.string()),
     linkedIn: v.optional(v.string()),
     instagram: v.optional(v.string()),
     twitter: v.optional(v.string()),
+
     pictureUrl: v.optional(v.string()),
-  }).index("byUsernameAndEmail", ["username", "email"]),
+  }).index("byUsername", ["username"])
+    .index("byEmail", ["email"])
+    .index("byTokenIdentifier", ["tokenIdentifier"]),
 
   //   many to many relationship
   userConversations: defineTable({

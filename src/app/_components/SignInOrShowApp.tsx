@@ -1,23 +1,30 @@
 "use client";
-
-import { SignInButton } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import { useConvexAuth } from "convex/react";
 
 import { Composer } from "./Composer";
 
 
 
-
-export function SignInOrShowApp() {
+export function SignInOrComposer({ children }: {children: React.ReactNode}) {
   const { isLoading, isAuthenticated } = useConvexAuth();
-  console.log(isLoading, isAuthenticated);
+  const { userId } = useAuth();
+  console.log(isLoading, isAuthenticated, "convex user auth");
+  console.log(userId, "clerk user auth");
 
-  return isAuthenticated ? (
-    <Composer />
-  ) : (
-    <div className="composer">
-      <div>{isLoading ? <button disabled>...</button> : <SignInButton />}</div>
-      <div className="h-1"></div>
-    </div>
-  );
+  // Render the Composer component only when the user is authenticated and not loading
+  if (isLoading) {
+    return <button disabled>Loading...</button>;
+  } else if (isAuthenticated) {
+    return <Composer>
+      {children}
+    </Composer>;
+  } else {
+    return (
+      <div className="composer">
+        Please sign in to continue.
+        {/* Add SignInButton component if needed */}
+      </div>
+    );
+  }
 }

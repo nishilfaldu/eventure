@@ -8,10 +8,10 @@ const sidebarNavItems = [
     title: "Profile",
     href: "/settings",
   },
-  {
-    title: "General",
-    href: "/settings/general",
-  },
+  //   {
+  //     title: "General",
+  //     href: "/settings/general",
+  //   },
   {
     title: "Transactions",
     href: "/settings/transactions",

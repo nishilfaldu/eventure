@@ -28,140 +28,28 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
+import { areaCodes, categories, countries } from "@/lib/enums";
 import { cn } from "@/lib/utils";
 
 
 
-
-const areaCodes = [
-  { label: "United States", value: "+1US" },
-  { label: "India", value: "+91IN" },
-  { label: "Ghana", value: "+233GH" },
-] as const;
-
-const countries = [
-  { label: "United States", value: "unitedstates" },
-  { label: "India", value: "india" },
-  { label: "Ghana", value: "ghana" },
-] as const;
-
-const categories = [
-  {
-    id: "eventPlanner",
-    label: "Event Planner",
-  },
-  {
-    id: "venueManager",
-    label: "Venue Manager",
-  },
-  {
-    id: "caterer",
-    label: "Caterer",
-  },
-  {
-    id: "entertainmentProvider",
-    label: "Entertainment Provider",
-  },
-  {
-    id: "photographer",
-    label: "Photographer",
-  },
-  {
-    id: "videographer",
-    label: "Videographer",
-  },
-  {
-    id: "florist",
-    label: "Florist",
-  },
-  {
-    id: "makeupArtist",
-    label: "Makeup Artist",
-  },
-  {
-    id: "hairStylist",
-    label: "Hair Stylist",
-  },
-  {
-    id: "transportationProvider",
-    label: "Transportation Provider",
-  },
-  {
-    id: "musician",
-    label: "Musician",
-  },
-  {
-    id: "dj",
-    label: "DJ",
-  },
-  {
-    id: "officiant",
-    label: "Officiant",
-  },
-  {
-    id: "jeweler",
-    label: "Jeweler",
-  },
-  {
-    id: "attireProvider",
-    label: "Attire Provider",
-  },
-  {
-    id: "stationeryProvider",
-    label: "Stationery Provider",
-  },
-  {
-    id: "cakeBaker",
-    label: "Cake Baker",
-  },
-  {
-    id: "rentalProvider",
-    label: "Rental Provider",
-  },
-  {
-    id: "planner",
-    label: "Planner",
-  },
-  {
-    id: "designer",
-    label: "Designer",
-  },
-  {
-    id: "technicalSupport",
-    label: "Technical Support / AV Specialist",
-  },
-  {
-    id: "eventTechnology",
-    label: "Event Technology",
-  },
-  {
-    id: "healthAndSafetyConsultant",
-    label: "Health and Safety Consultant",
-  },
-  {
-    id: "other",
-    label: "Other",
-  },
-] as const;
-
-
 const accountFormSchema = z.object({
-  firstName: z
-    .string()
-    .min(2, {
-      message: "Name must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Name must not be longer than 30 characters.",
-    }),
-  lastName: z
-    .string()
-    .min(2, {
-      message: "Name must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Name must not be longer than 30 characters.",
-    }),
+//   firstName: z
+//     .string()
+//     .min(2, {
+//       message: "Name must be at least 2 characters.",
+//     })
+//     .max(30, {
+//       message: "Name must not be longer than 30 characters.",
+//     }),
+//   lastName: z
+//     .string()
+//     .min(2, {
+//       message: "Name must be at least 2 characters.",
+//     })
+//     .max(30, {
+//       message: "Name must not be longer than 30 characters.",
+//     }),
   gender: z.string({
     required_error: "Please select a gender.",
   }),
@@ -209,21 +97,15 @@ type AccountFormValues = z.infer<typeof accountFormSchema>
 
 // This can come from your database or API.
 const defaultValues: Partial<AccountFormValues> = {
-//   firstName: "",
-//   lastName: "",
   areaCode: "+1US",
-  //   city: "",
-  //   country: "",
-  //   gender: "",
-  //   phoneNumber: "",
   dob: new Date("2023-01-23"),
-  categories: ["other"],
+  //   categories: ["other"],
   urls: [
-    { value: "https://www.yourwebsite.com" },
-    { value: "https://www.yourlinkedin.com" },
-    { value: "https://www.yourinstagram.com" },
-    { value: "https://www.yourfacebook.com" },
-    { value: "https://www.yourtwitter.com" },
+    { value: "" },
+    { value: "" },
+    { value: "" },
+    { value: "" },
+    { value: "" },
   ],
 };
 
@@ -256,7 +138,7 @@ export function ProfessionalForm() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {/* first name */}
-        <FormField
+        {/* <FormField
           control={form.control}
           name="firstName"
           render={({ field }) => (
@@ -272,9 +154,9 @@ export function ProfessionalForm() {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         {/* last name */}
-        <FormField
+        {/* <FormField
           control={form.control}
           name="lastName"
           render={({ field }) => (
@@ -290,7 +172,7 @@ export function ProfessionalForm() {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         {/* dob */}
         <FormField
           control={form.control}
@@ -521,13 +403,24 @@ export function ProfessionalForm() {
                           <Checkbox
                             checked={field.value?.includes(item.id)}
                             onCheckedChange={checked => {
-                              return checked
-                                ? field.onChange([...field.value, item.id])
-                                : field.onChange(
-                                  field.value?.filter(
-                                    value => value !== item.id
-                                  )
-                                );
+                            //   return checked
+                            //     ? field.onChange([...field.value, item.id])
+                            //     : field.onChange(
+                            //       field.value?.filter(
+                            //         value => value !== item.id
+                            //       )
+                            //     );
+
+                              if (!field.value) {
+                                // If field.value is undefined, initialize it as an empty array
+                                field.onChange([item.id]);
+                              } else {
+                                // If field.value is defined, toggle the checked state
+                                const updatedValue = checked
+                                  ? [...field.value, item.id] // Add item.id if checked
+                                  : field.value.filter(value => value !== item.id); // Remove item.id if unchecked
+                                field.onChange(updatedValue);
+                              }
                             }}
                           />
                         </FormControl>
@@ -562,7 +455,7 @@ export function ProfessionalForm() {
                     Add links to your website, blog, or social media profiles.
                   </FormDescription>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} placeholder="Your url"/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
