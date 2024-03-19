@@ -20,7 +20,6 @@ export default defineSchema({
     gender: v.optional(v.union(v.literal("Male"), v.literal("Female"), v.literal("Other"))),
     country: v.optional(v.string()),
     city: v.optional(v.string()),
-    zipCode: v.optional(v.string()),
     bio: v.optional(v.string()),
 
     portfolio: v.optional(v.string()),
@@ -28,7 +27,7 @@ export default defineSchema({
     instagram: v.optional(v.string()),
     twitter: v.optional(v.string()),
 
-    pictureUrl: v.optional(v.string()),
+    pictureUrl: v.string(),
   }).index("byUsername", ["username"])
     .index("byEmail", ["email"])
     .index("byTokenIdentifier", ["tokenIdentifier"]),

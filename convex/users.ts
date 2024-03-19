@@ -41,7 +41,8 @@ export const createUser = mutation({
       return user._id;
     }
 
-    if (!identity.givenName || !identity.email || !identity.nickname || !identity.familyName || !identity.phoneNumber) {
+    if (!identity.givenName || !identity.email || !identity.nickname || !identity.familyName
+        || !identity.phoneNumber || !identity.pictureUrl) {
       throw new Error("Name or email is undefined in identity object");
     }
 
@@ -179,5 +180,15 @@ export const getUsersForCategoryId = query({
     const users = await getManyVia(ctx.db, "userCategories", "userId", "categoryId", categoryId, "categoryId");
 
     return users;
+  },
+});
+
+export const getProfessionals = query({
+  args: {},
+  handler: async ctx => {
+    return await ctx.db
+      .query("users")
+      .filter(q => q.eq(q.field("expert"), true))
+      .collect();
   },
 });

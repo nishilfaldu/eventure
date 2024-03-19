@@ -8,7 +8,6 @@ import { Separator } from "@/components/ui/separator";
 
 export default function BecomeAVendorPage() {
   const { user, isLoaded } = useUser();
-  console.log(user);
 
   return (
     <div className="space-y-6">
