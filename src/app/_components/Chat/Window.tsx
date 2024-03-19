@@ -37,10 +37,9 @@ export function ChatWindow(
   }: WindowProps) {
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
 
-  const { user } = useUser();
-  const currUserEmailAddress = user?.primaryEmailAddress?.toString();
-  console.log({ currUserEmailAddress }, "TEST");
-  const users = useQuery(api.users.getUsers, { email: currUserEmailAddress! });
+  const conversations = useQuery(api.conversations.getConversations)?.[0];
+  const users = conversations?.filteredUsers;
+  console.log(conversations);
 
   return(
     <>

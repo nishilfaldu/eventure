@@ -7,7 +7,6 @@ import { MessagesSquare, ShieldCheck, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 import { api } from "../../../../convex/_generated/api";
 import { LoadingSpinner } from "../LoadingSpinner";
@@ -30,7 +29,7 @@ export function ProfessionalDetails({ preloadedProfessional, preloadedCategories
   const router = useRouter();
   const professional = usePreloadedQuery(preloadedProfessional);
   const categories = usePreloadedQuery(preloadedCategories);
-  const [conversationId, setConversationId] = useState<string | undefined>(undefined);
+  //   const [conversationId, setConversationId] = useState<string | undefined>(undefined);
 
   const conversationMutation = useMutation(api.conversations.getOrCreateConversation);
 
@@ -40,7 +39,7 @@ export function ProfessionalDetails({ preloadedProfessional, preloadedCategories
   async function getConversationId() {
     if(!professional) { return null; }
     const conversation = await conversationMutation({ otherUserId: professional._id });
-    setConversationId(conversationId);
+    // setConversationId(conversationId);
 
     router.push(`/chats?conversationId=${conversation}`);
 
@@ -105,7 +104,7 @@ export function ProfessionalDetails({ preloadedProfessional, preloadedCategories
             {isLoaded && isSignedIn ? <Button className="mt-4" disabled={user.firstName === professional.firstName}>
               <Link
                 className="text-white rounded text-center text-base focus:outline-none"
-                href={`/chats?conversationId=${conversationId}`}
+                href={"#"}
                 role="link"
                 unselectable="on"
                 onClick={getConversationId}

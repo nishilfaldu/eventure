@@ -8,10 +8,20 @@ import { getUserHelper } from "./users";
 
 export const getConversations = query({
   args: {
-    username: v.string(),
+    // username: v.string(),
   },
-  handler: async (ctx, { username }) => {
-    const user = await getUserHelper(ctx, username);
+  handler: async (ctx, {  }) => {
+    const currentUser = await ctx.auth.getUserIdentity();
+    console.log(currentUser, "currentUser");
+    if (!currentUser) {
+      throw new Error("User not found");
+    }
+    if(!currentUser.email) {
+      throw new Error("User email not found");
+    }
+
+    const user = await getUserHelper(ctx, currentUser.email);
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -24,11 +34,13 @@ export const getConversations = query({
       }
       const messages = await getManyFrom(ctx.db, "messages", "conversationId", conversation._id);
       const users = await getManyVia(ctx.db, "userConversations", "userId", "conversationId", conversation._id, "conversationId");
+      // remove current logged in user
+      const filteredUsers = users.filter(user_ => user_?._id !== user._id);
 
       return {
         conversation,
         messages,
-        users,
+        filteredUsers,
       };
     }));
 
