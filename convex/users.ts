@@ -192,3 +192,12 @@ export const getProfessionals = query({
       .collect();
   },
 });
+
+export const getProfessionalById = query({
+  args: {
+    id: v.id("users"),
+  },
+  handler: async (ctx, { id }) => {
+    return await ctx.db.get(id);
+  },
+});
