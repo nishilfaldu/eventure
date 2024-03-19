@@ -47,7 +47,6 @@ export function Navbar() {
                 className="pl-8 w-80 text-center"
                 onChange={handleChange}
                 value={searchTerm}
-
               />
             </div>
           </form>

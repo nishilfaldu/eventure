@@ -1,21 +1,21 @@
 import { useQuery } from "convex/react";
+import { useMutation } from "convex/react";
 import {
   MoreHorizontalIcon,
   PhoneIcon, VideoIcon,
 } from "lucide-react";
+import type { FormEvent } from "react";
+import { useState } from "react";
 
+import { AvatarGeneral } from "./AvatarGeneral";
 import { MessageBox } from "./MessageBox";
 import { api } from "../../../../convex/_generated/api";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import type { Id } from "convex/_generated/dataModel";
-
-
-
 
 
 
@@ -27,8 +27,19 @@ interface ChatDisplayProps {
 
 export function ChatDisplay({ conversationId }: ChatDisplayProps) {
   const messages = useQuery(api.messages.getMessagesByConversationId, { conversationId: conversationId });
-  console.log(messages);
+  const [messageBody, setMessageBody] = useState("");
   const user = useQuery(api.users.getUserForConversationId, { conversationId: conversationId })?.[0];
+  const createMessageMutation = useMutation(api.messages.createMessage);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // TODO: ideally we would wait for this function to finish in a try catch
+    createMessageMutation({
+      body: messageBody,
+      conversationId: conversationId,
+    });
+    setMessageBody("");
+  };
 
   return (
     <div className="flex flex-col">
@@ -38,13 +49,13 @@ export function ChatDisplay({ conversationId }: ChatDisplayProps) {
         <div className="flex flex-1 flex-col">
           <div className="flex items-start p-2">
 
-            <div className="flex items-start gap-4 text-sm">
-              <Avatar>
-                <AvatarImage alt={user.pictureUrl} />
-                <AvatarFallback>
-                  {user.firstName[0]} {user.lastName[0]}
-                </AvatarFallback>
-              </Avatar>
+            <div className="flex items-start gap-4 text-sm m-1">
+              <AvatarGeneral
+                key={user._id}
+                firstName={user.firstName!}
+                lastName={user.lastName!}
+                pictureUrl={user.pictureUrl}
+              />
               <div className="flex justify-center items-center">
                 <div className="font-semibold text-lg">{user.firstName} {user.lastName}</div>
               </div>
@@ -98,17 +109,19 @@ export function ChatDisplay({ conversationId }: ChatDisplayProps) {
           </ScrollArea>
           <Separator className="mt-auto" />
           <div className="p-4">
-            <form>
+            <form onSubmit={e => handleSubmit(e)}>
               <div className="grid gap-4">
                 <Textarea
                   className="p-4"
                   placeholder={`Reply ${user.firstName}...`}
+                  value={messageBody}
+                  onChange={e => setMessageBody(e.target.value)}
                 />
                 <div className="flex items-center">
                   <Button
-                    onClick={e => e.preventDefault()}
                     size="sm"
                     className="ml-auto"
+                    type="submit"
                   >
                     Send
                   </Button>

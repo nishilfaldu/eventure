@@ -41,7 +41,6 @@ export function ChatWindow(
     ...conversation.filteredUsers[0],
     conversationId: conversation.conversation._id,
   }));
-  console.log(users);
 
   const conversationIdParam = useSearchParams();
   const conversationId = conversationIdParam.get("conversationId");
@@ -89,8 +88,8 @@ export function ChatWindow(
                     label: "4",
                     // eslint-disable-next-line max-len
                     icon: <AvatarGeneral key={user._id}
-                      firstName={user.firstName}
-                      lastName={user.lastName ?? ""}
+                      firstName={user.firstName!}
+                      lastName={user.lastName!}
                       pictureUrl={user.pictureUrl} />,
                     variant: "ghost",
                     href: `/chats?conversationId=${user.conversationId}`,

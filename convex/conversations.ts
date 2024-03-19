@@ -12,7 +12,6 @@ export const getConversations = query({
   },
   handler: async (ctx, {  }) => {
     const currentUser = await ctx.auth.getUserIdentity();
-    console.log(currentUser, "currentUser");
     if (!currentUser) {
       throw new Error("User not found");
     }
