@@ -11,8 +11,10 @@ import type { Id } from "convex/_generated/dataModel";
 export default function SearchPage() {
   const searchParams = useSearchParams();
   const categoryId = searchParams.get("categoryId");
+  const inputSearch = searchParams.get("name")!;
+  console.log(inputSearch);
 
-  const searchedProfessionals = useQuery(api.users.getProfessionalsByCategoryId, { categoryParam: categoryId as Id<"categories"> });
+  const searchedProfessionals = useQuery(api.users.getProfessionalsByCategoryId, { categoryParam: categoryId as Id<"categories"> ?? null, nameParam: inputSearch ?? "" });
 
   return (
     <div>

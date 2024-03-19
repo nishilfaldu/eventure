@@ -200,13 +200,18 @@ export const getProfessionals = query({
 
 export const getProfessionalsByCategoryId = query({
   args: {
-    categoryParam: v.id("categories"),
+    categoryParam: v.optional(v.id("categories")),
+    nameParam: v.optional(v.string()),
   },
-  handler: async (ctx, { categoryParam }) => {
-    // Get the users in this category and their associated user ids
-    const users = await getManyVia(ctx.db, "userCategories", "userId", "categoryId", categoryParam, "categoryId");
+  handler: async (ctx, { categoryParam, nameParam }) => {
+    if(categoryParam) {
+      return await getManyVia(ctx.db, "userCategories", "userId", "categoryId", categoryParam, "categoryId");
+    } else if(nameParam) {
+      let queryBuilder = ctx.db.query("users").filter(q => q.eq(q.field("expert"), true));
+      queryBuilder = queryBuilder.filter(q => q.or(q.eq("firstName", nameParam), q.eq("firstName", nameParam)));
 
-    return users;
+      return await queryBuilder.collect();
+    }
   },
 });
 
