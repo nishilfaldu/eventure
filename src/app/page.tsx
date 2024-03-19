@@ -8,7 +8,7 @@ import { api } from "../../convex/_generated/api";
 
 
 export default async function Home() {
-  const preloadedProfessionals = await preloadQuery(api.users.getProfessionals);
+  const preloadedProfessionals = await preloadQuery(api.users.getProfessionals, {});
 
   return (
     <SignInOrComposer>

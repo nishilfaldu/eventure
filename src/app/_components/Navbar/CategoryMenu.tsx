@@ -32,7 +32,7 @@ export function CategoryNavigationMenu() {
                 <ListItem
                   key={component._id}
                   title={component.name}
-                  href={`/find-an-expert?categoryId=${component._id}`}
+                  href={`/search?categoryId=${component._id}`}
                 >
                   {component.description}
                 </ListItem>

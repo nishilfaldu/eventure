@@ -44,8 +44,6 @@ export function Navbar() {
         <SignedIn>
           <UserMenu />
         </SignedIn>
-
-
       </div>
     </header>
   );
