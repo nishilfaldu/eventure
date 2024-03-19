@@ -21,7 +21,7 @@ export const createUser = mutation({
     if (user !== null) {
       console.log("user already exists");
       if (
-        user.firstName !== identity.name ||
+        user.firstName !== identity.givenName ||
           user.username !== identity.nickname ||
             user.email !== identity.email ||
                 user.lastName !== identity.familyName ||
@@ -29,7 +29,7 @@ export const createUser = mutation({
                     user.pictureUrl !== identity.pictureUrl
       ) {
         await ctx.db.patch(user._id, {
-          firstName: identity.name,
+          firstName: identity.givenName,
           lastName: identity.familyName,
           phoneNumber: identity.phoneNumber,
           username: identity.nickname,
@@ -41,7 +41,7 @@ export const createUser = mutation({
       return user._id;
     }
 
-    if (!identity.name || !identity.email || !identity.nickname || !identity.familyName || !identity.phoneNumber) {
+    if (!identity.givenName || !identity.email || !identity.nickname || !identity.familyName || !identity.phoneNumber) {
       throw new Error("Name or email is undefined in identity object");
     }
 
@@ -50,7 +50,7 @@ export const createUser = mutation({
     return await ctx.db.insert("users", {
       pictureUrl: identity.pictureUrl,
       tokenIdentifier: identity.tokenIdentifier,
-      firstName: identity.name,
+      firstName: identity.givenName,
       lastName: identity.familyName,
       phoneNumber: identity.phoneNumber,
       username: identity.nickname,
@@ -61,12 +61,79 @@ export const createUser = mutation({
   },
 });
 
-export const getUser = query({
+export const getUserByUsername = query({
   args: {
     username: v.string(),
   },
   handler: async (ctx, { username }) => {
-    return await getUserHelper(ctx, username);
+    return ctx.db
+      .query("users")
+      .withIndex("byUsername", q => q.eq("username", username))
+      .unique();
+  },
+});
+
+export const becomeProfessional = mutation({
+  args: {
+    gender: v.union(v.literal("Male"), v.literal("Female"), v.literal("Other")),
+    city: v.string(),
+    country: v.string(),
+    bio: v.string(),
+    categories: v.array(v.id("categories")),
+    urls: v.array(v.object({ value : v.string() })),
+  },
+  handler: async (ctx, { bio, gender, city, country, categories : newCategories, urls }) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Called becomeProfessional without authentication present");
+    }
+    if(!identity.email) {
+      throw new Error("email is undefined in identity object");
+    }
+
+    const user = await getUserHelper(ctx, identity.email);
+    if (user === null) {
+      throw new Error("User not found");
+    }
+
+    // Add the categories to the user
+    const userCategories = await ctx.db.query("userCategories").withIndex("userId", q => q.eq("userId", user._id)).collect();
+    if (userCategories.length === 0) {
+      // create new userCategories
+      for (const cat of newCategories) {
+        await ctx.db.insert("userCategories", {
+          userId: user._id,
+          categoryId: cat,
+        });
+      }
+    } else {
+      // delete the old userCategories
+      for(const cat of userCategories) {
+        await ctx.db.delete(cat?._id);
+      }
+      // create new userCategories
+      for (const cat of newCategories) {
+        await ctx.db.insert("userCategories", {
+          userId: user._id,
+          categoryId: cat,
+        });
+      }
+    }
+
+    await ctx.db.patch(user._id, {
+      expert: true,
+      verified: false,
+      bio: bio,
+      gender: gender,
+      city: city,
+      country: country,
+      linkedIn: urls[0].value ?? "",
+      instagram: urls[1].value ?? "",
+      twitter: urls[2].value ?? "",
+      portfolio: urls[3].value ?? "",
+    });
+
+    return ctx.db.get(user._id);
   },
 });
 

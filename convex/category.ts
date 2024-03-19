@@ -2,7 +2,6 @@ import { v } from "convex/values";
 import { getManyVia } from "convex-helpers/server/relationships";
 
 import { query } from "./_generated/server";
-import { getUserHelper } from "./users";
 
 
 
@@ -20,7 +19,11 @@ export const getCategoriesForUserByUsername = query({
     username: v.string(),
   },
   handler: async (ctx, { username }) => {
-    const user = await getUserHelper(ctx, username);
+    const user = await ctx.db
+      .query("users")
+      .withIndex("byUsername", q => q.eq("username", username))
+      .unique();
+
     if (!user) {
       throw new Error("User not found");
     }

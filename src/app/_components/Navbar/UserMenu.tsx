@@ -14,10 +14,6 @@ import { Button } from "@/components/ui/button";
 export function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const divRef = useRef(null);
-  //   const clickedOutside = useOutsideClick(divRef);
-  //   if(clickedOutside) {
-  //     setIsOpen(false);
-  //   }
 
   const toggleOpen = useCallback(() => {
     setIsOpen(value => !value);
@@ -52,7 +48,7 @@ export function UserMenu() {
           </div>
 
           {/* MenuItems Group 1 */}
-          <MenuItem label="General" href="/settings/general" otherClassName="mt-2" />
+          <MenuItem label="Profile" href="/settings/" otherClassName="mt-2" />
           <MenuItem label="Transactions" href="/settings/transactions"/>
           <MenuItem label="Become a professional" href="/settings/become-a-professional" />
 

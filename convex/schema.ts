@@ -18,11 +18,9 @@ export default defineSchema({
     verified: v.boolean(),
 
     gender: v.optional(v.union(v.literal("Male"), v.literal("Female"), v.literal("Other"))),
-    dob: v.optional(v.string()),
     country: v.optional(v.string()),
     city: v.optional(v.string()),
     zipCode: v.optional(v.string()),
-    tagLine: v.optional(v.string()),
     bio: v.optional(v.string()),
 
     portfolio: v.optional(v.string()),

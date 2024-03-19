@@ -1,3 +1,5 @@
+"use client";
+import { useUser } from "@clerk/nextjs";
 
 import { ProfessionalForm } from "@/app/_components/Account/ProfessionalForm";
 import { Separator } from "@/components/ui/separator";
@@ -5,6 +7,9 @@ import { Separator } from "@/components/ui/separator";
 
 
 export default function BecomeAVendorPage() {
+  const { user, isLoaded } = useUser();
+  console.log(user);
+
   return (
     <div className="space-y-6">
       <div>
@@ -14,7 +19,7 @@ export default function BecomeAVendorPage() {
         </p>
       </div>
       <Separator />
-      <ProfessionalForm/>
+      {isLoaded ? <ProfessionalForm username={user!.username!}/> : "Loading..."}
     </div>
   );
 }

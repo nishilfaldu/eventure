@@ -1,13 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
+import { GlobeIcon, InstagramLogoIcon, LinkedInLogoIcon, PlusCircledIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
+import { useMutation, useQuery } from "convex/react";
+import { useEffect, useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { api } from "../../../../convex/_generated/api";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -19,42 +20,51 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
-import { areaCodes, categories, countries } from "@/lib/enums";
+import { countries } from "@/lib/enums";
 import { cn } from "@/lib/utils";
+import type { Id } from "convex/_generated/dataModel";
 
 
+
+function getCustomPlaceholder(index: number): string {
+  switch (index) {
+    case 0:
+      return "Your LinkedIn URL";
+    case 1:
+      return "Your Instagram URL";
+    case 2:
+      return "Your Twitter URL";
+    case 3:
+      return "Your Personal Website URL";
+    default:
+      return `URL ${index + 1}`;
+  }
+}
+
+const urlIconClassname = "absolute h-6 w-6 top-[8px] left-[8px]";
+
+function getURLIcon(index: number): React.ReactNode {
+  switch (index) {
+    case 0:
+      return <LinkedInLogoIcon className={urlIconClassname}/>;
+    case 1:
+      return <InstagramLogoIcon className={urlIconClassname}/>;
+    case 2:
+      return <TwitterLogoIcon className={urlIconClassname}/>;
+    case 3:
+      return <GlobeIcon className={urlIconClassname}/>;
+    default:
+      return <PlusCircledIcon className={urlIconClassname}/>;
+  }
+}
 
 const accountFormSchema = z.object({
-//   firstName: z
-//     .string()
-//     .min(2, {
-//       message: "Name must be at least 2 characters.",
-//     })
-//     .max(30, {
-//       message: "Name must not be longer than 30 characters.",
-//     }),
-//   lastName: z
-//     .string()
-//     .min(2, {
-//       message: "Name must be at least 2 characters.",
-//     })
-//     .max(30, {
-//       message: "Name must not be longer than 30 characters.",
-//     }),
   gender: z.string({
     required_error: "Please select a gender.",
-  }),
-  dob: z.date({
-    required_error: "A date of birth is required.",
   }),
   country: z.string({
     required_error: "Please select a country.",
@@ -62,20 +72,6 @@ const accountFormSchema = z.object({
   city: z.string({
     required_error: "Please enter a city.",
   }),
-  zipCode: z.string({
-    required_error: "Please enter a zip code.",
-  }),
-  areaCode: z.string({
-    required_error: "Please enter a zip code.",
-  }),
-  phoneNumber: z
-    .string()
-    .min(10, {
-      message: "Phone number must be 10 characters.",
-    })
-    .max(10, {
-      message: "Phone number must be 10 characters.",
-    }),
   bio: z.string().max(1000, {
     message: "Bio must not be longer than 1000 characters.",
   }).min(10, {
@@ -95,13 +91,14 @@ const accountFormSchema = z.object({
 
 type AccountFormValues = z.infer<typeof accountFormSchema>
 
-// This can come from your database or API.
 const defaultValues: Partial<AccountFormValues> = {
-  areaCode: "+1US",
-  dob: new Date("2023-01-23"),
   //   categories: ["other"],
+  gender: "",
+  country: "",
+  city: "",
+  bio: "",
+  categories: [],
   urls: [
-    { value: "" },
     { value: "" },
     { value: "" },
     { value: "" },
@@ -110,130 +107,88 @@ const defaultValues: Partial<AccountFormValues> = {
 };
 
 
-export function ProfessionalForm() {
+type GenderUnion = "Male" | "Female" | "Other";
+
+export function ProfessionalForm({ username }: {username: string}) {
+  // eslint-disable-next-line max-len
+  const categories = useQuery(api.category.getCategories, {})?.map(category => ({ id: category._id as Id<"categories">, label: category.name })) ?? [];
+  const updateAccount = useMutation(api.users.becomeProfessional);
+  const professionalData = useQuery(api.users.getUserByUsername, { username: username });
+  const userCategoriesData = useQuery(api.category.getCategoriesForUserByUsername, { username: username });
+  const userCategories = useMemo(() => userCategoriesData?.map(category => category?._id as Id<"categories">) ?? [], [userCategoriesData]);
+  console.log(professionalData);
+  // This can come from your database or API.
+
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
     defaultValues,
     mode: "onChange",
   });
 
+  useEffect(() => {
+    if(!professionalData) { return; }
+    form.setValue("gender", professionalData.gender as string, { shouldDirty: true });
+    form.setValue("country", professionalData.country!, { shouldDirty: true });
+    form.setValue("city", professionalData.city!, { shouldDirty: true });
+    form.setValue("bio", professionalData.bio!, { shouldDirty: true });
+    form.setValue("urls.0.value", professionalData.linkedIn!, { shouldDirty: true });
+    form.setValue("urls.1.value", professionalData.instagram!, { shouldDirty: true });
+    form.setValue("urls.2.value", professionalData.twitter!, { shouldDirty: true });
+    form.setValue("urls.3.value", professionalData.portfolio!, { shouldDirty: true });
+    form.setValue("categories", userCategories, { shouldDirty: true });
+  }, [professionalData?.linkedIn, professionalData?.gender,
+    professionalData?.country, professionalData?.city,
+    professionalData?.bio,  professionalData?.instagram,
+    professionalData?.twitter, professionalData?.portfolio, professionalData,
+    form, userCategories,
+  ]);
+
   const { fields } = useFieldArray({
     name: "urls",
     control: form.control,
   });
 
-  function onSubmit(data: AccountFormValues) {
+  async function onSubmit(data: AccountFormValues) {
     console.log(data);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+    const accountData = await updateAccount({
+      bio: data.bio,
+      categories: data.categories as Id<"categories">[],
+      city: data.city,
+      country: data.country,
+      gender: data.gender as GenderUnion,
+      urls: data.urls ?? [],
     });
+    toast({
+      title: accountData ? "Successful Response" : "Failed Response",
+      description: (
+        <pre className="mt-2 rounded-md bg-slate-950 p-4">
+          <code className="text-white">
+            {accountData ? "Your account has been updated" : "Failed to update your account"}
+          </code>
+        </pre>
+      ) });
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {/* first name */}
-        {/* <FormField
-          control={form.control}
-          name="firstName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>First Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Your first name" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is the first name that will be displayed on your profile and in
-                emails.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
-        {/* last name */}
-        {/* <FormField
-          control={form.control}
-          name="lastName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Last Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Your last name" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is the last name that will be displayed on your profile and in
-                emails.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
-        {/* dob */}
-        <FormField
-          control={form.control}
-          name="dob"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Date of birth</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={date =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormDescription>
-                Your date of birth is used to calculate your age.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="gender"
+          defaultValue=""
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Gender</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value} {...field}>
                 <FormControl>
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Your gender" />
+                    <SelectValue placeholder="Your gender" defaultValue={field.value} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="female">Female</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
+                  <SelectItem value="Male">Male</SelectItem>
+                  <SelectItem value="Female">Female</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
                 </SelectContent>
               </Select>
               <FormDescription>
@@ -286,69 +241,6 @@ export function ProfessionalForm() {
             </FormItem>
           )}
         />
-        {/* zip code */}
-        <FormField
-          control={form.control}
-          name="zipCode"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Zip Code</FormLabel>
-              <FormControl>
-                <Input placeholder="Your zip code" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is the zip code that will be displayed in the dashboard
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* area code */}
-        <div className="flex flex-col">
-          <div className="flex flex-row gap-x-2">
-            <FormField
-              control={form.control}
-              name="areaCode"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Area Code</FormLabel>
-                  <FormControl>
-                    <Select>
-                      <SelectTrigger className="w-[100px]">
-                        <SelectValue placeholder="+1US" {...field}/>
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          {areaCodes.map(({ label, value }) => (
-                            <SelectItem value={label} key={value}>{value}</SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* phone number */}
-            <FormField
-              control={form.control}
-              name="phoneNumber"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Your zip code" {...field} className="m-0"/>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <FormDescription>
-            This phone number will never be displayed to anyone
-          </FormDescription>
-        </div>
 
         <Separator />
 
@@ -403,14 +295,6 @@ export function ProfessionalForm() {
                           <Checkbox
                             checked={field.value?.includes(item.id)}
                             onCheckedChange={checked => {
-                            //   return checked
-                            //     ? field.onChange([...field.value, item.id])
-                            //     : field.onChange(
-                            //       field.value?.filter(
-                            //         value => value !== item.id
-                            //       )
-                            //     );
-
                               if (!field.value) {
                                 // If field.value is undefined, initialize it as an empty array
                                 field.onChange([item.id]);
@@ -455,7 +339,11 @@ export function ProfessionalForm() {
                     Add links to your website, blog, or social media profiles.
                   </FormDescription>
                   <FormControl>
-                    <Input {...field} placeholder="Your url"/>
+                    <div className="relative">
+                      {getURLIcon(index)}
+                      <Input {...field} placeholder={getCustomPlaceholder(index)} className="text-center"/>
+                    </div>
+
                   </FormControl>
                   <FormMessage />
                 </FormItem>
