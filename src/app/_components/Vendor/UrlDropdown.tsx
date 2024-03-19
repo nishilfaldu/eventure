@@ -29,22 +29,22 @@ export function UrlDropdown(
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <Separator orientation="vertical"/>
-        <DropdownMenuItem>
+        {instagramHref && instagramHref.length > 0 ? <DropdownMenuItem>
           <InstagramIcon className="mr-2 h-4 w-4" />
           <a href={instagramHref} target="_blank" rel="noopener noreferrer">Instagram</a>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
+        </DropdownMenuItem> : null}
+        {linkedInHref && linkedInHref.length > 0 ? <DropdownMenuItem>
           <LinkedinIcon className="mr-2 h-4 w-4" />
           <a href={linkedInHref} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
+        </DropdownMenuItem> : null}
+        {twitterHref && twitterHref.length > 0 ? <DropdownMenuItem>
           <TwitterIcon className="mr-2 h-4 w-4" />
           <a href={twitterHref} target="_blank" rel="noopener noreferrer">Twitter</a>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
+        </DropdownMenuItem> : null}
+        {websiteHref && websiteHref.length > 0 ? <DropdownMenuItem>
           <WebsiteIcon className="mr-2 h-4 w-4" />
           <a href={websiteHref} target="_blank" rel="noopener noreferrer">Wesbite</a>
-        </DropdownMenuItem>
+        </DropdownMenuItem> : null}
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -81,7 +81,7 @@ export const becomeProfessional = mutation({
     country: v.string(),
     bio: v.string(),
     categories: v.array(v.id("categories")),
-    urls: v.array(v.object({ value : v.string() })),
+    urls: v.array(v.object({ value : v.optional(v.string()) })),
   },
   handler: async (ctx, { bio, gender, city, country, categories : newCategories, urls }) => {
     const identity = await ctx.auth.getUserIdentity();

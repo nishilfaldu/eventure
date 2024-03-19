@@ -83,7 +83,7 @@ const accountFormSchema = z.object({
   urls: z
     .array(
       z.object({
-        value: z.string().url({ message: "Please enter a valid URL." }),
+        value: z.string().url({ message: "Please enter a valid URL." }).optional(),
       })
     )
     .optional(),

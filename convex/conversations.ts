@@ -1,7 +1,7 @@
 import { v } from "convex/values";
 import { getManyFrom, getManyVia } from "convex-helpers/server/relationships";
 
-import { query } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { getUserHelper } from "./users";
 
 
@@ -57,3 +57,56 @@ export const getConversationById = query({
   },
 });
 
+export const getOrCreateConversation = mutation({
+  args: {
+    otherUserId: v.id("users"),
+  },
+  handler: async (ctx, { otherUserId }) => {
+    const currentUser = await ctx.auth.getUserIdentity();
+    if (!currentUser) {
+      throw new Error("User not found");
+    }
+    if(!currentUser.email) {
+      throw new Error("User email not found");
+    }
+
+    const currentUserDetails = await getUserHelper(ctx, currentUser.email);
+    if (!currentUserDetails) {
+      throw new Error("Current user details not found");
+    }
+    const conversationsOfCurrentUser = await ctx.db.query("userConversations")
+      .withIndex("userId", q => q.eq("userId", currentUserDetails._id))
+      .collect();
+
+    const conversationsOfOtherUser = await ctx.db.query("userConversations")
+      .withIndex("userId", q => q.eq("userId", otherUserId))
+      .collect();
+
+    const conversation = conversationsOfCurrentUser.find(conversation => {
+      return conversationsOfOtherUser.some(otherConversation => {
+        return conversation.conversationId === otherConversation.conversationId;
+      });
+    });
+
+    if(!conversation || !conversation._id) {
+      // create a new conversation and add both
+      const newConversationId = await ctx.db.insert("conversations", {
+        lastMessageAt: new Date().toISOString(),
+      });
+
+      await ctx.db.insert("userConversations", {
+        userId: currentUserDetails._id,
+        conversationId: newConversationId,
+      });
+
+      await ctx.db.insert("userConversations", {
+        userId: otherUserId,
+        conversationId: newConversationId,
+      });
+
+      return newConversationId;
+    }
+
+    return conversation.conversationId;
+  },
+});

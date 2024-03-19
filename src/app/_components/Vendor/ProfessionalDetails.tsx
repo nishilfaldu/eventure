@@ -1,14 +1,21 @@
 "use client";
+import { useUser } from "@clerk/nextjs";
 import type { Preloaded } from "convex/react";
 import { usePreloadedQuery } from "convex/react";
+import { useMutation } from "convex/react";
 import { MessagesSquare, ShieldCheck, StarIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-import type { api } from "../../../../convex/_generated/api";
+import { api } from "../../../../convex/_generated/api";
+import { LoadingSpinner } from "../LoadingSpinner";
 import { ReviewCard } from "@/app/_components/Vendor/ReviewCard";
 import { ReviewModal } from "@/app/_components/Vendor/ReviewModal";
 import { UrlDropdown } from "@/app/_components/Vendor/UrlDropdown";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 
@@ -19,11 +26,26 @@ interface ProfessionalDetailsProps {
 }
 
 export function ProfessionalDetails({ preloadedProfessional, preloadedCategories }: ProfessionalDetailsProps) {
+  const { user, isLoaded, isSignedIn } = useUser();
+  const router = useRouter();
   const professional = usePreloadedQuery(preloadedProfessional);
   const categories = usePreloadedQuery(preloadedCategories);
+  const [conversationId, setConversationId] = useState<string | undefined>(undefined);
+
+  const conversationMutation = useMutation(api.conversations.getOrCreateConversation);
 
   //   TODO: add loading indicators here
   if(!professional) { return null; }
+
+  async function getConversationId() {
+    if(!professional) { return null; }
+    const conversation = await conversationMutation({ otherUserId: professional._id });
+    setConversationId(conversationId);
+
+    router.push(`/chats?conversationId=${conversation}`);
+
+    return conversation;
+  }
 
   return (
     <section className="text-gray-600 body-font overflow-hidden">
@@ -79,7 +101,19 @@ export function ProfessionalDetails({ preloadedProfessional, preloadedCategories
                 }
               </span>
             </div>
-            <button className="flex text-white bg-black border-0 py-2 px-6 focus:outline-none hover:bg-neutral-800 rounded mt-4">Talk to me</button>
+            {/* <button className="flex text-white bg-black border-0 py-2 px-6 focus:outline-none hover:bg-neutral-800 rounded mt-4">Talk to me</button> */}
+            {isLoaded && isSignedIn ? <Button className="mt-4" disabled={user.firstName === professional.firstName}>
+              <Link
+                className="text-white rounded text-center text-base focus:outline-none"
+                href={`/chats?conversationId=${conversationId}`}
+                role="link"
+                unselectable="on"
+                onClick={getConversationId}
+              >
+            Talk to me
+              </Link>
+            </Button> : <LoadingSpinner />}
+
           </div>
         </div>
       </div>
