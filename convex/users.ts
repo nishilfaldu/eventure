@@ -159,15 +159,28 @@ export const getUsers = query({
 });
 
 // get conversationById
-export const getUsersForConversationId = query({
+export const getUserForConversationId = query({
   args: {
     conversationId: v.id("conversations"),
   },
   handler: async (ctx, { conversationId }) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("User not found");
+    }
+    if(!identity.email) {
+      throw new Error("User email not found");
+    }
+    const currentUser = await getUserHelper(ctx, identity.email);
+    if (!currentUser) {
+      throw new Error("Current user not found");
+    }
+
     // Get the users in this conversation and their associated user ids
     const users = await getManyVia(ctx.db, "userConversations", "userId", "conversationId", conversationId, "conversationId");
+    const filteredUser = users.filter(user => user?._id !== currentUser?._id);
 
-    return users;
+    return filteredUser;
   },
 });
 

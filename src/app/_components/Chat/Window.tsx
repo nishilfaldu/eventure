@@ -1,20 +1,20 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
-import { MessageSquareIcon, MessageSquareText, UsersRound } from "lucide-react";
+import { MessageSquareIcon } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { AvatarGeneral } from "./AvatarGeneral";
 import { ChatDisplay } from "./ChatDisplay";
 import { Nav } from "./Nav";
-import UserList from "./UserList";
 import { api } from "../../../../convex/_generated/api";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import type { Id } from "convex/_generated/dataModel";
 
 
 
@@ -36,10 +36,15 @@ export function ChatWindow(
     navCollapsedSize,
   }: WindowProps) {
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
+  const conversations = useQuery(api.conversations.getConversations);
+  const users = conversations?.map(conversation => ({
+    ...conversation.filteredUsers[0],
+    conversationId: conversation.conversation._id,
+  }));
+  console.log(users);
 
-  const conversations = useQuery(api.conversations.getConversations)?.[0];
-  const users = conversations?.filteredUsers;
-  console.log(conversations);
+  const conversationIdParam = useSearchParams();
+  const conversationId = conversationIdParam.get("conversationId");
 
   return(
     <>
@@ -83,9 +88,12 @@ export function ChatWindow(
                     title: user.firstName + " " + user.lastName,
                     label: "4",
                     // eslint-disable-next-line max-len
-                    icon: <AvatarGeneral key={user._id} firstName={user.firstName} lastName={user.lastName} pictureUrl={user.pictureUrl} />,
+                    icon: <AvatarGeneral key={user._id}
+                      firstName={user.firstName}
+                      lastName={user.lastName ?? ""}
+                      pictureUrl={user.pictureUrl} />,
                     variant: "ghost",
-                    href: "/users",
+                    href: `/chats?conversationId=${user.conversationId}`,
                   }))
                   : []
               }
@@ -104,10 +112,15 @@ export function ChatWindow(
           <ResizableHandle/> */}
 
           <ResizablePanel defaultSize={defaultLayout[2]}>
-            <ChatDisplay
-            // mail={mails.find((item) => item.id === mail.selected) || null}
-              user={users ? users[0] : null}
-            />
+            {conversationId ? <ChatDisplay
+              conversationId={conversationId as Id<"conversations">}
+              // mail={mails.find((item) => item.id === mail.selected) || null}
+              //   user={users ? users[0] : null}
+            /> : (
+              <div className="p-8 text-center text-muted-foreground">
+                  No message selected
+              </div>
+            )}
           </ResizablePanel>
 
           <ResizableHandle withHandle/>

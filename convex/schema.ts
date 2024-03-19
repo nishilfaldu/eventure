@@ -71,7 +71,7 @@ export default defineSchema({
 
   messages: defineTable({
     body: v.string(),
-    image: v.string(),
+    // image: v.string(),
 
     conversationId: v.id("conversations"),
     senderId: v.id("users"),

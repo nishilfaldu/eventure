@@ -1,15 +1,18 @@
+import { useQuery } from "convex/react";
 import {
   MoreHorizontalIcon,
-  MoreVertical, PhoneIcon, VideoIcon,
+  PhoneIcon, VideoIcon,
 } from "lucide-react";
 
 import { MessageBox } from "./MessageBox";
+import { api } from "../../../../convex/_generated/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import type { Id } from "convex/_generated/dataModel";
 
 
 
@@ -18,10 +21,15 @@ import { Textarea } from "@/components/ui/textarea";
 
 interface ChatDisplayProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any | null;
+//   user: any | null;
+  conversationId: Id<"conversations">;
 }
 
-export function ChatDisplay({ user }: ChatDisplayProps) {
+export function ChatDisplay({ conversationId }: ChatDisplayProps) {
+  const messages = useQuery(api.messages.getMessagesByConversationId, { conversationId: conversationId });
+  console.log(messages);
+  const user = useQuery(api.users.getUserForConversationId, { conversationId: conversationId })?.[0];
+
   return (
     <div className="flex flex-col">
 
@@ -75,43 +83,16 @@ export function ChatDisplay({ user }: ChatDisplayProps) {
           <ScrollArea className="h-72">
             <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
               <div className="flex flex-col gap-4">
-                {/* <div className="flex items-start">
-                  <img
-                    alt="Avatar"
-                    className="rounded-full aspect-square object-cover border mt-2 ml-2"
-                    height="32"
-                    src="/placeholder.svg"
-                    width="32"
-                  />
-                  <div className="ml-4 p-2 rounded-lg bg-gray-100/40 dark:bg-gray-800/40">
-                    <div className="font-semibold">Jane Doe</div>
-                Hi there! How can I help you today?
-                  </div>
-                </div> */}
-                {Array.from({ length: 10 }).map((_, index) => (
+
+                {messages ? messages.map((message, index) => (
                   <MessageBox
                     key={index}
-                    firstName="John"
-                    lastName="Doe"
-                    pictureUrl=""
-                    messageText="Hi there! How can I help you today?"
+                    firstName={message.senderUser.firstName}
+                    lastName={message.senderUser.lastName}
+                    pictureUrl={message.senderUser.pictureUrl}
+                    messageText={message.body}
                   />
-                ))}
-                {/* <MessageBox firstName="John" lastName="Doe" pictureUrl="" messageText="Hi there! How can I help you today?" /> */}
-
-                {/* <div className="flex items-start">
-                  <img
-                    alt="Avatar"
-                    className="rounded-full aspect-square object-cover border mt-2 ml-2"
-                    height="32"
-                    src="/placeholder.svg"
-                    width="32"
-                  />
-                  <div className="ml-4 p-2 rounded-lg bg-gray-100/40 dark:bg-gray-800/40">
-                    <div className="font-semibold">Jane Doe</div>
-                Hi there! How can I help you today?
-                  </div>
-                </div> */}
+                )) : <div>No messages found for this conversation</div>}
               </div>
             </div>
           </ScrollArea>
@@ -121,7 +102,7 @@ export function ChatDisplay({ user }: ChatDisplayProps) {
               <div className="grid gap-4">
                 <Textarea
                   className="p-4"
-                  placeholder={`Reply ${user.name}...`}
+                  placeholder={`Reply ${user.firstName}...`}
                 />
                 <div className="flex items-center">
                   <Button
@@ -138,7 +119,7 @@ export function ChatDisplay({ user }: ChatDisplayProps) {
         </div>
       ) : (
         <div className="p-8 text-center text-muted-foreground">
-          No message selected
+          There was some error
         </div>
       )}
     </div>
