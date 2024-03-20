@@ -5,6 +5,8 @@ import { v } from "convex/values";
 
 export default defineSchema({
   users: defineTable({
+    // stripe
+    stripeId: v.optional(v.string()),
     // user related
     tokenIdentifier: v.string(),
     username: v.string(),

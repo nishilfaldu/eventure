@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 
 export function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
+  const [pricingClick, setPricingClick] = useState(false);
   const divRef = useRef(null);
 
   const toggleOpen = useCallback(() => {
@@ -55,11 +56,7 @@ export function UserMenu() {
           <MenuItemDivider/>
 
           {/* MenuItems Group 2 */}
-          <MenuItem label="Home" href="/" />
-          <MenuItem label="Events" href="/events" />
-          <MenuItem label="Chats" href="/chats" />
-          <MenuItem label="Schedule" href="/schedule" />
-          <MenuItem label="Users" href="/users" />
+          <MenuItem label="Pricing" href="/settings/pricing" />
 
           <MenuItemDivider/>
 

@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { AddReviewDialog } from "./AddReviewDialog";
 import { api } from "../../../../convex/_generated/api";
 import { LoadingSpinner } from "../LoadingSpinner";
+import { StripePricingTable } from "../Stripe/PricingTableAndBillingPortal";
 import { ReviewCard } from "@/app/_components/Vendor/ReviewCard";
 import { ReviewModal } from "@/app/_components/Vendor/ReviewModal";
 import { UrlDropdown } from "@/app/_components/Vendor/UrlDropdown";
@@ -154,6 +155,7 @@ export function ProfessionalDetails(
       </div>
       {/* ReviewModal for seeing more reviews */}
       <ReviewModal reviewsWithUsers={reviews.reviewsWithUserInfo}/>
+      <StripePricingTable/>
     </section>
   );
 }

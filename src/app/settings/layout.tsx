@@ -13,6 +13,10 @@ const sidebarNavItems = [
   //     href: "/settings/general",
   //   },
   {
+    title: "Pricing",
+    href: "/settings/pricing",
+  },
+  {
     title: "Transactions",
     href: "/settings/transactions",
   },
