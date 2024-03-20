@@ -59,8 +59,8 @@ export function UserMenu() {
           <MenuItemDivider/>
 
           {/* MenuItems Group 2 */}
-          <MenuItem label="Home" href="/" />
-          <MenuItem label="Events" href="/events" />
+          <MenuItem label="Find an Expert" href="/find-an-expert" />
+          <MenuItem label="Events" href="/myEvents" />
           <MenuItem label="Chats" href="/chats" />
           <MenuItem label="Schedule" href="/schedule" />
           <MenuItem label="Users" href="/users" />

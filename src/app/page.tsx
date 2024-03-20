@@ -1,4 +1,3 @@
-import { VendorGrid } from "./_components/Vendor/VendorGrid";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,34 +10,26 @@ import logo from "../public/assets/logo2.png";
 
 export default function Home() {
   return (
-    <div>
-      {/* <UserProfile /> */}
-      <div className="flex items-center justify-center text-6xl font-bold my-16">
-        <h1 className="text-center">Browse Event Professionals</h1>
+    <div className="grid h-screen grid-cols-2 max-h-full">
+      <div className=" bg-gray-500 flex items-center justify-center overflow-hidden max-h-full">
+        <Image src={bg} alt="Background" className="w-full h-full object-cover"/>
       </div>
-      <div>
-        <VendorGrid/>
-      </div>
-    </div>
-    <div>
-      <div style={{ width: "100%", height: "100%", position: "relative", background: "white" }}>
-        <Image style={{ width: 485, height: 202, left: 824, top: 180, position: "absolute" }} src={logo} alt="Logo"/>
-        <div style={{ width: 541, height: 166, left: 802, top: 384, position: "absolute" }}>
-          <div style={{ width: 541, height: 166, left: 0, top: 0, position: "absolute", background: "#242D39", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", borderRadius: 10 }} />
-          <Link href="/sign-up">
-            <div style={{ width: 492, height: 53, left: 25, top: 83, position: "absolute", background: "#314995", borderRadius: 10 }} />
-            <div style={{ width: 221, height: 43, left: 196, top: 102, position: "absolute", color: "white", fontSize: 20, fontWeight: "400", wordWrap: "break-word" }}>Cue the Celebration   </div>
-          </Link>
-          <div style={{ width: 198, height: 17, left: 30, top: 14, position: "absolute", color: "white", fontSize: 13, fontFamily:"Quicksand", fontWeight: "400", wordWrap: "break-word" }}>I’M PLANNING A...</div>
-          <div>
-            <Options />
-          </div>
-
+      <div className=" bg-white">
+        <div className="flex flex-col justify-center items-center p-10">
+          <Image src={logo} alt="Logo" className=" mt-20" />
         </div>
-        <Link href="/sign-in">
-          <div style={{ width: 157, height: 24, left: 1019, top: 573, position: "absolute", color: "black", fontSize: 15, fontFamily: "League Spartan", fontWeight: "400", textDecoration: "underline", wordWrap: "break-word" }}>Click here to sign in</div>
-        </Link>
-        <Image style={{ width: 675, height: 815, left: 0, top: -0.55, position: "absolute" }} src={bg} alt="Background" />
+        <div className="relative flex flex-col justify-center items-center">
+          <Options />
+          <Link href="/sign-up">
+            <div className="relative mt-20 p-4 bg-blue-800 rounded-lg justify-center items-center text-white">Cue the Celebration</div>
+          </Link>
+
+          <div className="relative p-5 flex flex-col justify-center items-center text-black text-base font-league-spartan font-normal underline break-words">
+            <Link href="/sign-in" >
+            Click here to sign in
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

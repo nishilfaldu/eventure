@@ -1,10 +1,9 @@
-import { Nunito } from "next/font/google";
+// import { Nunito } from "next/font/google";
+import { League_Spartan } from "next/font/google";
 
-import ConvexClientProvider from "./_components/ConvexClientProvider";
-import { Footer } from "./_components/Footer";
-import { Navbar } from "./_components/Navbar";
+
 import "@/app/globals.css";
-import { Toaster as DefaultToaster } from "@/components/ui/toaster";
+
 
 
 
@@ -24,15 +23,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${nunito.className}`}>
-        <ConvexClientProvider>
-          <Navbar/>
-          <main className="m-20">
-            {children}
-          </main>
-          <Footer/>
-          <DefaultToaster />
-        </ConvexClientProvider>
+      <body className={`${league_spartan.className}`}>
+        <main className="m-0">
+          {children}
+        </main>
       </body>
     </html>
   );

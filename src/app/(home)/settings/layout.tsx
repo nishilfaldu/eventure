@@ -1,4 +1,4 @@
-import { SidebarNav } from "../_components/Account/SidebarNav";
+import { SidebarNav } from "../../_components/Account/SidebarNav";
 import { Separator } from "@/components/ui/separator";
 
 

@@ -1,4 +1,4 @@
-import { ChatWindow } from "../_components/Chat/Window";
+import { ChatWindow } from "../../_components/Chat/Window";
 
 
 

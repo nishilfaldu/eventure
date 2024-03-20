@@ -20,11 +20,12 @@ export function NavDropdown() {
       <DropdownMenuContent className="w-56">
         <DropdownMenuItem>
           <HomeIcon className="mr-2 h-4 w-4" />
-          <Link href={"https://www.facebook.com"} target="_blank" rel="noopener noreferrer">Home</Link>
+          <Link href={"https://www.facebook.com"} target="_blank" rel="noopener noreferrer">Find an Expert</Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
+
           <PartyPopper className="mr-2 h-4 w-4" />
-          <Link href={"https://www.instagram.com"} target="_blank" rel="noopener noreferrer">Events</Link>
+          <Link href={"/myEvents"} target="_blank" rel="noopener noreferrer">Events</Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <MessageSquare className="mr-2 h-4 w-4" />
