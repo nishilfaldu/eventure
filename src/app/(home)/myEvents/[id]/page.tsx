@@ -1,10 +1,65 @@
 "use client";
 import type { CheckboxProps } from "antd";
 import { Checkbox } from "antd";
-import { Input } from "antd";
+// import { Input } from "antd";
+import { List } from "antd";
 
 
 
+const guests = [
+  "Create a guest list",
+  "Make invitations",
+  "Send invitations",
+  "Track RSVP",
+];
+
+const decorations= [
+  "Balloons",
+  "Flowers",
+  "Banners and Posters",
+  "Table Decoration",
+  "Wall Decorations",
+  "Lighting",
+  "Personalized Touches",
+];
+
+const entertainment= [
+  "Music",
+  "Professional Entertainers",
+  "Games and Activities",
+  "Photo Booth",
+  "Prizes and Awards",
+];
+
+const foodAndBeverages= [
+  "Snacks and Appetizers",
+  "Main Course",
+  "Beverages",
+  "Desserts",
+  "Cater Everything",
+];
+
+const partySupplies= [
+  "Plates and Utensils",
+  "Cups and Straws",
+  "Table Cloths/Table Runners",
+  "Party Hats/Accessories",
+  "Candles",
+  "Cake Toppers",
+];
+
+const partyFavors= [
+  "Return Gifts",
+  "Thank You Notes",
+];
+
+const cleanUp= [
+  "Trash Bags",
+  "Cleaning Supplies",
+  "Recycling",
+  "Food Containers",
+  "Vacuum",
+];
 
 const indEvent: React.FC = () => {
   const onChange: CheckboxProps["onChange"] = e => {
@@ -13,84 +68,68 @@ const indEvent: React.FC = () => {
 
   return (
     <>
-      <h2>Select all you need for your perfect event!</h2>
-      <div className="Guests">
-        <h3>Guests</h3>
-        <Checkbox onChange={onChange}>Create a guest list</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Make invitations</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Send invitations</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Track RSVP</Checkbox> <br/>
-        <Checkbox onChange={onChange}>
-          <Input placeholder="Add your own" />
-        </Checkbox> <br/>
+      <div className="text-black text-3xl font-medium break-words pt-6">Here is a curated checklist for your perfect event!</div>
+      <div className="relative text-gray-600 text-xl font-medium break-words">
+        Feel free to delete things you may not need.
       </div>
-      <div className="Decorations">
-        <h3>Decorations</h3>
-        <Checkbox onChange={onChange}>Balloons</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Flowers</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Banners and Posters</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Table Decorations</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Wall Decorations</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Lighting</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Personalized Touches</Checkbox> <br/>
-        <Checkbox onChange={onChange}>
-          <Input placeholder="Add your own" />
-        </Checkbox> <br/>
-      </div>
-      <div className="Entertainment">
-        <h3>Entertainment</h3>
-        <Checkbox onChange={onChange}>Music</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Professional Entertainers</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Games and Activities</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Photo Booth</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Prizes and Awards</Checkbox> <br/>
-        <Checkbox onChange={onChange}>
-          <Input placeholder="Add your own" />
-        </Checkbox> <br/>
-      </div>
-      <div className="FoodAndBeverages">
-        <h3>Food and Beverages</h3>
-        <Checkbox onChange={onChange}>Snacks and Appetizers</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Main Course</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Beverages</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Desserts</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Cater Everything</Checkbox> <br/>
-        <Checkbox onChange={onChange}>
-          <Input placeholder="Add your own" />
-        </Checkbox> <br/>
-      </div>
-      <div className="PartySupplies">
-        <h3>Party Supplies</h3>
-        <Checkbox onChange={onChange}>Plates and Utensils</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Cups and Straws</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Table Cloths/Table Runners</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Party Hats/Accessories</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Candles</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Cake Toppers</Checkbox> <br/>
-        <Checkbox onChange={onChange}>
-          <Input placeholder="Add your own" />
-        </Checkbox> <br/>
-      </div>
-      <div className="PartyFavors">
-        <h3>Party Favors</h3>
-        <Checkbox onChange={onChange}>Return Gifts</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Thank You Notes</Checkbox> <br/>
-        <Checkbox onChange={onChange}>
-          <Input placeholder="Add your own" />
-        </Checkbox> <br/>
-      </div>
-      <div className="CleanUp">
-        <h3>Clean Up</h3>
-        <Checkbox onChange={onChange}>Trash Bags</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Cleaning Supplies</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Recycling</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Food Containers</Checkbox> <br/>
-        <Checkbox onChange={onChange}>Vacuum</Checkbox> <br/>
-        <Checkbox onChange={onChange}>
-          <Input placeholder="Add your own" />
-        </Checkbox> <br/>
-      </div>
-
+      <br/><br/>
+      <List
+        size="large"
+        header={<div className="font-bold font-xl">Guests</div>}
+        //   footer={<div>Footer</div>}
+        bordered
+        dataSource={guests}
+        renderItem={item => <List.Item><Checkbox onChange={onChange}>{item}</Checkbox> <br/></List.Item>}
+      />
+      <br/>
+      <List
+        size="large"
+        header={<div className="font-bold font-xl">Decorations</div>}
+        bordered
+        dataSource={decorations}
+        renderItem={item => <List.Item><Checkbox onChange={onChange}>{item}</Checkbox> <br/></List.Item>}
+      />
+      <br/>
+      <List
+        size="large"
+        header={<div className="font-bold font-xl">Entertainment</div>}
+        bordered
+        dataSource={entertainment}
+        renderItem={item => <List.Item><Checkbox onChange={onChange}>{item}</Checkbox> <br/></List.Item>}
+      />
+      <br/>
+      <List
+        size="large"
+        header={<div className="font-bold font-xl">Food and Beverages</div>}
+        bordered
+        dataSource={foodAndBeverages}
+        renderItem={item => <List.Item><Checkbox onChange={onChange}>{item}</Checkbox> <br/></List.Item>}
+      />
+      <br/>
+      <List
+        size="large"
+        header={<div className="font-bold font-xl">Party Supplies</div>}
+        bordered
+        dataSource={partySupplies}
+        renderItem={item => <List.Item><Checkbox onChange={onChange}>{item}</Checkbox> <br/></List.Item>}
+      />
+      <br/>
+      <List
+        size="large"
+        header={<div className="font-bold font-xl">Party Favors</div>}
+        bordered
+        dataSource={partyFavors}
+        renderItem={item => <List.Item><Checkbox onChange={onChange}>{item}</Checkbox> <br/></List.Item>}
+      />
+      <br/>
+      <List
+        size="large"
+        header={<div className="font-bold font-xl">Clean Up</div>}
+        bordered
+        dataSource={cleanUp}
+        renderItem={item => <List.Item><Checkbox onChange={onChange}>{item}</Checkbox> <br/></List.Item>}
+      />
+      <br/>
 
     </>
   );
