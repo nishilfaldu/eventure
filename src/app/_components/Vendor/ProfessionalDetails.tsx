@@ -3,11 +3,13 @@ import { useUser } from "@clerk/nextjs";
 import type { Preloaded } from "convex/react";
 import { usePreloadedQuery } from "convex/react";
 import { useMutation } from "convex/react";
+import { useQuery } from "convex/react";
 import { MessagesSquare, ShieldCheck, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { AddReviewDialog } from "./AddReviewDialog";
 import { api } from "../../../../convex/_generated/api";
 import { LoadingSpinner } from "../LoadingSpinner";
 import { ReviewCard } from "@/app/_components/Vendor/ReviewCard";
@@ -22,15 +24,21 @@ import { Separator } from "@/components/ui/separator";
 interface ProfessionalDetailsProps {
   preloadedProfessional: Preloaded<typeof api.users.getProfessionalById>;
   preloadedCategories: Preloaded<typeof api.category.getCategoriesForUserById>;
+  preloadedReviews: Preloaded<typeof api.reviews.getReviewsByUserId>;
 }
 
-export function ProfessionalDetails({ preloadedProfessional, preloadedCategories }: ProfessionalDetailsProps) {
+export function ProfessionalDetails(
+  { preloadedProfessional,
+    preloadedCategories,
+    preloadedReviews } : ProfessionalDetailsProps) {
   const { user, isLoaded, isSignedIn } = useUser();
   const router = useRouter();
   const professional = usePreloadedQuery(preloadedProfessional);
   const categories = usePreloadedQuery(preloadedCategories);
-  //   const [conversationId, setConversationId] = useState<string | undefined>(undefined);
+  const reviews = usePreloadedQuery(preloadedReviews);
 
+  //   const [conversationId, setConversationId] = useState<string | undefined>(undefined);
+  const currentUser = useQuery(api.users.getCurrentUser);
   const conversationMutation = useMutation(api.conversations.getOrCreateConversation);
 
   //   TODO: add loading indicators here
@@ -119,18 +127,33 @@ export function ProfessionalDetails({ preloadedProfessional, preloadedCategories
 
       {/* ratings and review portion */}
       <Separator className="my-14"/>
-      <h2 className="text-3xl font-medium text-left mb-8 md:px-20 flex items-center gap-x-2 px-5">
-        <StarIcon fill="black" className="mb-1"/> 4.97 {"(188 reviews)"}
-      </h2>
+      <div className="flex">
+        <h2 className="text-3xl font-medium text-left mb-8 md:px-20 flex items-center gap-x-2 px-5">
+          <StarIcon fill="black" className="mb-1"/> {isNaN(reviews.averageRating) ? 0 : reviews.averageRating.toFixed(2)} {`(${reviews.numReviews} reviews)`}
+        </h2>
+        {
+          currentUser ?
+            <AddReviewDialog revieweeId={professional._id} reviewerId={currentUser?._id}/>
+            : <LoadingSpinner/>
+        }
+        {/* <button className=" bg-black h-5 w-5">hello button</button> */}
+      </div>
+
       <div className="grid md:grid-cols-2 grid-cols-1 md:px-20 gap-x-8 gap-y-8 px-5">
         {/* Ratings and Reviews */}
-        <ReviewCard />
-        <ReviewCard />
-        <ReviewCard />
-        <ReviewCard />
+        {
+          reviews.reviewsWithUserInfo.map(review => {
+            return <ReviewCard
+              key={review._id}
+              rating={review.ratingValue}
+              review={review.description}
+              reviewerName={review.reviewerUser.firstName + " " + review.reviewerUser.lastName}
+            />;
+          })
+        }
       </div>
       {/* ReviewModal for seeing more reviews */}
-      <ReviewModal/>
+      <ReviewModal reviewsWithUsers={reviews.reviewsWithUserInfo}/>
     </section>
   );
 }

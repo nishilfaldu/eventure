@@ -6,29 +6,33 @@ import type { Id } from "convex/_generated/dataModel";
 
 
 
+type UserProps = {
+  _id: Id<"users">;
+  _creationTime: number;
+  gender?: "Male" | "Female" | "Other";
+  country?: string;
+  city?: string;
+  bio?: string;
+  portfolio?: string;
+  linkedIn?: string;
+  instagram?: string;
+  twitter?: string;
+  pictureUrl: string;
+  verified: boolean;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  username: string;
+  email: string;
+  tokenIdentifier: string;
+  expert: boolean;
+  averageRating: number;
+}
+
+
 interface VendorListingProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  professional: {
-    _id: Id<"users">;
-    _creationTime: number;
-    gender?: "Male" | "Female" | "Other";
-    country?: string;
-    city?: string;
-    bio?: string;
-    portfolio?: string;
-    linkedIn?: string;
-    instagram?: string;
-    twitter?: string;
-    pictureUrl: string;
-    verified: boolean;
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    username: string;
-    email: string;
-    tokenIdentifier: string;
-    expert: boolean;
-  };
+  professional: UserProps;
   index: number;
 }
 
@@ -62,7 +66,7 @@ export function VendorListing({ professional }: VendorListingProps) {
           <span className="flex items-center gap-x-3">
             <span className="flex items-center gap-x-1">
               <StarIcon fill="black"/>
-              <span className="font-semibold">4.97</span>
+              <span className="font-semibold">{isNaN(professional.averageRating) ? 0 : professional.averageRating.toFixed(2)}</span>
             </span>
             <span className="flex items-center gap-x-1">
               <MessagesSquare className=""/>

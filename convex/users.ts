@@ -145,6 +145,21 @@ export function getUserHelper(ctx: QueryCtx, email: string) {
     .unique();
 }
 
+export const getCurrentUser = query({
+  args: {},
+  handler: async ctx => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("User not found");
+    }
+    if(!identity.email) {
+      throw new Error("User email not found");
+    }
+
+    return await getUserHelper(ctx, identity.email);
+  },
+});
+
 export const getUsers = query({
   args: {
     email: v.string(),
@@ -207,7 +222,15 @@ export const getProfessionals = query({
       queryBuilder = queryBuilder.filter(q => q.or(q.eq("firstName", searchParam), q.eq("firstName", searchParam)));
     }
 
-    return await queryBuilder.collect();
+    const professionals = await queryBuilder.collect();
+    const professionalsWithRatings = await Promise.all(professionals.map(async professional => {
+      const ratings = await ctx.db.query("reviews").withIndex("revieweeId", q => q.eq("revieweeId", professional._id)).collect();
+      const averageRating = ratings.reduce((acc, rating) => acc + rating.ratingValue, 0) / ratings.length;
+
+      return { ...professional, averageRating };
+    }   ));
+
+    return professionalsWithRatings;
   },
 });
 

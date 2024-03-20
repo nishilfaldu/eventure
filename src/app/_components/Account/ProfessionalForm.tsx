@@ -166,7 +166,8 @@ export function ProfessionalForm({ username }: {username: string}) {
             {accountData ? "Your account has been updated" : "Failed to update your account"}
           </code>
         </pre>
-      ) });
+      ),
+    });
   }
 
   return (
