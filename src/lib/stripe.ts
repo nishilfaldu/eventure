@@ -6,7 +6,6 @@ import { api } from "../../convex/_generated/api";
 
 
 
-console.log(process.env.STRIPE_SECRET_KEY!, "hello under water");
 
 export const stripe = new Stripe(
   process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY! ?? "",
@@ -37,4 +36,32 @@ export default function useStoreStripeCustomerEffect() {
   }, [isAuthenticated, storeStripeCustomerId]);
 
   return stripeCustomerId;
+}
+
+
+export function useHasSubscription(stripeCustomerId: string) {
+  const { isAuthenticated } = useConvexAuth();
+  const [hasSubscription, setHasSubscription] = useState(false);
+
+  useEffect(() => {
+    if(!isAuthenticated) {
+      return;
+    }
+
+    async function checkSubscription() {
+      const subscriptions = await stripe.subscriptions.list({
+        customer: stripeCustomerId,
+      });
+
+      setHasSubscription(subscriptions.data.length > 0);
+    }
+
+    checkSubscription();
+
+    return () => {
+      // Cleanup if necessary
+    };
+  }, [isAuthenticated, stripeCustomerId]);
+
+  return hasSubscription;
 }

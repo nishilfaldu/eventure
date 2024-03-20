@@ -1,12 +1,21 @@
 "use client";
 import useStoreStripeCustomerEffect from "@/lib/stripe";
 import useStoreUserEffect from "@/lib/useStoreUserEffect";
+import { useUserStore } from "@/zustand/hooks";
 
 
 
 export function Composer({ children } : {children: React.ReactNode}) {
-  const userId = useStoreUserEffect();
-  const stripeId = useStoreStripeCustomerEffect();
+  const userId_ = useStoreUserEffect();
+  const stripeId_ = useStoreStripeCustomerEffect();
+
+  const userId = useUserStore(state => state.userId);
+  const setUserId = useUserStore(state => state.setUserId);
+  const stripeId = useUserStore(state => state.stripeId);
+  const setStripeId = useUserStore(state => state.setStripeId);
+  setUserId(userId_!);
+  setStripeId(stripeId_!);
+  console.log(userId, stripeId, "user and stripe id");
 
   return (
     <div>

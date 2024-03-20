@@ -9,14 +9,14 @@ import MenuItemDivider from "./MenuItemDivider";
 import { generateCustomerPortalLink } from "../Stripe/PricingTableAndBillingPortal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import useStoreStripeCustomerEffect from "@/lib/stripe";
+import { useUserStore } from "@/zustand/hooks";
 
 
 
 export function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const divRef = useRef(null);
-  const stripeCustomerId = useStoreStripeCustomerEffect();
+  const stripeCustomerId = useUserStore(state => state.stripeId);
   const [manageBillingLink, setManageBillingLink] = useState<string | null>(null);
 
   useEffect(() => {
@@ -25,7 +25,6 @@ export function UserMenu() {
         return;
       }
       const billingLink = await generateCustomerPortalLink(stripeCustomerId);
-      console.log("billingLink", billingLink);
       if(billingLink) { setManageBillingLink(billingLink); }
     }
 

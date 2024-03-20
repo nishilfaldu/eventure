@@ -1,10 +1,8 @@
 import { v } from "convex/values";
 import { getManyVia } from "convex-helpers/server/relationships";
 
-import { internal } from "./_generated/api";
 import type { QueryCtx } from "./_generated/server";
-import { mutation, query, action, internalQuery, internalMutation } from "./_generated/server";
-import { stripe } from "@/lib/stripe";
+import { mutation, query, internalQuery, internalMutation } from "./_generated/server";
 
 
 
