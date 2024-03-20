@@ -20,6 +20,7 @@ import type * as events from "../events.js";
 import type * as guests from "../guests.js";
 import type * as messages from "../messages.js";
 import type * as reviews from "../reviews.js";
+import type * as stripe from "../stripe.js";
 import type * as tasks from "../tasks.js";
 import type * as users from "../users.js";
 
@@ -38,6 +39,7 @@ declare const fullApi: ApiFromModules<{
   guests: typeof guests;
   messages: typeof messages;
   reviews: typeof reviews;
+  stripe: typeof stripe;
   tasks: typeof tasks;
   users: typeof users;
 }>;

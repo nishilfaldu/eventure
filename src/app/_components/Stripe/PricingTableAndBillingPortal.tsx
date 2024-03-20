@@ -8,7 +8,7 @@ export async function generateCustomerPortalLink(customerId: string) {
   try {
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: customerId,
-      return_url: process.env.NEXTAUTH_URL + "/dashboard/settings/billing",
+      return_url:  "http://localhost:3000" + "/dashboard/settings/billing",
     });
 
     console.log("hello");

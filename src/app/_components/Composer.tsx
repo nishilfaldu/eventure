@@ -1,10 +1,12 @@
 "use client";
+import useStoreStripeCustomerEffect from "@/lib/stripe";
 import useStoreUserEffect from "@/lib/useStoreUserEffect";
 
 
 
 export function Composer({ children } : {children: React.ReactNode}) {
   const userId = useStoreUserEffect();
+  const stripeId = useStoreStripeCustomerEffect();
 
   return (
     <div>

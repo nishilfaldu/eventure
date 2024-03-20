@@ -1,8 +1,10 @@
 import { v } from "convex/values";
 import { getManyVia } from "convex-helpers/server/relationships";
 
+import { internal } from "./_generated/api";
 import type { QueryCtx } from "./_generated/server";
-import { mutation, query } from "./_generated/server";
+import { mutation, query, action, internalQuery, internalMutation } from "./_generated/server";
+import { stripe } from "@/lib/stripe";
 
 
 
@@ -257,5 +259,36 @@ export const getProfessionalById = query({
   },
   handler: async (ctx, { id }) => {
     return await ctx.db.get(id);
+  },
+});
+
+export const getUserInternalQuery = internalQuery({
+  args: {},
+  handler: async ctx => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("User not found");
+    }
+    if(!identity.email) {
+      throw new Error("User email not found");
+    }
+
+    const user = await getUserHelper(ctx, identity.email);
+
+    return user;
+  },
+});
+
+export const storeStripeId = internalMutation({
+  args: {
+    userId: v.id("users"),
+    stripeId: v.string(),
+  },
+  handler: async (ctx, { stripeId, userId }) => {
+    await ctx.db.patch(userId, {
+      stripeId: stripeId,
+    });
+
+    return stripeId;
   },
 });
