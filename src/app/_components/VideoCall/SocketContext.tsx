@@ -1,23 +1,56 @@
+"use client";
+
+import type { ReactNode } from "react";
 import { createContext, useEffect, useRef, useState } from "react";
+import type { SignalData } from "simple-peer";
 import Peer from "simple-peer";
 import { io } from "socket.io-client";
 
 
+// Define types for the context and peer connection
+type SocketContextType = {
+  call: {
+    isReceivingCall?: boolean;
+    from?: string;
+    name?: string;
+    signal?: string | SignalData;
+  };
+  callAccepted: boolean;
+  myVideo: React.RefObject<HTMLVideoElement>;
+  userVideo: React.RefObject<HTMLVideoElement>;
+  stream: MediaStream | undefined;
+  name: string;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  callEnded: boolean;
+  me: string;
+  callUser: (id: string) => void;
+  leaveCall: () => void;
+  answerCall: () => void;
+};
 
-const SocketContext = createContext({});
+const SocketContext = createContext<SocketContextType>({} as SocketContextType);
+
+type SocketContextProviderProps = {
+  children: ReactNode;
+};
 
 const socket = io("http://localhost:3001");
 
-function SocketContextProvider({ children }: {children: React.ReactNode}) {
+function SocketContextProvider({ children }: SocketContextProviderProps) {
   const [callAccepted, setCallAccepted] = useState<boolean>(false);
   const [callEnded, setCallEnded] = useState<boolean>(false);
   const [stream, setStream] = useState<MediaStream | undefined>(undefined);
   const [name, setName] = useState<string>("");
-  const [call, setCall] = useState({});
+  const [call, setCall] = useState<{
+    isReceivingCall?: boolean;
+    from?: string;
+    name?: string;
+    signal?: SignalData | string;
+  }>({});
   const [me, setMe] = useState<string>("");
 
-  const myVideo = useRef<HTMLVideoElement | undefined>(undefined);
-  const userVideo = useRef<HTMLVideoElement | undefined>(undefined);
+  const myVideo = useRef<HTMLVideoElement | null>(null);
+  const userVideo = useRef<HTMLVideoElement | null>(null);
   const connectionRef = useRef<Peer.Instance | undefined>(undefined);
 
   useEffect(() => {
@@ -52,7 +85,8 @@ function SocketContextProvider({ children }: {children: React.ReactNode}) {
       }
     });
 
-    peer.signal(call.signal);
+    // TODO: remove exclamation mark
+    peer.signal(call.signal!);
 
     connectionRef.current = peer;
   };

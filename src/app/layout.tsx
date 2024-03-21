@@ -4,6 +4,7 @@ import ConvexClientProvider from "./_components/ConvexClientProvider";
 import { Footer } from "./_components/Footer";
 import { Navbar } from "./_components/Navbar";
 import "@/app/globals.css";
+import { SocketContextProvider } from "./_components/VideoCall/SocketContext";
 import { Toaster as DefaultToaster } from "@/components/ui/toaster";
 
 
@@ -29,12 +30,14 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <body className={`${nunito.className}`}>
         <ConvexClientProvider>
-          <Navbar/>
-          <main className="m-20">
-            {children}
-          </main>
-          <Footer/>
-          <DefaultToaster />
+          <SocketContextProvider>
+            <Navbar/>
+            <main className="m-20">
+              {children}
+            </main>
+            <Footer/>
+            <DefaultToaster />
+          </SocketContextProvider>
         </ConvexClientProvider>
       </body>
     </html>
