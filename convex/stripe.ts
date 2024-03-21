@@ -22,7 +22,7 @@ export const storeStripeCustomerId = action({
       }
     );
 
-    const user = await ctx.runQuery(internal.users.getUserInternalQuery, {});
+    const user = await ctx.runQuery(internal.users.getUserInternalQuery);
     if (!user) {
       throw new Error("User not found");
     }
@@ -30,11 +30,9 @@ export const storeStripeCustomerId = action({
     if(!user.stripeId) {
       const customer = await stripe.customers.create({
         email: user.email,
+        name: user.firstName + " " + user.lastName,
       });
 
-      //   await ctx.db.patch(user._id, {
-      //     stripeId: customer.id,
-      //   });
       const stripeId : string
        = await ctx.runMutation(internal.users.storeStripeId, { userId: user._id, stripeId: customer.id });
 

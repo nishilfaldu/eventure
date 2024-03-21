@@ -33,18 +33,18 @@ export default function useStoreStripeCustomerEffect() {
     createStoreStripeCustomer();
 
     return () => setStripeCustomerId(null);
-  }, [isAuthenticated, storeStripeCustomerId]);
+  }, [storeStripeCustomerId, isAuthenticated]);
 
   return stripeCustomerId;
 }
 
 
-export function useHasSubscription(stripeCustomerId: string) {
+export function useHasSubscription(stripeCustomerId: string | undefined) {
   const { isAuthenticated } = useConvexAuth();
   const [hasSubscription, setHasSubscription] = useState(false);
 
   useEffect(() => {
-    if(!isAuthenticated) {
+    if(!isAuthenticated || !stripeCustomerId) {
       return;
     }
 
@@ -52,6 +52,8 @@ export function useHasSubscription(stripeCustomerId: string) {
       const subscriptions = await stripe.subscriptions.list({
         customer: stripeCustomerId,
       });
+
+      console.log(subscriptions, "subscriptions");
 
       setHasSubscription(subscriptions.data.length > 0);
     }
@@ -64,4 +66,41 @@ export function useHasSubscription(stripeCustomerId: string) {
   }, [isAuthenticated, stripeCustomerId]);
 
   return hasSubscription;
+}
+
+export function useCreateCheckoutLink(customer: string) {
+  const { isAuthenticated } = useConvexAuth();
+  const [checkoutLink, setCheckoutLink] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function createLink() {
+      if(!customer) { return; }
+      if (isAuthenticated) {
+        const checkout = await stripe.checkout.sessions.create({
+          success_url: "http://localhost:3000/settings/pricing",
+          cancel_url: "http://localhost:3000/settings/pricing",
+          customer: customer,
+          line_items: [
+            {
+              price: "price_1OwFzZIv5IqZqEz6BZoWShXj",
+              quantity: 1,
+            },
+          ],
+          mode: "subscription",
+        });
+
+        setCheckoutLink(checkout.url);
+      } else {
+        setCheckoutLink(null);
+      }
+    }
+
+    createLink();
+
+    return () => {
+      // Cleanup if necessary
+    };
+  }, [isAuthenticated, customer]);
+
+  return checkoutLink;
 }

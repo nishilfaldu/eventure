@@ -19,7 +19,6 @@ export const createUser = mutation({
 
     const user = await getUserHelper(ctx, identity.email);
     if (user !== null) {
-      console.log("user already exists");
       if (
         user.firstName !== identity.givenName ||
           user.username !== identity.nickname ||
@@ -45,8 +44,6 @@ export const createUser = mutation({
         || !identity.phoneNumber || !identity.pictureUrl) {
       throw new Error("Name or email is undefined in identity object");
     }
-
-    console.log("here in store - new user created");
 
     return await ctx.db.insert("users", {
       pictureUrl: identity.pictureUrl,
@@ -287,6 +284,8 @@ export const storeStripeId = internalMutation({
       stripeId: stripeId,
     });
 
-    return stripeId;
+    const user = await ctx.db.get(userId);
+
+    return user?.stripeId;
   },
 });

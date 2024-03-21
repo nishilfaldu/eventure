@@ -1,5 +1,5 @@
 "use client";
-import { StripePricingTable } from "@/app/_components/Stripe/PricingTableAndBillingPortal";
+import { SubscriptionDetails } from "@/app/_components/Stripe/SubscriptionDetails";
 import { Separator } from "@/components/ui/separator";
 
 
@@ -14,7 +14,7 @@ export default function PricingPage() {
         </p>
       </div>
       <Separator />
-      <StripePricingTable />
+      <SubscriptionDetails/>
     </div>
   );
 }

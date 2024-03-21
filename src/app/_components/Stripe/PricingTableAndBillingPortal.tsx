@@ -8,7 +8,7 @@ export async function generateCustomerPortalLink(customerId: string) {
   try {
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: customerId,
-      return_url:  "http://localhost:3000" + "/dashboard/settings/billing",
+      return_url:  "http://localhost:3000" + "/settings/pricing",
     });
 
     console.log("hello");
@@ -28,8 +28,6 @@ export const StripePricingTable = () => {
     script.src = "https://js.stripe.com/v3/pricing-table.js";
     script.async = true;
     document.body.appendChild(script);
-
-    console.log(process.env.STRIPE_PRICING_TABLE_ID);
 
     return () => {
       document.body.removeChild(script);

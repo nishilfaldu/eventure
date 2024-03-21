@@ -1,35 +1,22 @@
 "use client";
 
 import { SignOutButton, useUser } from "@clerk/nextjs";
+import { useQuery } from "convex/react";
 import Link from "next/link";
 import { useCallback, useRef, useState, useEffect } from "react";
 
 import MenuItem from "./MenuItem";
 import MenuItemDivider from "./MenuItemDivider";
+import { api } from "../../../../convex/_generated/api";
 import { generateCustomerPortalLink } from "../Stripe/PricingTableAndBillingPortal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { useUserStore } from "@/zustand/hooks";
 
 
 
 export function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const divRef = useRef(null);
-  const stripeCustomerId = useUserStore(state => state.stripeId);
-  const [manageBillingLink, setManageBillingLink] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function getBillingLink() {
-      if(!stripeCustomerId) {
-        return;
-      }
-      const billingLink = await generateCustomerPortalLink(stripeCustomerId);
-      if(billingLink) { setManageBillingLink(billingLink); }
-    }
-
-    getBillingLink();
-  }, [stripeCustomerId]);
 
   const toggleOpen = useCallback(() => {
     setIsOpen(value => !value);
@@ -72,7 +59,6 @@ export function UserMenu() {
 
           {/* MenuItems Group 2 */}
           <MenuItem label="Pricing" href="/settings/pricing" />
-          <MenuItem label="Manage Billing" href={manageBillingLink ?? "#"} />
 
           <MenuItemDivider/>
 

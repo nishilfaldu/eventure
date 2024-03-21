@@ -1,5 +1,7 @@
 "use client";
-import useStoreStripeCustomerEffect from "@/lib/stripe";
+import { useEffect } from "react";
+
+import { SubscribeDialog } from "./Stripe/SubscribeDialog";
 import useStoreUserEffect from "@/lib/useStoreUserEffect";
 import { useUserStore } from "@/zustand/hooks";
 
@@ -7,15 +9,32 @@ import { useUserStore } from "@/zustand/hooks";
 
 export function Composer({ children } : {children: React.ReactNode}) {
   const userId_ = useStoreUserEffect();
-  const stripeId_ = useStoreStripeCustomerEffect();
-
   const userId = useUserStore(state => state.userId);
   const setUserId = useUserStore(state => state.setUserId);
-  const stripeId = useUserStore(state => state.stripeId);
-  const setStripeId = useUserStore(state => state.setStripeId);
-  setUserId(userId_!);
-  setStripeId(stripeId_!);
-  console.log(userId, stripeId, "user and stripe id");
+
+  useEffect(() => {
+    if (!userId_) { return; }
+    console.log(userId_);
+    setUserId(userId_);
+  }, [userId_, setUserId]);
+
+  //   useEffect(() => {
+  //     if (!stripeId_) { return; }
+  //     console.log(stripeId_);
+  //     setStripeId(stripeId_);
+  //   }, [stripeId_, setStripeId]);
+
+  // setUserId(userId_!);
+
+
+  //   setStripeId(stripeId_!);
+  //   console.log(stripeId, "stripeId", userId, "userId");
+
+  //   const hasSubscription = useHasSubscription(stripeId!);
+
+  //   const checkoutLink = useCreateCheckoutLink(stripeId);
+
+  //   console.log(hasSubscription, "hasSubscription");
 
   return (
     <div>
@@ -25,6 +44,7 @@ export function Composer({ children } : {children: React.ReactNode}) {
         </div>
         <div>
           {userId ? children : "Storing or updating user..."}
+          <SubscribeDialog />
         </div>
       </div>
     </div>
