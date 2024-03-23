@@ -5,13 +5,12 @@ import {
   PhoneIcon,
 } from "lucide-react";
 import type { FormEvent } from "react";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 import { AvatarGeneral } from "./AvatarGeneral";
 import { MessageBox } from "./MessageBox";
 import { api } from "../../../../convex/_generated/api";
 import { NotificationsDialog } from "../VideoCall/NotificationsDialog";
-import { SocketContext } from "../VideoCall/SocketContext";
 import { VideoDialog } from "../VideoCall/VideoDialog";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -33,8 +32,6 @@ export function ChatDisplay({ conversationId }: ChatDisplayProps) {
   const [messageBody, setMessageBody] = useState("");
   const user = useQuery(api.users.getUserForConversationId, { conversationId: conversationId })?.[0];
   const createMessageMutation = useMutation(api.messages.createMessage);
-  const { callAccepted } = useContext(SocketContext);
-  //   const [received, setReceiver];
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -70,7 +67,7 @@ export function ChatDisplay({ conversationId }: ChatDisplayProps) {
                 <VideoIcon className="h-4 w-4" />
                 <span className="sr-only">Start video call</span>
               </Button> */}
-              <VideoDialog userToCallId={user.socketId} />
+              <VideoDialog userToCallId={user.socketId} calleeNameOnCallerSide={user.firstName + " " + user.lastName}/>
               <NotificationsDialog />
               <Button className="rounded-full w-8 h-8" size="icon" variant="ghost">
                 <PhoneIcon className="h-4 w-4" />

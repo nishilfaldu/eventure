@@ -30,14 +30,14 @@ io.on("connection", async socket => {
 
   // call user
   socket.on("callUser", ({ userToCall, signalData, from, name }) => {
-    console.log("callUser in socket server", { userToCall, signalData, from, name });
+    // console.log("callUser in socket server", { userToCall, signalData, from, name });
     io.to(userToCall).emit("callUser", { signal: signalData, from, name });
   });
 
   // answer call
   socket.on("answerCall", data => {
-    console.log("answerCall in socket server", data);
-    io.to(data.to).emit("callAccepted", data.signal);
+    // console.log("answerCall in socket server", data);
+    io.to(data.to).emit("callAccepted", data.signal, data.whoAnswered);
   });
 
   // Handle user connection event

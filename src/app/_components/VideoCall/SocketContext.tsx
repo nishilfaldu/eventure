@@ -29,6 +29,7 @@ type SocketContextType = {
   setName: React.Dispatch<React.SetStateAction<string>>;
   callEnded: boolean;
   me: string;
+  //   whoAnswered: string;
   callUser: (id: string) => void;
   leaveCall: () => void;
   answerCall: () => void;
@@ -52,6 +53,7 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
   const [callEnded, setCallEnded] = useState<boolean>(false);
   const [stream, setStream] = useState<MediaStream | undefined>(undefined);
   const [name, setName] = useState<string>("");
+  //   const [whoAnswered, setWhoAnswered] = useState<string>("");
   const [call, setCall] = useState<{
     isReceivingCall?: boolean;
     from?: string;
@@ -70,14 +72,12 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
   // Initialize the socket instance only once
   useEffect(() => {
     socketRef.current = socketClient(userId);
-    // console.log("in useeffect", socketRef.current);
 
     // Listen for the "connect" event
     socketRef.current.on("connect", async () => {
       console.log("Socket connected again");
       // Access the socket id after the connection is established
       const socketId = socketRef.current?.id;
-      console.log("Socket ID in useeffect:", socketId);
 
       // Store the socket id in your database
       await storeSocketId({ socketId });
@@ -95,11 +95,11 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then(currentStream => {
         setStream(currentStream);
-        console.log("hello mike test");
+        // console.log("hello mike test");
         // console.log(myVideo.current, "myvideo current");
         // myVideo.current.srcObject = currentStream;
         if(myVideo.current) {
-          console.log(myVideo.current, "myvideo current");
+        //   console.log(myVideo.current, "myvideo current");
           myVideo.current.srcObject = currentStream;
         }
       });
@@ -111,7 +111,7 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
 
     socketRef.current?.on("callUser", ({ from, name: callerName, signal }) => {
     //   console.log(from, "from", callerName, "callerName", signal, "signal");
-      console.log("callUser receiver/callee", { from, name: callerName, signal });
+    //   console.log("callUser receiver/callee", { from, name: callerName, signal });
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
   }, [userFullname]);
@@ -120,11 +120,9 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then(currentStream => {
         setStream(currentStream);
-        console.log("hello mike test 2");
-        // console.log(myVideo.current, "myvideo current");
-        // myVideo.current.srcObject = currentStream;
+        // console.log("hello mike test 2");
         if(myVideo.current) {
-          console.log(myVideo.current, "myvideo current");
+        //   console.log(myVideo.current, "myvideo current");
           myVideo.current.srcObject = currentStream;
         }
       });
@@ -135,13 +133,12 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
 
     peer.on("signal", data => {
       // answering rishi
-      console.log("answerCall emit - receiver", { signalData: data, to: call.from });
-      socketRef.current?.emit("answerCall", { signal: data, to: call.from });
+    //   console.log("answerCall emit - receiver", { signalData: data, to: call.from, whoAnswered: name });
+      socketRef.current?.emit("answerCall", { signal: data, to: call.from, whoAnswered: name });
     });
 
     peer.on("stream", (currentStream : MediaStream) => {
       if(userVideo.current) {
-        console.log("bla bla bla bla 4");
         userVideo.current.srcObject = currentStream;
       }
     });
@@ -156,7 +153,7 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then(currentStream => {
         setStream(currentStream);
-        console.log("hello mike test 2");
+        // console.log("hello mike test 2");
         // console.log(myVideo.current, "myvideo current");
         // myVideo.current.srcObject = currentStream;
         if(myVideo.current) {
@@ -170,7 +167,7 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
     peer.on("signal", data => {
     //   console.log("data in signal", data);
     //   console.log("me", me);
-      console.log("callUser emit - caller", { userToCall: id, signalData: data, from: me, name });
+    //   console.log("callUser emit - caller", { userToCall: id, signalData: data, from: me, name });
       socketRef.current?.emit("callUser", { userToCall: id, signalData: data, from: me, name });
     });
 
@@ -180,9 +177,10 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
       }
     });
 
+    // TODO: I had whoAnswered here!
     socketRef.current?.on("callAccepted", signal => {
       setCallAccepted(true);
-      console.log("callAccepted signal - caller", signal);
+      //   console.log("callAccepted signal - caller", signal, whoAnswered);
       peer.signal(signal);
     });
 
@@ -210,6 +208,7 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
       callUser,
       leaveCall,
       answerCall,
+    //   whoAnswered,
     }}
     >
       {children}

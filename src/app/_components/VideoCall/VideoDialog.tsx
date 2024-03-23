@@ -18,11 +18,12 @@ import {
 
 interface VideoDialogProps {
   userToCallId: string;
+  calleeNameOnCallerSide: string;
 }
 
-export function VideoDialog({ userToCallId }: VideoDialogProps) {
+export function VideoDialog({ userToCallId, calleeNameOnCallerSide }: VideoDialogProps) {
   const [openModal, setOpenModal] = useState(false);
-  const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
+  const { callAccepted, leaveCall, callUser } = useContext(SocketContext);
 
   // Effect to listen for call acceptance
   useEffect(() => {
@@ -52,12 +53,16 @@ export function VideoDialog({ userToCallId }: VideoDialogProps) {
           </DialogDescription>
         </DialogHeader>
 
-        <VideoPlayer />
+        <VideoPlayer calleeNameOnCallerSide={calleeNameOnCallerSide}/>
         {/* Conditionally render the VideoPlayer based on call acceptance */}
         {/* {callAccepted ? <VideoPlayer /> : "Waiting for call to be accepted..."} */}
 
         <DialogFooter>
-          <Button type="button" onClick={() => setOpenModal(false)}>End Call</Button>
+          <Button type="button" onClick={() => {
+            setOpenModal(false);
+            leaveCall();
+          }}
+          >End Call</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
