@@ -37,7 +37,7 @@ export const createUser = mutation({
         });
       }
 
-      return user._id;
+      return { userId: user._id, fullName: user.firstName + " " + user.lastName };
     }
 
     if (!identity.givenName || !identity.email || !identity.nickname || !identity.familyName
@@ -287,5 +287,29 @@ export const storeStripeId = internalMutation({
     const user = await ctx.db.get(userId);
 
     return user?.stripeId;
+  },
+});
+
+export const storeSocketId = mutation({
+  args: {
+    socketId: v.string(),
+  },
+  handler: async (ctx, { socketId }) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("User not found");
+    }
+    if(!identity.email) {
+      throw new Error("User email not found");
+    }
+
+    const user = await getUserHelper(ctx, identity.email);
+    if(!user) {
+      throw new Error("User not found");
+    }
+
+    await ctx.db.patch(user._id, {
+      socketId: socketId,
+    });
   },
 });

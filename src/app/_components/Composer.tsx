@@ -8,33 +8,18 @@ import { useUserStore } from "@/zustand/hooks";
 
 
 export function Composer({ children } : {children: React.ReactNode}) {
-  const userId_ = useStoreUserEffect();
-  const userId = useUserStore(state => state.userId);
+  const { userId, userFullname } = useStoreUserEffect();
+  const userId_ = useUserStore(state => state.userId);
+  //   const userFullname_ = useUserStore(state => state.userFullname);
   const setUserId = useUserStore(state => state.setUserId);
+  const setUserFullname = useUserStore(state => state.setUserFullname);
 
   useEffect(() => {
-    if (!userId_) { return; }
-    console.log(userId_);
-    setUserId(userId_);
-  }, [userId_, setUserId]);
-
-  //   useEffect(() => {
-  //     if (!stripeId_) { return; }
-  //     console.log(stripeId_);
-  //     setStripeId(stripeId_);
-  //   }, [stripeId_, setStripeId]);
-
-  // setUserId(userId_!);
-
-
-  //   setStripeId(stripeId_!);
-  //   console.log(stripeId, "stripeId", userId, "userId");
-
-  //   const hasSubscription = useHasSubscription(stripeId!);
-
-  //   const checkoutLink = useCreateCheckoutLink(stripeId);
-
-  //   console.log(hasSubscription, "hasSubscription");
+    if (!userId || !userFullname) { return; }
+    console.log(userId);
+    setUserId(userId);
+    setUserFullname(userFullname);
+  }, [userId, setUserId, userFullname, setUserFullname]);
 
   return (
     <div>
@@ -43,7 +28,7 @@ export function Composer({ children } : {children: React.ReactNode}) {
           <h1 className="text-center">Browse Event Professionals</h1>
         </div>
         <div>
-          {userId ? children : "Storing or updating user..."}
+          {userId_ ? children : "Storing or updating user..."}
           <SubscribeDialog />
         </div>
       </div>

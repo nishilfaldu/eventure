@@ -8,7 +8,6 @@ import { generateCustomerPortalLink } from "./PricingTableAndBillingPortal";
 import { api } from "../../../../convex/_generated/api";
 import { LoadingSpinner } from "../LoadingSpinner";
 import { useCreateCheckoutLink, useHasSubscription } from "@/lib/stripe";
-import { useUserStore } from "@/zustand/hooks";
 
 
 

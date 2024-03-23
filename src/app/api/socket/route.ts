@@ -28,7 +28,7 @@ interface SocketWithIO extends NetSocket {
 interface NextApiResponseWithSocket extends NextApiResponse {
   socket: SocketWithIO;
 }
-export default function SocketHandler(_req: NextApiRequest, res: NextApiResponseWithSocket) {
+export async function GET(_req: NextApiRequest, res: NextApiResponseWithSocket) {
   if (res.socket.server.io) {
     res.status(200).json({ success: true, message: "Socket is already running", socket: `:${PORT}` });
 
@@ -36,9 +36,9 @@ export default function SocketHandler(_req: NextApiRequest, res: NextApiResponse
   }
 
   console.log("Starting Socket.IO server on port:", PORT);
-  const io = new Server({ path: "/api/socket", addTrailingSlash: false, cors: { origin: "*" } }).listen(PORT);
+  const io = new Server(res.socket.server, { path: "/api/socket", addTrailingSlash: false, cors: { origin: "*" } }).listen(PORT);
 
-  io.on("connect", socket => {
+  io.on("connection", socket => {
     console.log("socket connect", socket.id);
 
     // emit id to client

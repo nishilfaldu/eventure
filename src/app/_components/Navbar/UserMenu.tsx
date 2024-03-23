@@ -1,14 +1,11 @@
 "use client";
 
 import { SignOutButton, useUser } from "@clerk/nextjs";
-import { useQuery } from "convex/react";
 import Link from "next/link";
-import { useCallback, useRef, useState, useEffect } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import MenuItem from "./MenuItem";
 import MenuItemDivider from "./MenuItemDivider";
-import { api } from "../../../../convex/_generated/api";
-import { generateCustomerPortalLink } from "../Stripe/PricingTableAndBillingPortal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 

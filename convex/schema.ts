@@ -7,6 +7,8 @@ export default defineSchema({
   users: defineTable({
     // stripe
     stripeId: v.optional(v.string()),
+    // socket
+    socketId: v.optional(v.string()),
     // user related
     tokenIdentifier: v.string(),
     username: v.string(),

@@ -1,5 +1,4 @@
 "use client";
-import { useAuth } from "@clerk/nextjs";
 import { useConvexAuth } from "convex/react";
 
 import { Composer } from "./Composer";

@@ -2,14 +2,17 @@ import { useQuery } from "convex/react";
 import { useMutation } from "convex/react";
 import {
   MoreHorizontalIcon,
-  PhoneIcon, VideoIcon,
+  PhoneIcon,
 } from "lucide-react";
 import type { FormEvent } from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { AvatarGeneral } from "./AvatarGeneral";
 import { MessageBox } from "./MessageBox";
 import { api } from "../../../../convex/_generated/api";
+import { NotificationsDialog } from "../VideoCall/NotificationsDialog";
+import { SocketContext } from "../VideoCall/SocketContext";
+import { VideoDialog } from "../VideoCall/VideoDialog";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -30,6 +33,8 @@ export function ChatDisplay({ conversationId }: ChatDisplayProps) {
   const [messageBody, setMessageBody] = useState("");
   const user = useQuery(api.users.getUserForConversationId, { conversationId: conversationId })?.[0];
   const createMessageMutation = useMutation(api.messages.createMessage);
+  const { callAccepted } = useContext(SocketContext);
+  //   const [received, setReceiver];
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,7 +48,6 @@ export function ChatDisplay({ conversationId }: ChatDisplayProps) {
 
   return (
     <div className="flex flex-col">
-
       <Separator />
       {user ? (
         <div className="flex flex-1 flex-col">
@@ -62,10 +66,12 @@ export function ChatDisplay({ conversationId }: ChatDisplayProps) {
             </div>
 
             <div className="flex items-center ml-auto gap-x-4">
-              <Button className="rounded-full w-8 h-8" size="icon" variant="ghost">
+              {/* <Button className="rounded-full w-8 h-8" size="icon" variant="ghost">
                 <VideoIcon className="h-4 w-4" />
                 <span className="sr-only">Start video call</span>
-              </Button>
+              </Button> */}
+              <VideoDialog userToCallId={user.socketId} />
+              <NotificationsDialog />
               <Button className="rounded-full w-8 h-8" size="icon" variant="ghost">
                 <PhoneIcon className="h-4 w-4" />
                 <span className="sr-only">Start voice call</span>
