@@ -2,4 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # add "yarn test" before everything when tests are available
-yarn compile && yarn build
+pnpm compile && pnpm build
