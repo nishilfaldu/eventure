@@ -1,10 +1,14 @@
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Nunito } from "next/font/google";
 
 import ConvexClientProvider from "./_components/ConvexClientProvider";
 import { Footer } from "./_components/Footer";
+import Landing from "./_components/Landing";
 import { Navbar } from "./_components/Navbar";
 import "@/app/globals.css";
 import { Toaster as DefaultToaster } from "@/components/ui/toaster";
+
+
 
 
 
@@ -23,18 +27,21 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-//   console.log(process.env.CLERK_JWT_ISSUER_DOMAIN, "CLERK_JWT_ISSUER_DOMAIN");
-
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body className={`${nunito.className}`}>
         <ConvexClientProvider>
-          <Navbar/>
-          <main className="m-20">
-            {children}
-          </main>
-          <Footer/>
-          <DefaultToaster />
+          <SignedIn>
+            <Navbar/>
+            <main className="m-20">
+              {children}
+            </main>
+            <Footer/>
+            <DefaultToaster />
+          </SignedIn>
+          <SignedOut>
+            <Landing/>
+          </SignedOut>
         </ConvexClientProvider>
       </body>
     </html>
