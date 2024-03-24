@@ -55,9 +55,8 @@ export default defineSchema({
     .index("categoryId", ["categoryId"]),
 
   events: defineTable({
-    type: v.union(v.literal("Birthday"), v.literal("Wedding")),
+    type: v.string(),
     date: v.string(),
-    location: v.string(),
     name: v.string(),
     userId: v.id("users"),
   }).index("userId", ["userId"]),

@@ -2,8 +2,8 @@
 import { useEffect } from "react";
 
 import { SubscribeDialog } from "./Stripe/SubscribeDialog";
+import { useUserStore } from "./UserStoreProvider";
 import useStoreUserEffect from "@/lib/useStoreUserEffect";
-import { useUserStore } from "@/zustand/hooks";
 
 
 
@@ -11,8 +11,12 @@ export function Composer({ children } : {children: React.ReactNode}) {
   const { userId, userFullname } = useStoreUserEffect();
   const userId_ = useUserStore(state => state.userId);
   //   const userFullname_ = useUserStore(state => state.userFullname);
-  const setUserId = useUserStore(state => state.setUserId);
-  const setUserFullname = useUserStore(state => state.setUserFullname);
+  //   const setUserId = useUserStore(state => state.setUserId);
+  //   const setUserFullname = useUserStore(state => state.setUserFullname);
+
+  const { setUserFullname, setUserId } = useUserStore(
+    state => state,
+  );
 
   useEffect(() => {
     if (!userId || !userFullname) { return; }

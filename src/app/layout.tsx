@@ -6,6 +6,7 @@ import { Footer } from "./_components/Footer";
 import Landing from "./_components/Landing";
 import { Navbar } from "./_components/Navbar";
 import "@/app/globals.css";
+import { UserStoreProvider } from "./_components/UserStoreProvider";
 import { Toaster as DefaultToaster } from "@/components/ui/toaster";
 
 
@@ -31,17 +32,19 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <body className={`${nunito.className}`}>
         <ConvexClientProvider>
-          <SignedIn>
-            <Navbar/>
-            <main className="m-20">
-              {children}
-            </main>
-            <Footer/>
-            <DefaultToaster />
-          </SignedIn>
-          <SignedOut>
-            <Landing/>
-          </SignedOut>
+          <UserStoreProvider>
+            <SignedIn>
+              <Navbar/>
+              <main className="m-20">
+                {children}
+              </main>
+              <Footer/>
+              <DefaultToaster />
+            </SignedIn>
+            <SignedOut>
+              <Landing/>
+            </SignedOut>
+          </UserStoreProvider>
         </ConvexClientProvider>
       </body>
     </html>

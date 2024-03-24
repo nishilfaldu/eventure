@@ -16,6 +16,7 @@ const nextConfig = {
     domains: [
     //   "api.minnect.com",
       "img.clerk.com",
+      "creativesilhouettes.ca",
     ],
   },
   reactStrictMode: true,

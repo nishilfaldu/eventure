@@ -1,7 +1,6 @@
 "use client";
 import { SignInButton, SignUpButton } from "@clerk/clerk-react";
 import Image from "next/image";
-import Link from "next/link";
 
 import Options from "./Dropdown";
 import bg  from "../../images/bg.jpg";
