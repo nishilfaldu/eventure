@@ -2,17 +2,20 @@
 import { CaretRightOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import type { CollapseProps } from "antd";
 import { Checkbox, List, Button, Modal, Input, Form, Collapse, theme } from "antd";
+import { useMutation } from "convex/react";
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
+import { api } from "../../../../convex/_generated/api";
 import empty_cart_hippo from "@/app/images/hippo-empty-cart.png";
-import { buttonVariants } from "@/components/ui/button";
-
+import { Button as ShadCNButton } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import { tasks } from "@/consts/checklist";
 
 // TODO: replace all image urls with src/domain as start instead of importing StaticImageData
-
+// TODO: use useCallbacks and useMemo whereever possible
 
 const guests = ["Create a guest list", "Make invitations", "Send invitations", "Track RSVP"];
 const decorations = ["Balloons", "Flowers", "Banners and Posters", "Table Decoration", "Wall Decorations", "Lighting", "Personalized Touches"];
@@ -100,7 +103,50 @@ const getItems: (panelStyle: CSSProperties) => CollapseProps["items"] = panelSty
   },
 ];
 
-export function EventDetails() {
+interface EventDetailsProps {
+  eventId: string;
+}
+
+export function EventDetails({ eventId } : EventDetailsProps) {
+  const generateChecklist = useMutation(api.tasks.createTasksByEventId);
+
+  const rearrangedTasks = useMemo(() => {
+    const _tasks = tasks.map(task => {
+      return task.data.map(item => {
+        return {
+          eventId: eventId,
+          header: task.title,
+          description: item,
+          done: false,
+        };
+      }
+      );
+    });
+
+    return _tasks.flat();
+  }, [eventId]);
+
+  console.log(rearrangedTasks);
+
+  const handleGenerateChecklist = useCallback(() => {
+    try {
+      generateChecklist({
+        tasksArray: rearrangedTasks,
+      });
+
+      toast({
+        title: "Checklist Generated",
+        description: "Checklist has been generated successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error while generating the checklist",
+      });
+    }
+  }, [generateChecklist, rearrangedTasks]);
+
+
   const [lists, setLists] = useState([
     { title: "Guests", data: guests },
     { title: "Decorations", data: decorations },
@@ -167,16 +213,9 @@ export function EventDetails() {
             <div className="text-xl font-semibold">
                 Your task list is empty
             </div>
-            <Link
-              href="/products"
-              className={buttonVariants({
-                variant: "link",
-                size: "sm",
-                className:
-                    "text-sm",
-              })}>
+            <ShadCNButton variant={"link"} onClick={handleGenerateChecklist}>
                 Generate Checklist
-            </Link>
+            </ShadCNButton>
           </div>
         ) : (
           <>
@@ -273,9 +312,11 @@ export function EventDetails() {
         Eventure connects you to experts in the field of event management at a minimal cost.
         Chat with our experts now!
         </div>
-        <Link href="/find-an-expert"><div className="relative p-3 rounded-lg bg-blue-800 text-white text-base break-words">
-        Find an Expert
-        </div> </Link>
+        <ShadCNButton variant="default" className="text-base" size={"default"}>
+          <Link href={"/"}>
+            Find an expert
+          </Link>
+        </ShadCNButton>
       </div>
 
       <div className="text-black text-3xl font-medium break-words pt-6">Looking for vendors?</div>

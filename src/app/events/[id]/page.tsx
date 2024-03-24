@@ -12,6 +12,7 @@ export default async function EventPage({ params }: {params: {id: string} }) {
 
   return (
     <EventDetails
+      eventId={params.id}
     //   preloadedEvent={preloadedEvent}
     />
   );
