@@ -59,7 +59,7 @@ export function CategoryNavigationMenu() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <div className="ml-6">
-            <NavigationMenuTrigger><span className="text-xl">Components</span></NavigationMenuTrigger>
+            <NavigationMenuTrigger><span className="text-xl">Expert Categories</span></NavigationMenuTrigger>
           </div>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
