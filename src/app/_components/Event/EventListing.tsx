@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { CalendarIcon, MessagesSquare, NotebookIcon, StarIcon } from "lucide-react";
+import { CalendarIcon, NotebookIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 

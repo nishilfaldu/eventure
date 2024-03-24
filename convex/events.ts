@@ -79,7 +79,16 @@ export const getEventsByUserId = query({
         return eventDate > currentDate;
       });
     } else {
-      return []; // Handle invalid timeline
+      throw new Error("Invalid timeline");
     }
+  },
+});
+
+export const getEventById = query({
+  args: {
+    id: v.id("events"),
+  },
+  handler: async (ctx, { id }) => {
+    return ctx.db.get(id);
   },
 });

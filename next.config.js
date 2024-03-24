@@ -17,6 +17,7 @@ const nextConfig = {
     //   "api.minnect.com",
       "img.clerk.com",
       "creativesilhouettes.ca",
+      "localhost",
     ],
   },
   reactStrictMode: true,
