@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { MessagesSquare, StarIcon } from "lucide-react";
+import { CalendarIcon, MessagesSquare, NotebookIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -48,12 +48,12 @@ export function EventListing({ event }: EventListingProps) {
         <div className="mb-4">
           <span className="flex items-center gap-x-3">
             <span className="flex items-center gap-x-1">
-              <StarIcon fill="black"/>
+              <NotebookIcon />
               <span className="font-semibold">{event.type}</span>
             </span>
             <span className="flex items-center gap-x-1">
-              <MessagesSquare className=""/>
-              <span>{dayjs(event.date).format()}</span>
+              <CalendarIcon />
+              <span>{dayjs(event.date).format("MM/DD/YYYY")}</span>
             </span>
           </span>
         </div>

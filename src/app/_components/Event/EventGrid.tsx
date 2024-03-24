@@ -43,7 +43,7 @@ export function EventGrid({ timeline }: EventGridProps) {
   const { userId }  = useUserStore(
     state => state,
   );
-  const events = useQuery(api.events.getEventsByUserId, { userId });
+  const events = useQuery(api.events.getEventsByUserId, { userId, timeline });
   console.log(events);
 
   return(

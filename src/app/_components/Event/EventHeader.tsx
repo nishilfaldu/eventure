@@ -8,12 +8,7 @@ import { EventModal } from "./EventModal";
 import { Button } from "@/components/ui/button";
 
 
-
-interface EventData {
-  name: string;
-  category: string;
-  date: string;
-}
+// TODO: Follow ComponentMutateFormRaw, ComponentMutateForm flow later
 
 const eventTabsInfo = [
   {
@@ -30,7 +25,6 @@ const eventTabsInfo = [
 
 export function EventHeader() {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [events, setEvents] = useState<EventData[]>([]);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -42,11 +36,6 @@ export function EventHeader() {
 
   const handleCancel = () => {
     setIsModalVisible(false);
-  };
-
-  const handleEventSubmit = (eventData: EventData) => {
-    setEvents([...events, eventData]);
-    handleOk();
   };
 
   return(
@@ -69,7 +58,10 @@ export function EventHeader() {
           }))
         }
       />
-      <EventModal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} onSubmit={handleEventSubmit}/>
+      <EventModal visible={isModalVisible}
+        onCancel={handleCancel}
+        onSubmit={handleOk}
+      />
     </div>
   );
 }

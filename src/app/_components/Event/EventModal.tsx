@@ -1,7 +1,14 @@
 import { Modal, Select } from "antd";
+import { useMutation } from "convex/react";
+import dayjs from "dayjs";
 import { useState } from "react";
 
+import { api } from "../../../../convex/_generated/api";
+import { useUserStore } from "../UserStoreProvider";
+import { toast } from "@/components/ui/use-toast";
 
+
+// TODO: add z.validation after the functionality has been implemented
 
 interface EventData {
   name: string;
@@ -9,10 +16,18 @@ interface EventData {
   date: string;
 }
 
+interface EventModalProps {
+  visible: boolean;
+  onCancel: () => void;
+  onSubmit: () => void;
+}
+
 const { Option } = Select;
 
-export function EventModal({ visible, onCancel, onSubmit }: { visible: boolean; onOk: () => void;
-  onCancel: () => void; onSubmit: (eventData: EventData) => void; }) {
+export function EventModal({ visible, onCancel, onSubmit }: EventModalProps) {
+  const { userId } = useUserStore(state => state);
+  const createEvent = useMutation(api.events.createEvent);
+
   const [eventData, setEventData] = useState<EventData>({ name: "", category: "", date: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,8 +45,44 @@ export function EventModal({ visible, onCancel, onSubmit }: { visible: boolean; 
     }));
   };
 
-  const handleSubmit = () => {
-    onSubmit(eventData);
+  const handleSubmit = async () => {
+    // onSubmit(eventData);
+    const x = dayjs(eventData.date).toString();
+    const y = dayjs(x).toString();
+    console.log(x, y, dayjs().format("MM/DD/YYYY"));
+
+
+    if(!eventData.category || !eventData.date || !eventData.name) {
+      toast({
+        title: "Missing Fields",
+        description: (
+          <pre className="mt-2 rounded-md bg-slate-950 p-4">
+            <code className="text-white">
+              Please fill all the fields to submit the form
+            </code>
+          </pre>
+        ),
+      });
+
+      return;
+    }
+    const accountData = await createEvent({
+      name: eventData.name,
+      type: eventData.category,
+      date: dayjs(eventData.date).format("MM/DD/YYYY"),
+      userId: userId,
+    });
+    toast({
+      title: accountData ? "Successful Response" : "Failed Response",
+      description: (
+        <pre className="mt-2 rounded-md bg-slate-950 p-4">
+          <code className="text-white">
+            {accountData ? "Your event has been added" : "Failed to add an event"}
+          </code>
+        </pre>
+      ),
+    });
+    onSubmit();
     setEventData({ name: "", category: "", date: "" });
   };
 
