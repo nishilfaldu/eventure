@@ -2,7 +2,7 @@
 import { CaretRightOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import type { CollapseProps } from "antd";
 import { Checkbox, List, Button, Modal, Input, Form, Collapse, theme } from "antd";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
@@ -109,7 +109,8 @@ interface EventDetailsProps {
 
 export function EventDetails({ eventId } : EventDetailsProps) {
   const generateChecklist = useMutation(api.tasks.createTasksByEventId);
-
+  const groupedTasks = useQuery(api.tasks.getTasksByEventId, { eventId });
+  console.log(groupedTasks);
   const rearrangedTasks = useMemo(() => {
     const _tasks = tasks.map(task => {
       return task.data.map(item => {
@@ -126,7 +127,7 @@ export function EventDetails({ eventId } : EventDetailsProps) {
     return _tasks.flat();
   }, [eventId]);
 
-  console.log(rearrangedTasks);
+  //   console.log(rearrangedTasks);
 
   const handleGenerateChecklist = useCallback(() => {
     try {
@@ -201,7 +202,7 @@ export function EventDetails({ eventId } : EventDetailsProps) {
   return (
     <>
       {
-        true ? (
+        groupedTasks && groupedTasks.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center space-y-1">
             <div aria-hidden="true" className="relative mb-4 h-60 w-60">
               <Image
@@ -265,29 +266,29 @@ export function EventDetails({ eventId } : EventDetailsProps) {
                 </Form.Item>
               </Form>
             </Modal>
-            {lists.map((list, listIndex) => (
-              <div key={listIndex}>
-                <div className="font-bold text-xl">{list.title}</div>
+            {groupedTasks?.map((taskCategory, idx) => (
+              <div key={taskCategory.header+"$_{idx}"}>
+                <div className="font-bold text-xl">{taskCategory.header}</div>
                 <List
                   size="large"
                   bordered
-                  dataSource={list.data}
-                  renderItem={(item, itemIndex) => (
+                  dataSource={taskCategory.tasks}
+                  renderItem={(item: any, itemIndex) => (
                     <List.Item>
-                      {list.title === "Guests" && item === "Create a guest list" ? (
+                      {taskCategory.header === "Guests" && item.description === "Create a guest list" ? (
                         <>
-                          <Checkbox><a className="underline" href="/guest-list" rel="noopener noreferrer">{item}</a></Checkbox>
-                          <DeleteOutlined onClick={() => handleDeleteItem(listIndex, itemIndex)} />
+                          <Checkbox><a className="underline" href="/guest-list" rel="noopener noreferrer">{item.description}</a></Checkbox>
+                          <DeleteOutlined onClick={() => handleDeleteItem(idx, itemIndex)} />
                         </>
-                      ) : list.title === "Guests" && item === "Track RSVP" ? (
+                      ) : taskCategory.header === "Guests" && item.description === "Track RSVP" ? (
                         <>
-                          <Checkbox><a className="underline" href="/track-rsvp" rel="noopener noreferrer">{item}</a></Checkbox>
-                          <DeleteOutlined onClick={() => handleDeleteItem(listIndex, itemIndex)} />
+                          <Checkbox><a className="underline" href="/track-rsvp" rel="noopener noreferrer">{item.description}</a></Checkbox>
+                          <DeleteOutlined onClick={() => handleDeleteItem(idx, itemIndex)} />
                         </>
                       ) : (
                         <>
-                          <Checkbox>{item}</Checkbox>
-                          <DeleteOutlined onClick={() => handleDeleteItem(listIndex, itemIndex)} />
+                          <Checkbox>{item.description}</Checkbox>
+                          <DeleteOutlined onClick={() => handleDeleteItem(idx, itemIndex)} />
                         </>
                       )}
                     </List.Item>
@@ -299,11 +300,6 @@ export function EventDetails({ eventId } : EventDetailsProps) {
           </>
         )
       }
-
-
-
-
-
 
       {/* advice, find experts, vendor suggestions */}
       <div className="text-black text-3xl font-medium break-words pt-6">Need expert advice for your event?</div>
