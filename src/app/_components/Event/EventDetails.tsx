@@ -1,8 +1,9 @@
 "use client";
-import { CaretRightOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { CaretRightOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { CollapseProps } from "antd";
 import { Checkbox, List, Button, Modal, Input, Form, Collapse, theme } from "antd";
 import { useMutation, useQuery } from "convex/react";
+import { Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
@@ -13,42 +14,13 @@ import empty_cart_hippo from "@/app/images/hippo-empty-cart.png";
 import { Button as ShadCNButton } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { tasks } from "@/consts/checklist";
+import { balloonSug, bannerSug, flowerSug, photoSug, proEntSug } from "@/consts/vendors";
+import type { Id } from "convex/_generated/dataModel";
 
 // TODO: replace all image urls with src/domain as start instead of importing StaticImageData
 // TODO: use useCallbacks and useMemo whereever possible
 
-const guests = ["Create a guest list", "Make invitations", "Send invitations", "Track RSVP"];
-const decorations = ["Balloons", "Flowers", "Banners and Posters", "Table Decoration", "Wall Decorations", "Lighting", "Personalized Touches"];
-const entertainment = ["Music", "Professional Entertainers", "Games and Activities", "Photo Booth", "Prizes and Awards"];
-const foodAndBeverages = ["Snacks and Appetizers", "Main Course", "Beverages", "Desserts", "Cater Everything"];
-const partySupplies = ["Plates and Utensils", "Cups and Straws", "Table Cloths/Table Runners", "Party Hats/Accessories", "Candles", "Cake Toppers"];
-const partyFavors = ["Return Gifts", "Thank You Notes"];
-const cleanUp = ["Trash Bags", "Cleaning Supplies", "Recycling", "Food Containers", "Vacuum"];
 
-const balloonSug = ` USA Balloonatics: It has 5 star rating on Google Maps
-Balloon Therapy Cincy: It has 0 star rating on Google Maps
-Cappel's: It has 4.7 star rating on Google Maps
-Material Gurl Decor: It has 5 star rating on Google Maps
-`;
-
-const flowerSug = ` Dreisbach Wholesale Florists: It has 4 star rating on Google Maps. Opening hours today are 6:30 AM - 1:00 PM.
-Gia and the Blooms - Findlay Market: It has 4.2 star rating on Google Maps. Opening hours today are 9:00 AM - 6:00 PM.
-Abbey Florist: It has 4 star rating on Google Maps. Opening hours today are 9:00 AM - 5:00 PM.
-J Robinson's Floral: It has 4.7 star rating on Google Maps. Opening hours today are 10:00 AM - 6:30 PM.
-Adrian Durban Florist: It has 4.9 star rating on Google Maps. Opening hours today are 9:00 AM - 5:00 PM.`;
-
-const bannerSug = `FASTSIGNS: It has 4.9 star rating on Google Maps. Opening hours today are 9:00 AM - 5:00 PM. Address is 120 Seventh St W, Cincinnati, OH 45202, USA.
-Seemless Printing: It has 4.6 star rating on Google Maps. Opening hours today are 7:30 AM - 5:00 PM. Address is 717 Linn St, Cincinnati, OH 45203, USA.
-Curative Printing: It has 5 star rating on Google Maps. Opening hours today are 8:00 AM - 5:00 PM. Address is 1025 Dalton Ave, Cincinnati, OH 45203, USA.
-Glyphics Graphics Inc.: It has 5 star rating on Google Maps. Opening hours today are 9:00 AM - 5:00 PM. Address is 5158 Kieley Pl, Cincinnati, OH 45217, USA.
-DBEST Printing, Inc.: It has 5 star rating on Google Maps. Opening hours today are 8:00 AM - 4:30 PM. Address is 316 W 4th St UNIT 400, Cincinnati, OH 45202, USA.`;
-
-const proEntSug =  `Thumbtack: This website allows you to browse profiles of local entertainers, compare prices and reviews, and contact them directly to book their services. It's a great option for finding a variety of entertainers, including magicians, face painters, balloon artists, and more.
-The Bash: This platform connects party planners with a variety of vendors, including kids' party entertainers. You can browse profiles, see photos and videos of their work, and request quotes directly through the platform.`;
-
-const photoSug = `Photo Booth Cincy: They offer multiple photo booth options to fit your party's style and size. They have open concept booths, enclosed booths, and even a vintage VW Bus booth! Their attendants keep things fun and running smoothly throughout your event, and they can even provide custom props and backdrops. Photo Booth Cincy boasts a 5.0 star rating on Google Reviews.
-Flash Cube Photo Booths: This company offers affordable and portable photo booth rentals for any type of event. They have a variety of packages to choose from, and they can even create a custom backdrop to match your party theme. Flash Cube Photo Booths has a 5.0 star rating on Google Reviews.
-Signature Photo Booth: They offer a variety of photo booth rental options for weddings, corporate events, and parties. They have open concept and enclosed booths, and they can provide a variety of props and backdrops to choose from. Signature Photo Booth has a perfect 5.0 star rating on Google Reviews.`;
 
 const getItems: (panelStyle: CSSProperties) => CollapseProps["items"] = panelStyle => [
   {
@@ -109,7 +81,9 @@ interface EventDetailsProps {
 
 export function EventDetails({ eventId } : EventDetailsProps) {
   const generateChecklist = useMutation(api.tasks.createTasksByEventId);
+  const addTask = useMutation(api.tasks.createTaskByEventId);
   const groupedTasks = useQuery(api.tasks.getTasksByEventId, { eventId });
+  const deleteTask = useMutation(api.tasks.deleteTaskById);
   console.log(groupedTasks);
   const rearrangedTasks = useMemo(() => {
     const _tasks = tasks.map(task => {
@@ -147,17 +121,6 @@ export function EventDetails({ eventId } : EventDetailsProps) {
     }
   }, [generateChecklist, rearrangedTasks]);
 
-
-  const [lists, setLists] = useState([
-    { title: "Guests", data: guests },
-    { title: "Decorations", data: decorations },
-    { title: "Entertainment", data: entertainment },
-    { title: "Food and Beverages", data: foodAndBeverages },
-    { title: "Party Supplies", data: partySupplies },
-    { title: "Party Favors", data: partyFavors },
-    { title: "Clean Up", data: cleanUp },
-  ]);
-
   const { token } = theme.useToken();
 
   const panelStyle: React.CSSProperties = {
@@ -179,25 +142,53 @@ export function EventDetails({ eventId } : EventDetailsProps) {
     setIsModalVisible(false);
   };
 
-  const handleAddItem = () => {
-    form.validateFields().then(values => {
-      // Add the new item to the appropriate category
-      const updatedLists = [...lists];
-      const categoryIndex = updatedLists.findIndex(list => list.title === values.category);
-      if (categoryIndex !== -1) {
-        updatedLists[categoryIndex].data.push(values.item);
-        setLists(updatedLists);
+  const handleAddItem = useCallback(() => {
+    form.validateFields().then(async values => {
+      console.log(values, "values");
+      if (!values.category.trim() || !values.item.trim()) {
+        toast({
+          title: "Missing Fields",
+          description: "Please fill all the fields to submit the form",
+        });
+
+        return;
+      }
+      try {
+        await addTask({
+          eventId: eventId,
+          header: values.category.trim(),
+          description: values.item.trim(),
+        });
+
+        toast({
+          title: "Add Item",
+          description: "Added new item to the checklist successfully",
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "There was an error while adding the item to the checklist",
+        });
       }
       form.resetFields();
       setIsModalVisible(false);
     });
-  };
+  }, [addTask, eventId, form]);
 
-  const handleDeleteItem = (listIndex: number, itemIndex: number) => {
-    const updatedLists = [...lists];
-    updatedLists[listIndex].data.splice(itemIndex, 1);
-    setLists(updatedLists);
-  };
+  const handleDeleteItem = useCallback(async (id: Id<"tasks">) => {
+    try {
+      await deleteTask({ taskId: id });
+      toast({
+        title: "Delete Item",
+        description: "Deleted item from the checklist successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error while deleting the item from the checklist",
+      });
+    }
+  }, [deleteTask]);
 
   return (
     <>
@@ -223,17 +214,11 @@ export function EventDetails({ eventId } : EventDetailsProps) {
             <div className="text-black text-3xl font-medium break-words pt-6">Here is a curated checklist for your perfect event!</div>
             <div className="flex justify-between items-center">
               <div className="relative text-gray-600 text-xl font-medium break-words">
-        Check things off as you take care of them. Feel free to delete things you may not need.
+                Check things off as you take care of them. Feel free to delete things you may not need.
               </div>
-              <div className="relative p-2 rounded-lg bg-blue-800 text-white text-base break-words">
-                <Button
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={showModal}
-                >
-          Add New Item
-                </Button>
-              </div>
+              <ShadCNButton onClick={showModal} className="flex gap-x-2">
+                <Plus/> Add New Item
+              </ShadCNButton>
             </div>
             <br/><br/>
             <Modal
@@ -275,22 +260,10 @@ export function EventDetails({ eventId } : EventDetailsProps) {
                   dataSource={taskCategory.tasks}
                   renderItem={(item: any, itemIndex) => (
                     <List.Item>
-                      {taskCategory.header === "Guests" && item.description === "Create a guest list" ? (
-                        <>
-                          <Checkbox><a className="underline" href="/guest-list" rel="noopener noreferrer">{item.description}</a></Checkbox>
-                          <DeleteOutlined onClick={() => handleDeleteItem(idx, itemIndex)} />
-                        </>
-                      ) : taskCategory.header === "Guests" && item.description === "Track RSVP" ? (
-                        <>
-                          <Checkbox><a className="underline" href="/track-rsvp" rel="noopener noreferrer">{item.description}</a></Checkbox>
-                          <DeleteOutlined onClick={() => handleDeleteItem(idx, itemIndex)} />
-                        </>
-                      ) : (
-                        <>
-                          <Checkbox>{item.description}</Checkbox>
-                          <DeleteOutlined onClick={() => handleDeleteItem(idx, itemIndex)} />
-                        </>
-                      )}
+                      <>
+                        <Checkbox>{item.description}</Checkbox>
+                        <DeleteOutlined onClick={() => handleDeleteItem(item._id)} />
+                      </>
                     </List.Item>
                   )}
                 />
