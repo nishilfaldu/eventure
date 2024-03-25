@@ -8,14 +8,18 @@ const sidebarNavItems = [
     title: "Profile",
     href: "/settings",
   },
+  //   {
+  //     title: "General",
+  //     href: "/settings/general",
+  //   },
   {
-    title: "General",
-    href: "/settings/general",
+    title: "Billing",
+    href: "/settings/pricing",
   },
-  {
-    title: "Transactions",
-    href: "/settings/transactions",
-  },
+  //   {
+  //     title: "Transactions",
+  //     href: "/settings/transactions",
+  //   },
   {
     title: "Become a Professional",
     href: "/settings/become-a-professional",

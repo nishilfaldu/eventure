@@ -10,6 +10,7 @@ export default function PeoplePage() {
   //   const defaultLayout = layout ? JSON.parse(layout.value) : undefined;
   //   const defaultCollapsed = collapsed ? JSON.parse(collapsed.value) : undefined;
 
+
   return (
     // <div className="hidden lg:block lg:pl-80">
     //   <EmptyState />

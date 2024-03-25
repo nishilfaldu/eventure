@@ -22,7 +22,7 @@ import * as React from "react";
 
 
 interface RegisterGuestEmailProps {
-  guestFirstName?: string;
+  guestName?: string;
   eventDate?: Date;
   eventLocation?: string;
   eventName?: string;
@@ -36,9 +36,9 @@ const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL
   : "";
 
 export const RegisterGuestEmail = ({
-  guestFirstName = "Zeno",
+  guestName = "Zeno",
   eventDate = new Date("September 7, 2022, 10:58 am"),
-  eventLocation = "Upland, California, United States",
+  eventLocation = "[Event Location]",
   eventName = "[Event Name]",
   contactEmail = "sample@gmail.com",
   contactPhone = "+15130987654",
@@ -71,7 +71,7 @@ export const RegisterGuestEmail = ({
                     textAlign: "center",
                   }}
                 >
-                    Dear {guestFirstName},
+                    Dear {guestName},
                 </Heading>
                 <Heading
                   as="h2"

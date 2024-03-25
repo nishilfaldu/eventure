@@ -13,21 +13,27 @@ import { cn } from "@/lib/utils";
 
 type CardProps = React.ComponentProps<typeof Card>
 
-export function ReviewCard({ className, ...props }: CardProps) {
+interface ReviewCardProps extends CardProps {
+  reviewerName: string;
+  review: string;
+  rating: number;
+}
+
+export function ReviewCard({ className, reviewerName, review, rating, ...props }: ReviewCardProps) {
   return (
     <Card className={cn("w-full ml-auto mr-auto", className)} {...props}>
       <CardHeader>
-        <CardTitle>Nishil Faldu</CardTitle>
+        <CardTitle>{reviewerName}</CardTitle>
         <CardDescription>
           <span className="flex">
-            {Array.from({ length: 5 }).map((_, i) => (
+            {Array.from({ length: rating }).map((_, i) => (
               <StarIcon key={i} fill="yellow"/>
             ))}
           </span>
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <p>Man it’s cool being able to get a legit response. Also good advice.</p>
+        <p>{review}</p>
       </CardContent>
     </Card>
   );

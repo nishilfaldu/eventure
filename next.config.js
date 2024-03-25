@@ -14,11 +14,10 @@ const nextConfig = {
   },
   images: {
     domains: [
-      "www.ingenstudio.com",
-      "www.magestore.com",
-      "blog.carts.guru",
-      "images.unsplash.com",
-      "api.minnect.com",
+    //   "api.minnect.com",
+      "img.clerk.com",
+      "creativesilhouettes.ca",
+      "localhost",
     ],
   },
   reactStrictMode: true,

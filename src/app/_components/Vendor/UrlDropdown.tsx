@@ -1,6 +1,6 @@
 import { ChevronDown } from "lucide-react";
 
-import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon, WebsiteIcon } from "../Icons";
+import { InstagramIcon, LinkedinIcon, TwitterIcon, WebsiteIcon } from "../Icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,7 +12,16 @@ import { Separator } from "@/components/ui/separator";
 
 
 
-export function UrlDropdown() {
+interface UrlDropdownProps {
+  linkedInHref?: string;
+  instagramHref?: string;
+  twitterHref?: string;
+  websiteHref?: string;
+}
+
+export function UrlDropdown(
+  { linkedInHref, instagramHref, twitterHref, websiteHref }
+  : UrlDropdownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -20,26 +29,22 @@ export function UrlDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <Separator orientation="vertical"/>
-        <DropdownMenuItem>
-          <FacebookIcon className="mr-2 h-4 w-4" />
-          <a href={"https://www.facebook.com"} target="_blank" rel="noopener noreferrer">Facebook</a>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
+        {instagramHref && instagramHref.length > 0 ? <DropdownMenuItem>
           <InstagramIcon className="mr-2 h-4 w-4" />
-          <a href={"https://www.instagram.com"} target="_blank" rel="noopener noreferrer">Instagram</a>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
+          <a href={instagramHref} target="_blank" rel="noopener noreferrer">Instagram</a>
+        </DropdownMenuItem> : null}
+        {linkedInHref && linkedInHref.length > 0 ? <DropdownMenuItem>
           <LinkedinIcon className="mr-2 h-4 w-4" />
-          <a href={"https://www.linkedin.com"} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
+          <a href={linkedInHref} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </DropdownMenuItem> : null}
+        {twitterHref && twitterHref.length > 0 ? <DropdownMenuItem>
           <TwitterIcon className="mr-2 h-4 w-4" />
-          <a href={"https://www.twitter.com"} target="_blank" rel="noopener noreferrer">Twitter</a>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
+          <a href={twitterHref} target="_blank" rel="noopener noreferrer">Twitter</a>
+        </DropdownMenuItem> : null}
+        {websiteHref && websiteHref.length > 0 ? <DropdownMenuItem>
           <WebsiteIcon className="mr-2 h-4 w-4" />
-          <a href={"https://www.nishilfaldu.site"} target="_blank" rel="noopener noreferrer">Wesbite</a>
-        </DropdownMenuItem>
+          <a href={websiteHref} target="_blank" rel="noopener noreferrer">Wesbite</a>
+        </DropdownMenuItem> : null}
       </DropdownMenuContent>
     </DropdownMenu>
   );

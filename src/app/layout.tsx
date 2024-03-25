@@ -1,10 +1,15 @@
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Nunito } from "next/font/google";
 
 import ConvexClientProvider from "./_components/ConvexClientProvider";
 import { Footer } from "./_components/Footer";
+import Landing from "./_components/Landing";
 import { Navbar } from "./_components/Navbar";
 import "@/app/globals.css";
+import { UserStoreProvider } from "./_components/UserStoreProvider";
 import { Toaster as DefaultToaster } from "@/components/ui/toaster";
+
+
 
 
 
@@ -24,15 +29,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <body className={`${nunito.className}`}>
         <ConvexClientProvider>
-          <Navbar/>
-          <main className="m-20">
-            {children}
-          </main>
-          <Footer/>
-          <DefaultToaster />
+          <UserStoreProvider>
+            <SignedIn>
+              <Navbar/>
+              <main className="m-20">
+                {children}
+              </main>
+              <Footer/>
+              <DefaultToaster />
+            </SignedIn>
+            <SignedOut>
+              <Landing/>
+            </SignedOut>
+          </UserStoreProvider>
         </ConvexClientProvider>
       </body>
     </html>

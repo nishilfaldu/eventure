@@ -1,3 +1,4 @@
+import { SocketContextProvider } from "../_components/VideoCall/SocketContext";
 
 
 
@@ -7,15 +8,17 @@ export default async function UsersLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      {/* <Sidebar>
+    <SocketContextProvider>
+      <div>
+        {/* <Sidebar>
         <div className="">
           <UserList />
           {children}
         </div>
       </Sidebar> */}
-      {children}
-    </div>
+        {children}
+      </div>
+    </SocketContextProvider>
 
   );
 }

@@ -1,17 +1,19 @@
+import { preloadQuery } from "convex/nextjs";
+
+import { SignInOrComposer } from "./_components/SignInOrShowApp";
 import { VendorGrid } from "./_components/Vendor/VendorGrid";
+import { api } from "../../convex/_generated/api";
 
 
 
-export default function Home() {
+export default async function Home() {
+  const preloadedProfessionals = await preloadQuery(api.users.getProfessionals, {});
+
   return (
-    <div>
-      {/* <UserProfile /> */}
-      <div className="flex items-center justify-center text-6xl font-bold my-16">
-        <h1 className="text-center">Browse Event Professionals</h1>
-      </div>
-      <div>
-        <VendorGrid/>
-      </div>
-    </div>
+    <>
+      <SignInOrComposer>
+        <VendorGrid preloadedProfessionals={preloadedProfessionals}/>
+      </SignInOrComposer>
+    </>
   );
 }

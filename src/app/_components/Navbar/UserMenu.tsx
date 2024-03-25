@@ -14,10 +14,6 @@ import { Button } from "@/components/ui/button";
 export function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const divRef = useRef(null);
-  //   const clickedOutside = useOutsideClick(divRef);
-  //   if(clickedOutside) {
-  //     setIsOpen(false);
-  //   }
 
   const toggleOpen = useCallback(() => {
     setIsOpen(value => !value);
@@ -52,18 +48,14 @@ export function UserMenu() {
           </div>
 
           {/* MenuItems Group 1 */}
-          <MenuItem label="General" href="/settings/general" otherClassName="mt-2" />
+          <MenuItem label="Profile" href="/settings/" otherClassName="mt-2" />
           <MenuItem label="Transactions" href="/settings/transactions"/>
           <MenuItem label="Become a professional" href="/settings/become-a-professional" />
 
           <MenuItemDivider/>
 
           {/* MenuItems Group 2 */}
-          <MenuItem label="Home" href="/" />
-          <MenuItem label="Events" href="/events" />
-          <MenuItem label="Chats" href="/chats" />
-          <MenuItem label="Schedule" href="/schedule" />
-          <MenuItem label="Users" href="/users" />
+          <MenuItem label="Pricing" href="/settings/pricing" />
 
           <MenuItemDivider/>
 
@@ -74,13 +66,13 @@ export function UserMenu() {
 
           <MenuItemDivider/>
 
-          <Link
+          {/* <Link
             className="block mx-auto px-4 py-2 mt-2 mb-2 text-sm text-white bg-indigo-600 hover:bg-indigo-700 rounded-md w-3/4 text-center"
             href="#"
             role="menuitem"
           >
             Upgrade to Pro
-          </Link>
+          </Link> */}
         </div>
       </div>}
     </div>

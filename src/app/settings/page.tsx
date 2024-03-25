@@ -1,3 +1,5 @@
+import { UserProfile } from "@clerk/nextjs";
+
 import { Separator } from "@/components/ui/separator";
 
 
@@ -12,6 +14,7 @@ export default function SettingsProfilePage() {
         </p>
       </div>
       <Separator />
+      <UserProfile/>
     </div>
   );
 }

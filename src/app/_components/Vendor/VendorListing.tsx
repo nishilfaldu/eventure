@@ -2,11 +2,37 @@ import { MessagesSquare, ShieldCheck, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import type { Id } from "convex/_generated/dataModel";
+
+
+
+type UserProps = {
+  _id: Id<"users">;
+  _creationTime: number;
+  gender?: "Male" | "Female" | "Other";
+  country?: string;
+  city?: string;
+  bio?: string;
+  portfolio?: string;
+  linkedIn?: string;
+  instagram?: string;
+  twitter?: string;
+  pictureUrl: string;
+  verified: boolean;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  username: string;
+  email: string;
+  tokenIdentifier: string;
+  expert: boolean;
+  averageRating: number;
+}
 
 
 interface VendorListingProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  professional: any;
+  professional: UserProps;
   index: number;
 }
 
@@ -15,7 +41,7 @@ export function VendorListing({ professional }: VendorListingProps) {
     <div>
       {/* professional image */}
       <Link
-        href={`/professional/${professional.id}`}
+        href={`/professional/${professional._id}`}
         className="cursor-pointer"
       >
         <div className="aspect-square w-full relative overflow-hidden rounded-xl">
@@ -28,19 +54,19 @@ export function VendorListing({ professional }: VendorListingProps) {
             alt="Product image"
           />
           <div className="absolute top-3 right-3 z-10">
-            <ShieldCheck className="text-blue-600"/>
+            {professional.verified && <ShieldCheck className="text-blue-600"/>}
           </div>
         </div>
       </Link>
 
       {/* professional brief details */}
       <div className="my-2">
-        <h3 className="text-gray-900 text-lg title-font font-bold mb-1">The Catcher in the Rye</h3>
+        <h3 className="text-gray-900 text-lg title-font font-bold mb-1">{professional.firstName}{" "}{professional.lastName}</h3>
         <div className="mb-4">
           <span className="flex items-center gap-x-3">
             <span className="flex items-center gap-x-1">
               <StarIcon fill="black"/>
-              <span className="font-semibold">4.97</span>
+              <span className="font-semibold">{isNaN(professional.averageRating) ? 0 : professional.averageRating.toFixed(2)}</span>
             </span>
             <span className="flex items-center gap-x-1">
               <MessagesSquare className=""/>
