@@ -9,6 +9,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { useCallback, useMemo, useState } from "react";
 
+import { GuestDialog } from "./GuestDialog";
 import { api } from "../../../../convex/_generated/api";
 import empty_cart_hippo from "@/app/images/hippo-empty-cart.png";
 import { Button as ShadCNButton } from "@/components/ui/button";
@@ -216,9 +217,13 @@ export function EventDetails({ eventId } : EventDetailsProps) {
               <div className="relative text-gray-600 text-xl font-medium break-words">
                 Check things off as you take care of them. Feel free to delete things you may not need.
               </div>
-              <ShadCNButton onClick={showModal} className="flex gap-x-2">
-                <Plus/> Add New Item
-              </ShadCNButton>
+              <div className="flex gap-x-2">
+                <GuestDialog id="sample string"/>
+                <ShadCNButton onClick={showModal} className="flex gap-x-2">
+                  <Plus/> Add New Item
+                </ShadCNButton>
+              </div>
+
             </div>
             <br/><br/>
             <Modal

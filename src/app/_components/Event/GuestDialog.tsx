@@ -1,4 +1,6 @@
+import { Input, Space, Table } from "antd";
 import { useMutation } from "convex/react";
+import Link from "next/link";
 import type { FormEvent } from "react";
 import { useState } from "react";
 
@@ -19,49 +21,111 @@ import type { Id } from "convex/_generated/dataModel";
 
 
 
-interface AddReviewDialogProps {
-  revieweeId: Id<"users">;
-  reviewerId: Id<"users">;
+
+
+const columns = [
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
+  },
+  {
+    title: "Phone",
+    dataIndex: "phone",
+    key: "phone",
+  },
+  {
+    title: "RSVP Status",
+    dataIndex: "rsvp",
+    key: "rsvp",
+  },
+];
+
+interface Guest {
+  name: string;
+  email: string;
+  phone: string;
 }
 
-export function GuestDialog({ revieweeId, reviewerId }: AddReviewDialogProps) {
+interface GuestDialogProps {
+  id: string;
+}
+
+// TODO: add z validation especially for emails and phone numbers
+
+export function GuestDialog({ id }: GuestDialogProps) {
   const [review, setReview] = useState("");
   const [openModal, setOpenModal] = useState(false);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const [guests, setGuests] = useState<Guest[]>([]);
+  const [newGuest, setNewGuest] = useState<Guest>({ name: "", email: "", phone: "" });
 
-    toast({ title: "Successful Review", description: "A review was successfully added." });
-    setOpenModal(false);
+  const handleAddGuest = () => {
+    setGuests([...guests, newGuest]);
+    setNewGuest({ name: "", email: "", phone: "" });
   };
 
   return (
     <Dialog open={openModal}>
       <DialogTrigger asChild>
-        <Button variant="link" disabled={revieweeId === reviewerId} onClick={() => setOpenModal(true)}>Create a guest list</Button>
+        <Button variant="outline" onClick={() => setOpenModal(true)}>Create a guest list</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="max-w-fit">
         <DialogHeader>
-          <DialogTitle>Your Review</DialogTitle>
+          <DialogTitle>Create your guest list</DialogTitle>
           <DialogDescription>
-            Your review cannot be edited but can always be deleted if needed followed by creating a new one.
+            Add one guest at a time and send them emails about events
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={e => handleSubmit(e)}>
-          <div className="grid gap-4 py-4">
-            <div className="flex flex-col gap-4 justify-items-start items-start">
-              <Textarea
-                id="review"
-                value={review}
-                placeholder="Write your review here"
-                onChange={e => setReview(e.target.value)}
-                className="col-span-3" />
-            </div>
+        <>
+          <div>
+            <Space>
+              <div className="flex gap-x-2">
+                <Input
+                  placeholder="Name"
+                  value={newGuest.name}
+                  onChange={e => setNewGuest({ ...newGuest, name: e.target.value })}
+                  required
+                  className="w-full"
+                  size="large"
+                />
+                <Input
+                  placeholder="Email"
+                  value={newGuest.email}
+                  onChange={e => setNewGuest({ ...newGuest, email: e.target.value })}
+                  required
+                  size="large"
+
+                />
+                <Input
+                  placeholder="Phone"
+                  value={newGuest.phone}
+                  onChange={e => setNewGuest({ ...newGuest, phone: e.target.value })}
+                  required
+                  size="large"
+                />
+              </div>
+              <Button variant="default" onClick={handleAddGuest}>Add Guest</Button>
+            </Space>
+            <Table columns={columns} dataSource={guests} className="mt-4"/>
           </div>
-          <DialogFooter>
-            <Button type="submit">Publish</Button>
-          </DialogFooter>
-        </form>
+          <div className="flex flex-col">
+            <h1 className="text-black text-2xl font-medium">Ready to send RSVP requests?</h1>
+            <h1 className="text-gray-600">
+            Once you have a finalized guest list, we will send out RSVP requests for you.
+            </h1>
+            <Button variant="default" className="mt-2">Send RSVP Requests</Button>
+          </div>
+
+        </>
+        <DialogFooter>
+          <Button onClick={() => setOpenModal(false)}>Close</Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
