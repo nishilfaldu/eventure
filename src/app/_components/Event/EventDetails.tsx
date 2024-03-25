@@ -85,6 +85,7 @@ export function EventDetails({ eventId } : EventDetailsProps) {
   const addTask = useMutation(api.tasks.createTaskByEventId);
   const groupedTasks = useQuery(api.tasks.getTasksByEventId, { eventId });
   const deleteTask = useMutation(api.tasks.deleteTaskById);
+  const guests = useQuery(api.guests.getGuestsByEventId, { eventId });
   console.log(groupedTasks);
   const rearrangedTasks = useMemo(() => {
     const _tasks = tasks.map(task => {
@@ -218,7 +219,7 @@ export function EventDetails({ eventId } : EventDetailsProps) {
                 Check things off as you take care of them. Feel free to delete things you may not need.
               </div>
               <div className="flex gap-x-2">
-                <GuestDialog eventId={eventId}/>
+                <GuestDialog eventId={eventId} guests={guests ?? []}/>
                 <ShadCNButton onClick={showModal} className="flex gap-x-2">
                   <Plus/> Add New Item
                 </ShadCNButton>

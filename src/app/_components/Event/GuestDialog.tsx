@@ -1,6 +1,8 @@
+import type { TableProps } from "antd";
 import { Input, Space, Table } from "antd";
 import { useMutation } from "convex/react";
-import { useCallback, useState } from "react";
+import { Trash } from "lucide-react";
+import { useCallback, useMemo, useState } from "react";
 
 import { api } from "../../../../convex/_generated/api";
 import { Button } from "@/components/ui/button";
@@ -14,57 +16,106 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
+import type { Id } from "convex/_generated/dataModel";
 
 
 
+interface DataType {
+  name: string;
+  email: string;
+  phone: string;
+  rsvp: string;
+  _id: Id<"guests">;
+}
 
 
-const columns = [
-  {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-  },
-  {
-    title: "Email",
-    dataIndex: "email",
-    key: "email",
-  },
-  {
-    title: "Phone",
-    dataIndex: "phone",
-    key: "phone",
-  },
-  {
-    title: "RSVP Status",
-    dataIndex: "rsvp",
-    key: "rsvp",
-  },
-];
 
 interface Guest {
+  _id: Id<"guests">;
+  _creationTime: number;
+  email: string;
+  phoneNumber: string;
+  name: string;
+  eventId: Id<"events">;
+  registered: boolean;
+}[];
+
+interface GuestDialogProps {
+  eventId: string;
+  guests: Guest[];
+}
+
+interface GuestState {
   name: string;
   email: string;
   phone: string;
 }
 
-interface GuestDialogProps {
-  eventId: string;
-}
-
 // TODO: add z validation especially for emails and phone numbers
 // TODO: make useState optimized for object {} storage setState((oldObj) => ({ ...oldObj, key: value }))
 
-export function GuestDialog({ eventId }: GuestDialogProps) {
+export function GuestDialog({ eventId, guests }: GuestDialogProps) {
   const createGuest = useMutation(api.guests.createGuest);
+  const deleteGuest = useMutation(api.guests.deleteGuestById);
 
   const [openModal, setOpenModal] = useState(false);
 
-  const [guests, setGuests] = useState<Guest[]>([]);
-  const [newGuest, setNewGuest] = useState<Guest>({ name: "", email: "", phone: "" });
+  //   const [guests, setGuests] = useState<GuestState[]>([]);
+  const [newGuest, setNewGuest] = useState<GuestState>({ name: "", email: "", phone: "" });
+
+  const columns : TableProps<DataType>["columns"] = useMemo(() =>
+    [
+      {
+        dataIndex: "id",
+        key: "_id",
+      },
+      {
+        title: "Name",
+        dataIndex: "name",
+        key: "name",
+      },
+      {
+        title: "Email",
+        dataIndex: "email",
+        key: "email",
+      },
+      {
+        title: "Phone",
+        dataIndex: "phone",
+        key: "phone",
+      },
+      {
+        title: "RSVP Status",
+        dataIndex: "rsvp",
+        key: "rsvp",
+      },
+      {
+        title: "Action",
+        key: "action",
+        render: (_, record) => (
+          <Button variant={"ghost"} onClick={() => handleDeleteGuest(record._id)}>
+            <Trash />
+          </Button>
+        ),
+      },
+    ], []);
+
+  const handleDeleteGuest = useCallback(async (guestId: Id<"guests">) => {
+    try {
+      await deleteGuest({ guestId });
+      toast({
+        title: "Delete Guest",
+        description: "Deleted guest successfully",
+      });
+    } catch {
+      toast({
+        title: "Error",
+        description: "There was an error while deleting the guest",
+      });
+    }
+  }, [deleteGuest]);
 
   const handleAddGuest = useCallback(async () => {
-    // setGuests([...guests, newGuest]);
     if(!newGuest.name || !newGuest.email || !newGuest.phone) {
       toast({
         title: "Missing Fields",
@@ -138,7 +189,16 @@ export function GuestDialog({ eventId }: GuestDialogProps) {
               </div>
               <Button variant="default" onClick={handleAddGuest}>Add Guest</Button>
             </Space>
-            <Table columns={columns} dataSource={guests} className="mt-4"/>
+            <Table columns={columns} dataSource={
+              guests.map(guest => ({
+                name: guest.name,
+                email: guest.email,
+                phone: guest.phoneNumber,
+                rsvp: guest.registered ? "Yes" : "No",
+                _id: guest._id,
+                key: guest._id, // Unique key for each row. Needed for React to identify each row, especially if the data is updated.
+              }))
+            } pagination={{ defaultPageSize: 5 }} className="mt-4"/>
           </div>
           <div className="flex flex-col">
             <h1 className="text-black text-2xl font-medium">Ready to send RSVP requests?</h1>
