@@ -1,6 +1,6 @@
 import type { TableProps } from "antd";
 import { Input, Space, Table } from "antd";
-import { useMutation } from "convex/react";
+import { useAction, useMutation } from "convex/react";
 import { Trash } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 
@@ -63,6 +63,21 @@ export function GuestDialog({ eventId, guests }: GuestDialogProps) {
   //   const [guests, setGuests] = useState<GuestState[]>([]);
   const [newGuest, setNewGuest] = useState<GuestState>({ name: "", email: "", phone: "" });
 
+  const handleDeleteGuest = useCallback(async (guestId: Id<"guests">) => {
+    try {
+      await deleteGuest({ guestId });
+      toast({
+        title: "Delete Guest",
+        description: "Deleted guest successfully",
+      });
+    } catch {
+      toast({
+        title: "Error",
+        description: "There was an error while deleting the guest",
+      });
+    }
+  }, [deleteGuest]);
+
   const columns : TableProps<DataType>["columns"] = useMemo(() =>
     [
       {
@@ -98,22 +113,35 @@ export function GuestDialog({ eventId, guests }: GuestDialogProps) {
           </Button>
         ),
       },
-    ], []);
+    ], [handleDeleteGuest]);
 
-  const handleDeleteGuest = useCallback(async (guestId: Id<"guests">) => {
+
+  const sendRSVP = async e => {
+    console.log("i ran");
+    e.preventDefault();
+    const submitData = { registerHref: "www.google.com", contactEmail: "faldund@mail.uc.edu", contactPhone: "+15130987654",
+      eventDate: "12/24/2024", eventLocation: "California", eventName: "Christmas Party", guestName: "Zeno",
+      toEmail: guests[0].email };
+
     try {
-      await deleteGuest({ guestId });
-      toast({
-        title: "Delete Guest",
-        description: "Deleted guest successfully",
-      });
-    } catch {
-      toast({
-        title: "Error",
-        description: "There was an error while deleting the guest",
-      });
+      fetch("http://localhost:3000/api/send",{
+        method: "POST",
+        // body: JSON.stringify(submitData),
+        headers: {
+          "content-type": "application/json",
+        },
+      }).then(res => console.log(res));
+    //   console.log(await res.text(), "res");
+    //   if(res.ok) {
+    //     console.log("Yeai!");
+    //   }else{
+    //     console.log("Oops! Something is wrong.");
+    //   }
+    } catch (error) {
+      console.log(error);
     }
-  }, [deleteGuest]);
+  };
+
 
   const handleAddGuest = useCallback(async () => {
     if(!newGuest.name || !newGuest.email || !newGuest.phone) {
@@ -205,7 +233,7 @@ export function GuestDialog({ eventId, guests }: GuestDialogProps) {
             <h1 className="text-gray-600">
             Once you have a finalized guest list, we will send out RSVP requests for you.
             </h1>
-            <Button variant="default" className="mt-2">Send RSVP Requests</Button>
+            <Button variant="default" className="mt-2" onClick={sendRSVP}>Send RSVP Requests</Button>
           </div>
 
         </>
