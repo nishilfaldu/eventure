@@ -1,8 +1,6 @@
 import { Input, Space, Table } from "antd";
 import { useMutation } from "convex/react";
-import Link from "next/link";
-import type { FormEvent } from "react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { api } from "../../../../convex/_generated/api";
 import { Button } from "@/components/ui/button";
@@ -15,9 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
-import type { Id } from "convex/_generated/dataModel";
 
 
 
@@ -53,22 +49,52 @@ interface Guest {
 }
 
 interface GuestDialogProps {
-  id: string;
+  eventId: string;
 }
 
 // TODO: add z validation especially for emails and phone numbers
+// TODO: make useState optimized for object {} storage setState((oldObj) => ({ ...oldObj, key: value }))
 
-export function GuestDialog({ id }: GuestDialogProps) {
-  const [review, setReview] = useState("");
+export function GuestDialog({ eventId }: GuestDialogProps) {
+  const createGuest = useMutation(api.guests.createGuest);
+
   const [openModal, setOpenModal] = useState(false);
 
   const [guests, setGuests] = useState<Guest[]>([]);
   const [newGuest, setNewGuest] = useState<Guest>({ name: "", email: "", phone: "" });
 
-  const handleAddGuest = () => {
-    setGuests([...guests, newGuest]);
+  const handleAddGuest = useCallback(async () => {
+    // setGuests([...guests, newGuest]);
+    if(!newGuest.name || !newGuest.email || !newGuest.phone) {
+      toast({
+        title: "Missing Fields",
+        description: "Please fill out all fields",
+      });
+
+      return;
+    }
+
+    try {
+      await createGuest({
+        eventId: eventId,
+        name: newGuest.name,
+        email: newGuest.email,
+        phoneNumber: newGuest.phone,
+      });
+
+      toast({
+        title: "Add Guest",
+        description: "Added new guest successfully",
+      });
+    } catch {
+      toast({
+        title: "Error",
+        description: "There was an error while adding the guest",
+      });
+    }
+
     setNewGuest({ name: "", email: "", phone: "" });
-  };
+  }, [createGuest, eventId, newGuest.email, newGuest.name, newGuest.phone]);
 
   return (
     <Dialog open={openModal}>

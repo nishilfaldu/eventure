@@ -218,7 +218,7 @@ export function EventDetails({ eventId } : EventDetailsProps) {
                 Check things off as you take care of them. Feel free to delete things you may not need.
               </div>
               <div className="flex gap-x-2">
-                <GuestDialog id="sample string"/>
+                <GuestDialog eventId={eventId}/>
                 <ShadCNButton onClick={showModal} className="flex gap-x-2">
                   <Plus/> Add New Item
                 </ShadCNButton>
