@@ -54,9 +54,9 @@ export function Navbar() {
 
         <nav className="md:ml-auto flex-wrap items-center text-base justify-center min-[1200px]:block hidden">
           <Link href={"/"} className="mr-5 hover:text-gray-900 hover:cursor-pointer">Find an Expert</Link>
-          <Link href={"/events"} className="mr-5 hover:text-gray-900 hover:cursor-pointer">Events</Link>
+          <Link href={"/events"} className="mr-5 hover:text-gray-900 hover:cursor-pointer">My Events</Link>
           <Link href={"/chats"} className="mr-5 hover:text-gray-900 hover:cursor-pointer">Chats</Link>
-          <Link href={"/schedule"} className="mr-5 hover:text-gray-900 hover:cursor-pointer">Schedule</Link>
+          {/* <Link href={"/schedule"} className="mr-5 hover:text-gray-900 hover:cursor-pointer">Schedule</Link> */}
         </nav>
 
         <SignedOut>

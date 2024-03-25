@@ -21,12 +21,12 @@ export default function Landing() {
         </div>
         <div className="relative flex flex-col justify-center items-center">
           <Options />
-          <SignUpButton mode="modal">
+          <SignUpButton mode="modal" afterSignUpUrl="/events">
             <div className="cursor-pointer relative mt-20 p-4 bg-blue-800 rounded-lg justify-center items-center text-white">Cue the Celebration</div>
           </SignUpButton>
 
           <div className="relative p-5 flex flex-col justify-center items-center text-black text-base font-league-spartan font-normal underline break-words">
-            <SignInButton mode="modal">Sign in</SignInButton>
+            <SignInButton mode="modal" afterSignInUrl="/events">Sign in</SignInButton>
           </div>
         </div>
       </div>

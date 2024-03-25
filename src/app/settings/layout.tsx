@@ -13,13 +13,13 @@ const sidebarNavItems = [
   //     href: "/settings/general",
   //   },
   {
-    title: "Pricing",
+    title: "Billing",
     href: "/settings/pricing",
   },
-  {
-    title: "Transactions",
-    href: "/settings/transactions",
-  },
+  //   {
+  //     title: "Transactions",
+  //     href: "/settings/transactions",
+  //   },
   {
     title: "Become a Professional",
     href: "/settings/become-a-professional",

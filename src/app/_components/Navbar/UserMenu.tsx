@@ -66,13 +66,13 @@ export function UserMenu() {
 
           <MenuItemDivider/>
 
-          <Link
+          {/* <Link
             className="block mx-auto px-4 py-2 mt-2 mb-2 text-sm text-white bg-indigo-600 hover:bg-indigo-700 rounded-md w-3/4 text-center"
             href="#"
             role="menuitem"
           >
             Upgrade to Pro
-          </Link>
+          </Link> */}
         </div>
       </div>}
     </div>
