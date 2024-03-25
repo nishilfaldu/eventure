@@ -27,8 +27,8 @@ export function Composer({ children } : {children: React.ReactNode}) {
 
   return (
     <div>
-      <div className="flex items-center justify-center text-6xl font-bold my-16">
-        <h1 className="text-center">Browse Event Professionals</h1>
+      <div className="flex items-center justify-center text-5xl font-medium my-16">
+        <h1 className="text-center">Find an Expert</h1>
       </div>
       <div>
         {userId_ ? children : "Storing or updating user..."}

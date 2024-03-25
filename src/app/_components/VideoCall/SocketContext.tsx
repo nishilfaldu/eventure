@@ -9,8 +9,8 @@ import type { DefaultEventsMap } from "socket.io/dist/typed-events";
 import type { Socket } from "socket.io-client";
 
 import { api } from "../../../../convex/_generated/api";
+import { useUserStore } from "../UserStoreProvider";
 import socketClient from "@/lib/socketClient";
-import { useUserStore } from "@/zustand/hooks";
 
 
 // Define types for the context and peer connection
@@ -191,7 +191,7 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
     setCallEnded(true);
     connectionRef.current?.destroy();
 
-    window.location.reload();
+    // window.location.reload();
   };
 
   return(

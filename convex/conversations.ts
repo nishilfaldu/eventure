@@ -44,14 +44,15 @@ export const getConversations = query({
     }));
 
     // sort by last message - desc
-    conversationsWithMessagesAndUserIds.sort((a, b) => {
-      // Parse the lastMessageAt strings to dates
-      const dateA = new Date(a.conversation.lastMessageAt);
-      const dateB = new Date(b.conversation.lastMessageAt);
+    // TODO: fix new Date argument with (year, month, date) format
+    // conversationsWithMessagesAndUserIds.sort((a, b) => {
+    //   // Parse the lastMessageAt strings to dates
+    //   const dateA = new Date(a.conversation.lastMessageAt);
+    //   const dateB = new Date(b.conversation.lastMessageAt);
 
-      // Compare the dates
-      return dateB.getTime() - dateA.getTime();
-    });
+    //   // Compare the dates
+    //   return dateB.getTime() - dateA.getTime();
+    // });
 
     return conversationsWithMessagesAndUserIds;
   },

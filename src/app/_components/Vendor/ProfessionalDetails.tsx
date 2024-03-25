@@ -155,7 +155,6 @@ export function ProfessionalDetails(
       </div>
       {/* ReviewModal for seeing more reviews */}
       <ReviewModal reviewsWithUsers={reviews.reviewsWithUserInfo}/>
-      <StripePricingTable/>
     </section>
   );
 }
