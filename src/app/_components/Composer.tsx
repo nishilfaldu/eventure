@@ -1,29 +1,29 @@
 "use client";
 import { useEffect } from "react";
 
-import { SubscribeDialog } from "./Stripe/SubscribeDialog";
 import { useUserStore } from "./UserStoreProvider";
 import useStoreUserEffect from "@/lib/useStoreUserEffect";
 
 
 
 export function Composer({ children } : {children: React.ReactNode}) {
-  const { userId, userFullname } = useStoreUserEffect();
+  const { userId, userFullname, stripeId } = useStoreUserEffect();
   const userId_ = useUserStore(state => state.userId);
   //   const userFullname_ = useUserStore(state => state.userFullname);
   //   const setUserId = useUserStore(state => state.setUserId);
   //   const setUserFullname = useUserStore(state => state.setUserFullname);
 
-  const { setUserFullname, setUserId } = useUserStore(
+  const { setUserFullname, setUserId, setStripeId } = useUserStore(
     state => state,
   );
 
   useEffect(() => {
     if (!userId || !userFullname) { return; }
-    console.log(userId);
     setUserId(userId);
     setUserFullname(userFullname);
-  }, [userId, setUserId, userFullname, setUserFullname]);
+    if(!stripeId) { return; }
+    setStripeId(stripeId);
+  }, [userId, setUserId, userFullname, setUserFullname, stripeId, setStripeId]);
 
   return (
     <div>
@@ -32,7 +32,7 @@ export function Composer({ children } : {children: React.ReactNode}) {
       </div>
       <div>
         {userId_ ? children : "Storing or updating user..."}
-        <SubscribeDialog />
+        {/* <SubscribeDialog /> */}
       </div>
     </div>
   );

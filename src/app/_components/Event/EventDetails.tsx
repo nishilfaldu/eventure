@@ -11,7 +11,6 @@ import { useCallback, useMemo, useState } from "react";
 
 import { GuestDialog } from "./GuestDialog";
 import { api } from "../../../../convex/_generated/api";
-import empty_cart_hippo from "@/app/images/hippo-empty-cart.png";
 import { Button as ShadCNButton } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { tasks } from "@/consts/checklist";
@@ -86,7 +85,7 @@ export function EventDetails({ eventId } : EventDetailsProps) {
   const groupedTasks = useQuery(api.tasks.getTasksByEventId, { eventId });
   const deleteTask = useMutation(api.tasks.deleteTaskById);
   const guests = useQuery(api.guests.getGuestsByEventId, { eventId });
-  console.log(groupedTasks);
+
   const rearrangedTasks = useMemo(() => {
     const _tasks = tasks.map(task => {
       return task.data.map(item => {
@@ -103,7 +102,6 @@ export function EventDetails({ eventId } : EventDetailsProps) {
     return _tasks.flat();
   }, [eventId]);
 
-  //   console.log(rearrangedTasks);
 
   const handleGenerateChecklist = useCallback(() => {
     try {
@@ -146,7 +144,6 @@ export function EventDetails({ eventId } : EventDetailsProps) {
 
   const handleAddItem = useCallback(() => {
     form.validateFields().then(async values => {
-      console.log(values, "values");
       if (!values.category.trim() || !values.item.trim()) {
         toast({
           title: "Missing Fields",
@@ -199,7 +196,7 @@ export function EventDetails({ eventId } : EventDetailsProps) {
           <div className="flex h-full flex-col items-center justify-center space-y-1">
             <div aria-hidden="true" className="relative mb-4 h-60 w-60">
               <Image
-                src={empty_cart_hippo}
+                src={"/images/hippo-empty-cart.png"}
                 fill
                 alt="empty shopping cart placeholder image"
               />

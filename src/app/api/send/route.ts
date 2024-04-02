@@ -1,60 +1,10 @@
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-import { RegisterGuestEmailHtml } from "@/app/_components/emails/RegisterGuestEmail";
-
-// import { headers } from "next/headers";
-// import { NextRequest, NextResponse } from "next/server";
-// import type * as React from "react";
-// import { Resend } from "resend";
+import { generateEmail } from "@/app/_components/Emails/welcome";
 
 // import { RegisterGuestEmailHtml } from "@/app/_components/emails/RegisterGuestEmail";
-
-
-
-
-
-// export async function POST(req: Request) {
-//   const resend = new Resend("re_H93JR9pC_D9Q7BwZtJ78N9U5UyDtLtuHh");
-//   console.log(resend, "Resend");
-//   console.log(await req.json());
-//   // eslint-disable-next-line max-len
-
-//   //   if (!registerHref || !contactEmail || !contactPhone || !eventDate
-//   //     || !eventLocation || !eventName || !guestName) {
-//   //     console.log("bale bale");
-//   //     Response.json({ error: "Sufficient data is required to generate the email" });
-
-//   //     return;
-//   //   }
-
-//   return NextResponse.json({
-//     status: "Ok",
-//   }, {
-//     status: 200,
-//   });
-
-
-//     return NextResponse.json({
-//       status: "Ok",
-//     }, {
-//       status: 200,
-//     });
-//   } catch (error: unknown) {
-//     if (error instanceof Error) {
-//       console.log(`Failed to send email: ${error.message}`);
-//     }
-
-//     return NextResponse.json({
-//       error: "Internal server error.",
-//     }, {
-//       status: 500,
-//     });
-//   }
-// }
-
-
-
 
 
 // export const runtime = "edge";
@@ -65,24 +15,20 @@ const RESEND_API_KEY = "re_H93JR9pC_D9Q7BwZtJ78N9U5UyDtLtuHh";
 export async function POST(req: NextRequest) {
   const resend = new Resend(RESEND_API_KEY);
   // eslint-disable-next-line max-len
-  //   const { registerHref, contactEmail, contactPhone, eventDate, eventLocation, eventName, guestName, toEmail } = await req.json();
+  const data = await req.json();
+  console.log(data, "data");
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dataWithEmail = data.map((guest: any) => ({
+    html: generateEmail(guest.guestName, guest.eventName, guest.eventDate,
+      guest.eventLocation, guest.contactEmail, guest.contactPhone, guest.registerHref),
+    to: [guest.toEmail],
+    from: guest.from,
+    subject: guest.subject,
+  }));
 
   try {
-    const { data, error } = await resend.emails.send({
-      from: "faldund@mail.uc.edu",
-      to: ["faldund@mail.uc.edu"],
-      subject: "hello world",
-      html: "<strong>it works!</strong>",
-    //   react: RegisterGuestEmailHtml({
-    //     registerHref: "registerHref",
-    //     contactEmail: "contactEmail",
-    //     contactPhone: "contactPhone",
-    //     eventDate: new Date("eventDate"),
-    //     eventLocation: "eventLocation",
-    //     eventName: "eventName",
-    //     guestName: "guestName",
-    //   }) as unknown as React.ReactElement,
-    });
+    const { data, error } = await resend.batch.send(dataWithEmail);
     console.log(data, "data", error, "error");
 
     return NextResponse.json({

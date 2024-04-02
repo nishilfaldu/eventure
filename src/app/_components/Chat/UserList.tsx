@@ -13,48 +13,7 @@ interface UserListProps {
 }
 
 export function UserList({ users }: UserListProps) {
-//   const { user, isLoaded, isSignedIn } = useUser();
-//   const currUserEmailAddress = user?.primaryEmailAddress?.toString();
-//   console.log({ currUserEmailAddress }, "TEST");
-//   const users = useQuery(api.users.getUsers, { email: currUserEmailAddress! });
-
-  //   if (!isSignedIn || !isLoaded) { return <h1>Loading...</h1>; }
-
-
   return (
-    // <aside
-    //   className="
-    //     lg:pb-0
-    //     lg:left-20
-    //     lg:w-80
-    //     lg:block
-    //     overflow-y-auto
-    //     border-r
-    //     border-gray-200
-    //     block
-    //   "
-    // >
-    //   <div className="px-5">
-    //     <div className="flex-col">
-    //       <div
-    //         className="
-    //           text-2xl
-    //           font-bold
-    //           text-neutral-800
-    //           py-4
-    //         "
-    //       >
-    //         People
-    //       </div>
-    //     </div>
-    //     {users?.map(user => (
-    //       <UserBox
-    //         key={user._id}
-    //         data={user}
-    //       />
-    //     ))}
-    //   </div>
-    // </aside>
     <ScrollArea className="h-screen py-4">
       <div className="flex flex-col gap-2 p-4 pt-0">
         {users?.map((user:any) => (
@@ -64,12 +23,6 @@ export function UserList({ users }: UserListProps) {
               "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent",
             //   mail.selected === item.id && "bg-muted"
             )}
-            // onClick={() =>
-            //   setMail({
-            //     ...mail,
-            //     selected: item.id,
-            //   })
-            // }
           >
             <div className="flex w-full flex-col gap-1">
               <div className="flex items-center">

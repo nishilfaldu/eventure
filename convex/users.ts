@@ -16,7 +16,6 @@ export const createUser = mutation({
     if(!identity.email) {
       throw new Error("email is undefined in identity object");
     }
-
     const user = await getUserHelper(ctx, identity.email);
     if (user !== null) {
       if (
@@ -37,7 +36,7 @@ export const createUser = mutation({
         });
       }
 
-      return { userId: user._id, fullName: user.firstName + " " + user.lastName };
+      return { userId: user._id, fullName: user.firstName + " " + user.lastName, stripeId: user.stripeId };
     }
 
     if (!identity.givenName || !identity.email || !identity.nickname || !identity.familyName

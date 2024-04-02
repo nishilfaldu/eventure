@@ -3,6 +3,7 @@ import { useQuery } from "convex/react";
 import { useSearchParams } from "next/navigation";
 
 import { api } from "../../../convex/_generated/api";
+import { LoadingSpinner } from "../_components/LoadingSpinner";
 import { VendorListing } from "../_components/Vendor/VendorListing";
 import type { Id } from "convex/_generated/dataModel";
 
@@ -12,9 +13,9 @@ export default function SearchPage() {
   const searchParams = useSearchParams();
   const categoryId = searchParams.get("categoryId");
   const inputSearch = searchParams.get("name")!;
-  console.log(inputSearch);
 
-  const searchedProfessionals = useQuery(api.users.getProfessionalsByCategoryId, { categoryParam: categoryId as Id<"categories"> ?? null, nameParam: inputSearch ?? "" });
+  const searchedProfessionals = useQuery(api.users.getProfessionalsByCategoryId,
+    { categoryParam: categoryId as Id<"categories"> ?? null, nameParam: inputSearch ?? "" });
 
   return (
     <div>
@@ -33,7 +34,7 @@ export default function SearchPage() {
                   index={i}
                 />
               ))
-              : <div className="flex items-center justify-center text-3xl">No results found</div>
+              : <div className="flex items-center justify-center text-3xl">No results found yet <LoadingSpinner/></div>
             }
           </div>
         </div>

@@ -113,7 +113,6 @@ export function GeneralForm() {
   });
 
   function onSubmit(data: AccountFormValues) {
-    console.log(data);
     toast({
       title: "You submitted the following values:",
       description: (

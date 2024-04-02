@@ -116,7 +116,6 @@ export function ProfessionalForm({ username }: {username: string}) {
   const professionalData = useQuery(api.users.getUserByUsername, { username: username });
   const userCategoriesData = useQuery(api.category.getCategoriesForUserByUsername, { username: username });
   const userCategories = useMemo(() => userCategoriesData?.map(category => category?._id as Id<"categories">) ?? [], [userCategoriesData]);
-  console.log(professionalData);
   // This can come from your database or API.
 
   const form = useForm<AccountFormValues>({
@@ -149,7 +148,6 @@ export function ProfessionalForm({ username }: {username: string}) {
   });
 
   async function onSubmit(data: AccountFormValues) {
-    console.log(data);
     const accountData = await updateAccount({
       bio: data.bio,
       categories: data.categories as Id<"categories">[],

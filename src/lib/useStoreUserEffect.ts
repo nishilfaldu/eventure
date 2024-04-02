@@ -15,6 +15,7 @@ export default function useStoreUserEffect() {
   // has stored the user.
   const [userId, setUserId] = useState<Id<"users"> | null>(null);
   const [userFullname, setUserFullname] = useState<string | null>(null);
+  const [stripeId, setStripeId] = useState<string | null>(null);
 
   const storeUser = useMutation(api.users.createUser);
   // Call the `storeUser` mutation function to store
@@ -29,9 +30,10 @@ export default function useStoreUserEffect() {
     // Recall that `storeUser` gets the user information via the `auth`
     // object on the server. You don't need to pass anything manually here.
     async function createUser() {
-      const { userId, fullName } = await storeUser();
+      const { userId, fullName, stripeId } = await storeUser();
       setUserId(userId);
       setUserFullname(fullName);
+      setStripeId(stripeId);
     }
 
     createUser();
@@ -39,5 +41,5 @@ export default function useStoreUserEffect() {
     return () => setUserId(null);
   }, [isAuthenticated, storeUser, user?.id]);
 
-  return { userId, userFullname };
+  return { userId, userFullname, stripeId };
 }
