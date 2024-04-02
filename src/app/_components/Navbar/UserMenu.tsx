@@ -2,6 +2,7 @@
 
 import { SignOutButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 
 import MenuItem from "./MenuItem";
@@ -14,11 +15,16 @@ import { Button } from "@/components/ui/button";
 export function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const divRef = useRef(null);
+  const router = useRouter();
 
   const toggleOpen = useCallback(() => {
     setIsOpen(value => !value);
   }, []);
   const { isSignedIn, user, isLoaded } = useUser();
+
+  const logoutCallback = useCallback(() => {
+    router.push("/");
+  }, [router]);
 
   if (!isSignedIn || !isLoaded) { return; }
 
@@ -60,11 +66,20 @@ export function UserMenu() {
           <MenuItemDivider/>
 
           {/* MenuItems Group 3 */}
-          <SignOutButton>
+          {/* <SignOutButton>
             <MenuItem label="Logout" href="#" />
+          </SignOutButton> */}
+          <SignOutButton signOutCallback={logoutCallback}>
+            <Link
+              className="block mx-auto px-4 py-2 mt-2 mb-2 text-sm text-white bg-indigo-600 hover:bg-indigo-700 rounded-md w-3/4 text-center"
+              href="#"
+              role="menuitem"
+            >
+            Logout
+            </Link>
           </SignOutButton>
 
-          <MenuItemDivider/>
+          {/* <MenuItemDivider/> */}
 
           {/* <Link
             className="block mx-auto px-4 py-2 mt-2 mb-2 text-sm text-white bg-indigo-600 hover:bg-indigo-700 rounded-md w-3/4 text-center"

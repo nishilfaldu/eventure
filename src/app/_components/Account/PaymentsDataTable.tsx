@@ -146,8 +146,8 @@ export const columns: ColumnDef<Payment>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const payment = row.original;
-      console.log(payment);
 
       return (
         <DropdownMenu>
@@ -194,7 +194,6 @@ export function PaymentsDataTable() {
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={event => {
-            console.log(event.target.value);
             table.getColumn("email")?.setFilterValue(event.target.value);
           }}
           className="max-w-sm"

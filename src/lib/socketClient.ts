@@ -8,7 +8,6 @@ import type { Id } from "convex/_generated/dataModel";
 const PORT = 8080;
 export default function socketClient(userId: Id<"users">) {
 //   const socket = io(`:${PORT}`, { path: "/api/socket", addTrailingSlash: false });
-  console.log("userId in socketClient", userId);
   const socket = io(`:${PORT}`);
 
   socket.on("connect", async () => {

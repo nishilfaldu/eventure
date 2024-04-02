@@ -8,13 +8,12 @@ export async function generateCustomerPortalLink(customerId: string) {
   try {
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: customerId,
-      return_url:  "http://localhost:3000" + "/settings/pricing",
+      return_url:  process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:3000",
     });
-
-    console.log("hello");
 
     return portalSession.url;
   } catch (error) {
+    // TODO: throw an error
     console.log(error);
 
     return undefined;

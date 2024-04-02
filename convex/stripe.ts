@@ -33,12 +33,14 @@ export const storeStripeCustomerId = action({
         name: user.firstName + " " + user.lastName,
       });
 
-      const stripeId : string
+      const stripeId : string | null
        = await ctx.runMutation(internal.users.storeStripeId, { userId: user._id, stripeId: customer.id });
 
       return stripeId;
     }
 
-    return user.stripeId;
+    const userStripeId: string = user.stripeId;
+
+    return userStripeId;
   },
 });

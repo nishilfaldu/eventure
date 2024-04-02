@@ -6,7 +6,7 @@ import type { Id } from "convex/_generated/dataModel";
 
 
 
-type UserProps = {
+export type UserProps = {
   _id: Id<"users">;
   _creationTime: number;
   gender?: "Male" | "Female" | "Other";

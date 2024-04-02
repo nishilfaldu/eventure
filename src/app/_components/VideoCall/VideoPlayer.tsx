@@ -6,10 +6,6 @@ import { SocketContext } from "./SocketContext";
 
 export function VideoPlayer({ calleeNameOnCallerSide }: {calleeNameOnCallerSide: string}) {
   const { name, callAccepted, myVideo, userVideo, callEnded, stream, call } = useContext(SocketContext);
-  //   console.log(name, "name and call in VP", call);
-  //   console.log(myVideo, "myVideo in VP");
-  //   console.log(stream, "stream in VP", myVideo);
-  //   console.log(whoAnswered, "whoAnswered in VP");
 
   return (
     <div className="grid">

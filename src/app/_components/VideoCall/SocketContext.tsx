@@ -75,7 +75,6 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
 
     // Listen for the "connect" event
     socketRef.current.on("connect", async () => {
-      console.log("Socket connected again");
       // Access the socket id after the connection is established
       const socketId = socketRef.current?.id;
 
@@ -95,11 +94,7 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then(currentStream => {
         setStream(currentStream);
-        // console.log("hello mike test");
-        // console.log(myVideo.current, "myvideo current");
-        // myVideo.current.srcObject = currentStream;
         if(myVideo.current) {
-        //   console.log(myVideo.current, "myvideo current");
           myVideo.current.srcObject = currentStream;
         }
       });
@@ -110,8 +105,6 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
     });
 
     socketRef.current?.on("callUser", ({ from, name: callerName, signal }) => {
-    //   console.log(from, "from", callerName, "callerName", signal, "signal");
-    //   console.log("callUser receiver/callee", { from, name: callerName, signal });
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
   }, [userFullname]);
@@ -120,9 +113,7 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then(currentStream => {
         setStream(currentStream);
-        // console.log("hello mike test 2");
         if(myVideo.current) {
-        //   console.log(myVideo.current, "myvideo current");
           myVideo.current.srcObject = currentStream;
         }
       });

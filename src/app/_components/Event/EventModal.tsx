@@ -46,12 +46,6 @@ export function EventModal({ visible, onCancel, onSubmit }: EventModalProps) {
   };
 
   const handleSubmit = async () => {
-    // onSubmit(eventData);
-    const x = dayjs(eventData.date).toString();
-    const y = dayjs(x).toString();
-    console.log(x, y, dayjs().format("MM/DD/YYYY"));
-
-
     if(!eventData.category || !eventData.date || !eventData.name) {
       toast({
         title: "Missing Fields",

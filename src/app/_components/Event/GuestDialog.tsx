@@ -1,6 +1,7 @@
+import { useUser } from "@clerk/nextjs";
 import type { TableProps } from "antd";
 import { Input, Space, Table } from "antd";
-import { useAction, useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { Trash } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 
@@ -57,6 +58,8 @@ interface GuestState {
 export function GuestDialog({ eventId, guests }: GuestDialogProps) {
   const createGuest = useMutation(api.guests.createGuest);
   const deleteGuest = useMutation(api.guests.deleteGuestById);
+  const event = useQuery(api.events.getEventById, { id: eventId as Id<"events"> });
+  const { user } = useUser();
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -116,27 +119,48 @@ export function GuestDialog({ eventId, guests }: GuestDialogProps) {
     ], [handleDeleteGuest]);
 
 
-  const sendRSVP = async e => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const sendRSVP = async (e : any) => {
     console.log("i ran");
     e.preventDefault();
-    const submitData = { registerHref: "www.google.com", contactEmail: "faldund@mail.uc.edu", contactPhone: "+15130987654",
-      eventDate: "12/24/2024", eventLocation: "California", eventName: "Christmas Party", guestName: "Zeno",
-      toEmail: guests[0].email };
+    // const submitData = { registerHref: "www.google.com", contactEmail: "faldund@mail.uc.edu", contactPhone: "+15130987654",
+    //   eventDate: "12/24/2024", eventLocation: "California", eventName: "Christmas Party", guestName: "Zeno",
+    //   toEmail: guests[0].email };
+
+    const data = guests.map(guest => ({
+      from: "Eventure <noreply@eventure.network>",
+      toEmail: guest.email,
+      subject: "You are invited",
+      guestName: guest.name,
+      eventDate: event.date,
+      eventLocation: "Cincinnati, OH",
+      eventName: event.name,
+      contactEmail: user?.primaryEmailAddress?.toString(),
+      contactPhone: user?.primaryPhoneNumber?.phoneNumber,
+      registerHref: `${process.env.NEXT_PUBLIC_SERVER_URL}/guest/${guest._id}`,
+    }));
+
 
     try {
       fetch("http://localhost:3000/api/send",{
         method: "POST",
-        // body: JSON.stringify(submitData),
+        body: JSON.stringify(data),
         headers: {
           "content-type": "application/json",
         },
-      }).then(res => console.log(res));
-    //   console.log(await res.text(), "res");
-    //   if(res.ok) {
-    //     console.log("Yeai!");
-    //   }else{
-    //     console.log("Oops! Something is wrong.");
-    //   }
+      }).then(res => {
+        if(res.ok) {
+          toast({
+            title: "RSVP Emails",
+            description: "Sent RSVP requests successfully",
+          });
+        }else{
+          toast({
+            title: "Error",
+            description: "There was an error while sending RSVP requests",
+          });
+        }
+      });
     } catch (error) {
       console.log(error);
     }

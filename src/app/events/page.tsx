@@ -1,4 +1,3 @@
-import { EventGrid } from "../_components/Event/EventGrid";
 import { EventHeader } from "../_components/Event/EventHeader";
 
 

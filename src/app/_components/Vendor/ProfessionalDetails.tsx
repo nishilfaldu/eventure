@@ -12,13 +12,14 @@ import { useRouter } from "next/navigation";
 import { AddReviewDialog } from "./AddReviewDialog";
 import { api } from "../../../../convex/_generated/api";
 import { LoadingSpinner } from "../LoadingSpinner";
-import { StripePricingTable } from "../Stripe/PricingTableAndBillingPortal";
+import { SubscribeDialog } from "../Stripe/SubscribeDialog";
 import { ReviewCard } from "@/app/_components/Vendor/ReviewCard";
 import { ReviewModal } from "@/app/_components/Vendor/ReviewModal";
 import { UrlDropdown } from "@/app/_components/Vendor/UrlDropdown";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useHasSubscription } from "@/lib/stripe";
 
 
 
@@ -41,6 +42,8 @@ export function ProfessionalDetails(
   //   const [conversationId, setConversationId] = useState<string | undefined>(undefined);
   const currentUser = useQuery(api.users.getCurrentUser);
   const conversationMutation = useMutation(api.conversations.getOrCreateConversation);
+
+  const { hasSubscription }= useHasSubscription(currentUser?.stripeId);
 
   //   TODO: add loading indicators here
   if(!professional) { return null; }
@@ -155,6 +158,8 @@ export function ProfessionalDetails(
       </div>
       {/* ReviewModal for seeing more reviews */}
       <ReviewModal reviewsWithUsers={reviews.reviewsWithUserInfo}/>
+
+      {!hasSubscription && <SubscribeDialog/>}
     </section>
   );
 }

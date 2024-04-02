@@ -41,7 +41,8 @@ export default function useStoreStripeCustomerEffect() {
 
 export function useHasSubscription(stripeCustomerId: string | undefined) {
   const { isAuthenticated } = useConvexAuth();
-  const [hasSubscription, setHasSubscription] = useState(false);
+  const [hasSubscription, setHasSubscription] = useState<boolean | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if(!isAuthenticated || !stripeCustomerId) {
@@ -53,9 +54,8 @@ export function useHasSubscription(stripeCustomerId: string | undefined) {
         customer: stripeCustomerId,
       });
 
-      console.log(subscriptions, "subscriptions");
-
       setHasSubscription(subscriptions.data.length > 0);
+      setLoading(false);
     }
 
     checkSubscription();
@@ -65,7 +65,7 @@ export function useHasSubscription(stripeCustomerId: string | undefined) {
     };
   }, [isAuthenticated, stripeCustomerId]);
 
-  return hasSubscription;
+  return { hasSubscription, loading };
 }
 
 export function useCreateCheckoutLink(customer: string) {
@@ -77,8 +77,8 @@ export function useCreateCheckoutLink(customer: string) {
       if(!customer) { return; }
       if (isAuthenticated) {
         const checkout = await stripe.checkout.sessions.create({
-          success_url: "http://localhost:3000/settings/pricing",
-          cancel_url: "http://localhost:3000/settings/pricing",
+          success_url: process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:3000/",
+          cancel_url: process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:3000/",
           customer: customer,
           line_items: [
             {
