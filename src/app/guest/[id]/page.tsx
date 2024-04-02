@@ -1,4 +1,4 @@
-import { RegisterGuest } from "@/app/_components/Emails/RegisterGuest";
+import { RegisterGuest } from "@/app/_components/emails/RegisterGuest";
 
 
 

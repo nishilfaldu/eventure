@@ -255,13 +255,14 @@ export function EventDetails({ eventId } : EventDetailsProps) {
               </Form>
             </Modal>
             {groupedTasks?.map((taskCategory, idx) => (
-              <div key={taskCategory.header+"$_{idx}"}>
+              <div key={taskCategory.header+`_${idx}`}>
                 <div className="font-bold text-xl">{taskCategory.header}</div>
                 <List
                   size="large"
                   bordered
                   dataSource={taskCategory.tasks}
-                  renderItem={(item: any, itemIndex) => (
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  renderItem={(item: any) => (
                     <List.Item>
                       <>
                         <Checkbox>{item.description}</Checkbox>

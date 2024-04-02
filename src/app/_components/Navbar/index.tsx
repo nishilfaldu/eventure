@@ -1,8 +1,6 @@
 "use client";
 import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 import { CategoryNavigationMenu } from "./CategoryMenu";
 import { LogoSquare } from "./Logo";
@@ -12,8 +10,8 @@ import { Button } from "@/components/ui/button";
 
 
 export function Navbar() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const router = useRouter();
+//   const [searchTerm, setSearchTerm] = useState("");
+//   const router = useRouter();
   //   const handleChange = (e: any) => {
   //     setSearchTerm(e.target.value);
   //   };

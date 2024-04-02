@@ -10,7 +10,6 @@ import { AvatarGeneral } from "./AvatarGeneral";
 import { ChatDisplay } from "./ChatDisplay";
 import { Nav } from "./Nav";
 import { api } from "../../../../convex/_generated/api";
-import { SocketContextProvider } from "../VideoCall/SocketContext";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
 import { TooltipProvider } from "@/components/ui/tooltip";
