@@ -15,19 +15,21 @@ interface RegisterGuestProps {
   id: string;
 }
 export function RegisterGuest({ id } : RegisterGuestProps) {
-  const register = useAction(api.guests.register, { guestId: id as Id<"guests"> });
+  const register = useAction(api.guests.register);
   const [registered, setRegistered] = useState(false);
 
   useEffect(() => {
     async function registerGuest() {
-      const guest = await register();
+      const guest = await register({
+        guestId: id as Id<"guests">,
+      });
       if(guest) {
         setRegistered(guest.registered);
       }
     }
 
     registerGuest();
-  }, [register]);
+  }, [register, id]);
 
   return(
     <div className="flex h-full flex-col items-center justify-center space-y-1">
