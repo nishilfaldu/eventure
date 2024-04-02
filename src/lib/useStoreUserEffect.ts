@@ -13,9 +13,9 @@ export default function useStoreUserEffect() {
   const { user } = useUser();
   // When this state is set we know the server
   // has stored the user.
-  const [userId, setUserId] = useState<Id<"users"> | null>(null);
+  const [userId, setUserId] = useState<Id<"users"> | null | undefined>(null);
   const [userFullname, setUserFullname] = useState<string | null>(null);
-  const [stripeId, setStripeId] = useState<string | null>(null);
+  const [stripeId, setStripeId] = useState<string | null | undefined>(null);
 
   const storeUser = useMutation(api.users.createUser);
   // Call the `storeUser` mutation function to store

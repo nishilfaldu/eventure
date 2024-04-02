@@ -44,7 +44,7 @@ export const createUser = mutation({
       throw new Error("Name or email is undefined in identity object");
     }
 
-    return await ctx.db.insert("users", {
+    const newUserId = await ctx.db.insert("users", {
       pictureUrl: identity.pictureUrl,
       tokenIdentifier: identity.tokenIdentifier,
       firstName: identity.givenName,
@@ -55,6 +55,10 @@ export const createUser = mutation({
       expert: false,
       verified: false,
     });
+
+    const newUser = await ctx.db.get(newUserId);
+
+    return { userId: newUser?._id, fullName: newUser?.firstName + " " + newUser?.lastName, stripeId: newUser?.stripeId };
   },
 });
 
