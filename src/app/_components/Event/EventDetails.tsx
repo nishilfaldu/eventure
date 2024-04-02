@@ -82,15 +82,15 @@ interface EventDetailsProps {
 export function EventDetails({ eventId } : EventDetailsProps) {
   const generateChecklist = useMutation(api.tasks.createTasksByEventId);
   const addTask = useMutation(api.tasks.createTaskByEventId);
-  const groupedTasks = useQuery(api.tasks.getTasksByEventId, { eventId });
+  const groupedTasks = useQuery(api.tasks.getTasksByEventId, { eventId: eventId as Id<"events"> });
   const deleteTask = useMutation(api.tasks.deleteTaskById);
-  const guests = useQuery(api.guests.getGuestsByEventId, { eventId });
+  const guests = useQuery(api.guests.getGuestsByEventId, { eventId: eventId as Id<"events"> });
 
   const rearrangedTasks = useMemo(() => {
     const _tasks = tasks.map(task => {
       return task.data.map(item => {
         return {
-          eventId: eventId,
+          eventId: eventId as Id<"events">,
           header: task.title,
           description: item,
           done: false,
@@ -154,7 +154,7 @@ export function EventDetails({ eventId } : EventDetailsProps) {
       }
       try {
         await addTask({
-          eventId: eventId,
+          eventId: eventId as Id<"events">,
           header: values.category.trim(),
           description: values.item.trim(),
         });

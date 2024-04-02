@@ -24,6 +24,7 @@ export function SubscribeDialog() {
 
   const handleStripeSubmission = async () => {
     const id = await storeStripeCustomerId();
+    if(!id) { return; }
     setStripeId(id);
     setStripeCustomerId(id);
   };

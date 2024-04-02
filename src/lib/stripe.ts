@@ -68,7 +68,7 @@ export function useHasSubscription(stripeCustomerId: string | undefined) {
   return { hasSubscription, loading };
 }
 
-export function useCreateCheckoutLink(customer: string) {
+export function useCreateCheckoutLink(customer: string | undefined) {
   const { isAuthenticated } = useConvexAuth();
   const [checkoutLink, setCheckoutLink] = useState<string | null>(null);
 

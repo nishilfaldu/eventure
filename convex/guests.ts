@@ -72,20 +72,23 @@ export const getGuestById = query({
   },
 });
 
+interface Guest{
+  _id: Id<"guests">;
+  _creationTime: number;
+  email: string;
+  phoneNumber: string;
+  name: string;
+  eventId: Id<"events">;
+  registered: boolean;
+}
+
+
 export const register = action({
   args: {
     guestId: v.id("guests"),
   },
-  handler: async (ctx, { guestId }) => {
-    const guest : {
-      _id: Id<"guests">;
-      _creationTime: number;
-      email: string;
-      phoneNumber: string;
-      name: string;
-      eventId: Id<"events">;
-      registered: boolean;
-    } | null = await ctx.runMutation(internal.guests.registerGuest, { guestId });
+  handler: async (ctx, { guestId }) : (Promise<Guest | null>) => {
+    const guest = await ctx.runMutation(internal.guests.registerGuest, { guestId });
 
     return guest;
   },
@@ -100,7 +103,15 @@ export const registerGuest = internalMutation({
       registered: true,
     });
 
-    const guest = await ctx.db.get(guestId);
+    const guest:  {
+      _id: Id<"guests">;
+      _creationTime: number;
+      email: string;
+      phoneNumber: string;
+      name: string;
+      eventId: Id<"events">;
+      registered: boolean;
+    } | null  = await ctx.db.get(guestId);
 
     return guest;
   },

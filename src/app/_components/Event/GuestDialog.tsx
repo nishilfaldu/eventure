@@ -132,9 +132,9 @@ export function GuestDialog({ eventId, guests }: GuestDialogProps) {
       toEmail: guest.email,
       subject: "You are invited",
       guestName: guest.name,
-      eventDate: event.date,
+      eventDate: event?.date,
       eventLocation: "Cincinnati, OH",
-      eventName: event.name,
+      eventName: event?.name,
       contactEmail: user?.primaryEmailAddress?.toString(),
       contactPhone: user?.primaryPhoneNumber?.phoneNumber,
       registerHref: `${process.env.NEXT_PUBLIC_SERVER_URL}/guest/${guest._id}`,
@@ -179,7 +179,7 @@ export function GuestDialog({ eventId, guests }: GuestDialogProps) {
 
     try {
       await createGuest({
-        eventId: eventId,
+        eventId: eventId as Id<"events">,
         name: newGuest.name,
         email: newGuest.email,
         phoneNumber: newGuest.phone,

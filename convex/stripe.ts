@@ -13,7 +13,7 @@ import { action } from "./_generated/server";
 // so revoke permission from clerk to change email or update this logic
 export const storeStripeCustomerId = action({
   args: {},
-  handler: async ctx => {
+  handler: async (ctx) : Promise<string | null> => {
     const stripe = new Stripe(
       process.env.STRIPE_SECRET_KEY! ?? "",
       {
