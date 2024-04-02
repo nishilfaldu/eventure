@@ -7,7 +7,7 @@ import { LogoSquare } from "./Logo";
 import { UserMenu } from "./UserMenu";
 import { Button } from "@/components/ui/button";
 
-
+// TODO: Hamburger menu for smaller screen size
 
 export function Navbar() {
 //   const [searchTerm, setSearchTerm] = useState("");

@@ -116,7 +116,7 @@ export function ChatDisplay({ conversationId }: ChatDisplayProps) {
               <div className="grid gap-4">
                 <Textarea
                   className="p-4"
-                  placeholder={`Reply ${user.firstName}...`}
+                  placeholder={`Reply to ${user.firstName}...`}
                   value={messageBody}
                   onChange={e => setMessageBody(e.target.value)}
                 />
