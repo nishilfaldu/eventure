@@ -19,20 +19,20 @@ export function generateEmail(guestName: string, eventName: string,
       <tbody>
         <tr style="width:100%">
           <td>
-            <table align="center" width="100%" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="padding:30px 20px">
-              <tbody>
-                <tr>
-                  <td><img src="${baseUrl}/images/eventure-logo.png" style="display:block;outline:none;border:none;text-decoration:none" /></td>
-                </tr>
-              </tbody>
-            </table>
+            // <table align="center" width="100%" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="padding:30px 20px">
+            //   <tbody>
+            //     <tr>
+            //       <td><img src="${baseUrl}/images/eventure-logo.png" style="display:block;outline:none;border:none;text-decoration:none" /></td>
+            //     </tr>
+            //   </tbody>
+            // </table>
             <table align="center" width="100%" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="border:1px solid rgb(0,0,0, 0.1);border-radius:3px;overflow:hidden">
               <tbody>
                 <tr>
                   <td>
                     <table align="center" width="100%" border="0" cellPadding="0" cellSpacing="0" role="presentation">
                       <tbody style="width:100%">
-                        <tr style="width:100%"><img src="https://react-email-demo-ijnnx5hul-resend.vercel.app/static/yelp-header.png" style="display:block;outline:none;border:none;text-decoration:none;max-width:100%" width="620" /></tr>
+                        <tr style="width:100%"><img src="/images/eventure-banner.png" style="display:block;outline:none;border:none;text-decoration:none;max-width:100%" width="620" /></tr>
                       </tbody>
                     </table>
                     <table align="center" width="100%" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="padding:20px;padding-bottom:0">
