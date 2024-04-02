@@ -2,18 +2,14 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-import { generateEmail } from "@/app/_components/Emails/welcome";
-
-// import { RegisterGuestEmailHtml } from "@/app/_components/emails/RegisterGuestEmail";
+import { generateEmail } from "@/lib/welcome";
 
 
-// export const runtime = "edge";
-// export const dynamic = "force-dynamic";
 
-const RESEND_API_KEY = "re_H93JR9pC_D9Q7BwZtJ78N9U5UyDtLtuHh";
+
 
 export async function POST(req: NextRequest) {
-  const resend = new Resend(RESEND_API_KEY);
+  const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY!);
   // eslint-disable-next-line max-len
   const data = await req.json();
   console.log(data, "data");
