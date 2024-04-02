@@ -142,7 +142,7 @@ export function GuestDialog({ eventId, guests }: GuestDialogProps) {
 
 
     try {
-      fetch("http://localhost:3000/api/send",{
+      fetch("/api/send",{
         method: "POST",
         body: JSON.stringify(data),
         headers: {
