@@ -12,7 +12,6 @@ export async function POST(req: NextRequest) {
   const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY!);
   // eslint-disable-next-line max-len
   const data = await req.json();
-  console.log(data, "data");
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dataWithEmail = data.map((guest: any) => ({

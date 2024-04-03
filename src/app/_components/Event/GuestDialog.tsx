@@ -121,7 +121,6 @@ export function GuestDialog({ eventId, guests }: GuestDialogProps) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sendRSVP = async (e : any) => {
-    console.log("i ran");
     e.preventDefault();
     // const submitData = { registerHref: "www.google.com", contactEmail: "faldund@mail.uc.edu", contactPhone: "+15130987654",
     //   eventDate: "12/24/2024", eventLocation: "California", eventName: "Christmas Party", guestName: "Zeno",
@@ -162,6 +161,11 @@ export function GuestDialog({ eventId, guests }: GuestDialogProps) {
         }
       });
     } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error while sending RSVP requests",
+
+      });
       console.log(error);
     }
   };

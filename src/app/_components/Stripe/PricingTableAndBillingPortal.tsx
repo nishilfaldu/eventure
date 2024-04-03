@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 
+import { toast } from "@/components/ui/use-toast";
 import { stripe } from "@/lib/stripe";
 
 
@@ -14,6 +15,10 @@ export async function generateCustomerPortalLink(customerId: string) {
     return portalSession.url;
   } catch (error) {
     // TODO: throw an error
+    toast({
+      title: "Error",
+      description: "There was an error while generating the customer portal link",
+    });
     console.log(error);
 
     return undefined;
