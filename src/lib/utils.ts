@@ -12,7 +12,7 @@ export function constructMetadata({
   title = "Eventure - Your Ultimate Event Management Platform",
   description = "Plan, manage, and host successful events effortlessly with Eventure.",
   image = "/images/eventure-banner.png",
-  icons = "/imagesfavicon.ico",
+  icons = "/images/favicon.ico",
   noIndex = false,
 }: {
   title?: string;
