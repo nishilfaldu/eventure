@@ -154,7 +154,6 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
         // console.log(myVideo.current, "myvideo current");
         // myVideo.current.srcObject = currentStream;
         if(myVideo.current) {
-          console.log(myVideo.current, "myvideo current");
           myVideo.current.srcObject = currentStream;
         }
       });
