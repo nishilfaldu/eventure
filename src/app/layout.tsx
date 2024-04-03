@@ -8,7 +8,7 @@ import { Navbar } from "./_components/Navbar";
 import "@/app/globals.css";
 import { UserStoreProvider } from "./_components/UserStoreProvider";
 import { Toaster as DefaultToaster } from "@/components/ui/toaster";
-
+import { constructMetadata } from "@/lib/utils";
 
 
 
@@ -18,10 +18,7 @@ const nunito = Nunito({
   subsets: ["latin"],
 });
 
-export const metadata = {
-  title: "Eventure Web Application",
-  description: "Welcome to Eventure Web Application",
-};
+export const metadata = constructMetadata();
 
 export default function RootLayout({
   children,
