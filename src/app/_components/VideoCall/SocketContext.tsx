@@ -42,8 +42,6 @@ type SocketContextProviderProps = {
   children: ReactNode;
 };
 
-// const socket = socketClient();
-
 
 function SocketContextProvider({ children }: SocketContextProviderProps) {
   const userId = useUserStore(state => state.userId);
