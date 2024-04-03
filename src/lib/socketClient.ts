@@ -5,10 +5,11 @@ import type { Id } from "convex/_generated/dataModel";
 
 
 
-const PORT = process.env.SOCKET_SERVER_PORT;
+// const PORT = process.env.SOCKET_SERVER_PORT;
 export default function socketClient(userId: Id<"users">) {
 //   const socket = io(`:${PORT}`, { path: "/api/socket", addTrailingSlash: false });
-  const socket = io(`${process.env.KOYEB_SOCKET_SERVER_DEPLOYMENT_URL}:${PORT}`);
+  console.log(process.env.KOYEB_SOCKET_SERVER_DEPLOYMENT_URL);
+  const socket = io(`${process.env.KOYEB_SOCKET_SERVER_DEPLOYMENT_URL}`);
 
   socket.on("connect", async () => {
     console.log("Connected");
