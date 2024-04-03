@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 
 import { useUserStore } from "./UserStoreProvider";
+import { usePersistedState } from "@/lib/usePersistedStorage";
 import useStoreUserEffect from "@/lib/useStoreUserEffect";
 
 
@@ -9,10 +10,8 @@ import useStoreUserEffect from "@/lib/useStoreUserEffect";
 export function Composer({ children } : {children: React.ReactNode}) {
   const { userId, userFullname, stripeId } = useStoreUserEffect();
   const userId_ = useUserStore(state => state.userId);
-  //   const userFullname_ = useUserStore(state => state.userFullname);
-  //   const setUserId = useUserStore(state => state.setUserId);
-  //   const setUserFullname = useUserStore(state => state.setUserFullname);
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [userPersistedState, setUserPersistedState] = usePersistedState("userDetails", undefined);
   const { setUserFullname, setUserId, setStripeId } = useUserStore(
     state => state,
   );
@@ -20,10 +19,15 @@ export function Composer({ children } : {children: React.ReactNode}) {
   useEffect(() => {
     if (!userId || !userFullname) { return; }
     setUserId(userId);
+    setUserPersistedState({
+      userId: userId,
+      userFullname: userFullname,
+    });
     setUserFullname(userFullname);
     if(!stripeId) { return; }
     setStripeId(stripeId);
-  }, [userId, setUserId, userFullname, setUserFullname, stripeId, setStripeId]);
+  }, [userId, setUserId, userFullname, setUserFullname, stripeId,
+    setStripeId, setUserPersistedState]);
 
   return (
     <div>

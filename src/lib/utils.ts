@@ -8,6 +8,7 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
 export function constructMetadata({
   title = "Eventure - Your Ultimate Event Management Platform",
   description = "Plan, manage, and host successful events effortlessly with Eventure.",

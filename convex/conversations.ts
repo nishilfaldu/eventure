@@ -9,23 +9,24 @@ import { getUserHelper } from "./users";
 export const getConversations = query({
   args: {
     // username: v.string(),
+    userId: v.id("users"),
   },
-  handler: async (ctx, {  }) => {
-    const currentUser = await ctx.auth.getUserIdentity();
-    if (!currentUser) {
-      throw new Error("User not found");
-    }
-    if(!currentUser.email) {
-      throw new Error("User email not found");
-    }
+  handler: async (ctx, { userId }) => {
+    // const currentUser = await ctx.auth.getUserIdentity();
+    // if (!currentUser) {
+    //   throw new Error("User not found");
+    // }
+    // if(!currentUser.email) {
+    //   throw new Error("User email not found");
+    // }
 
-    const user = await getUserHelper(ctx, currentUser.email);
+    // const user = await getUserHelper(ctx, currentUser.email);
 
-    if (!user) {
-      throw new Error("User not found");
-    }
+    // if (!user) {
+    //   throw new Error("User not found");
+    // }
 
-    const conversations = await getManyVia(ctx.db, "userConversations", "conversationId", "userId", user._id, "userId");
+    const conversations = await getManyVia(ctx.db, "userConversations", "conversationId", "userId", userId, "userId");
 
     const conversationsWithMessagesAndUserIds = await Promise.all(conversations.map(async conversation => {
       if(!conversation) {
@@ -34,7 +35,7 @@ export const getConversations = query({
       const messages = await getManyFrom(ctx.db, "messages", "conversationId", conversation._id);
       const users = await getManyVia(ctx.db, "userConversations", "userId", "conversationId", conversation._id, "conversationId");
       // remove current logged in user
-      const filteredUsers = users.filter(user_ => user_?._id !== user._id);
+      const filteredUsers = users.filter(user_ => user_?._id !== userId);
 
       return {
         conversation,

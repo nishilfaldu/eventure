@@ -13,6 +13,7 @@ import { api } from "../../../../convex/_generated/api";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { usePersistedState } from "@/lib/usePersistedStorage";
 import { cn } from "@/lib/utils";
 import type { Id } from "convex/_generated/dataModel";
 
@@ -29,8 +30,9 @@ export function ChatWindow(
     defaultLayout = [265, 440, 655], defaultCollapsed = false,
     navCollapsedSize,
   }: WindowProps) {
+  const [{ userId }] = usePersistedState("userDetails", undefined);
   const [isCollapsed] = useState(defaultCollapsed);
-  const conversations = useQuery(api.conversations.getConversations);
+  const conversations = useQuery(api.conversations.getConversations, { userId: userId as Id<"users"> });
   const users = conversations?.map(conversation => ({
     ...conversation.filteredUsers[0],
     conversationId: conversation.conversation._id,

@@ -17,6 +17,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { usePersistedState } from "@/lib/usePersistedStorage";
 import type { Id } from "convex/_generated/dataModel";
 
 
@@ -30,7 +31,8 @@ interface ChatDisplayProps {
 export function ChatDisplay({ conversationId }: ChatDisplayProps) {
   const messages = useQuery(api.messages.getMessagesByConversationId, { conversationId: conversationId });
   const [messageBody, setMessageBody] = useState("");
-  const user = useQuery(api.users.getUserForConversationId, { conversationId: conversationId })?.[0];
+  const [{ userId }] = usePersistedState("userDetails", undefined);
+  const user = useQuery(api.users.getUserForConversationId, { conversationId: conversationId, userId: userId as Id<"users"> })?.[0];
   const createMessageMutation = useMutation(api.messages.createMessage);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

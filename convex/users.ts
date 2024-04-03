@@ -177,20 +177,22 @@ export const getUsers = query({
 export const getUserForConversationId = query({
   args: {
     conversationId: v.id("conversations"),
+    userId: v.id("users"),
   },
-  handler: async (ctx, { conversationId }) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
-      throw new Error("User not found");
-    }
-    if(!identity.email) {
-      throw new Error("User email not found");
-    }
-    const currentUser = await getUserHelper(ctx, identity.email);
-    if (!currentUser) {
-      throw new Error("Current user not found");
-    }
+  handler: async (ctx, { conversationId, userId }) => {
+    // const identity = await ctx.auth.getUserIdentity();
+    // if (!identity) {
+    //   throw new Error("User not found");
+    // }
+    // if(!identity.email) {
+    //   throw new Error("User email not found");
+    // }
+    // const currentUser = await getUserHelper(ctx, identity.email);
+    // if (!currentUser) {
+    //   throw new Error("Current user not found");
+    // }
 
+    const currentUser = await ctx.db.get(userId);
     // Get the users in this conversation and their associated user ids
     const users = await getManyVia(ctx.db, "userConversations", "userId", "conversationId", conversationId, "conversationId");
     const filteredUser = users.filter(user => user?._id !== currentUser?._id);
@@ -308,17 +310,23 @@ export const storeStripeId = internalMutation({
 export const storeSocketId = mutation({
   args: {
     socketId: v.string(),
+    userId: v.id("users"),
   },
-  handler: async (ctx, { socketId }) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
-      throw new Error("User not found");
-    }
-    if(!identity.email) {
-      throw new Error("User email not found");
-    }
+  handler: async (ctx, { socketId, userId }) => {
+    // const identity = await ctx.auth.getUserIdentity();
+    // if (!identity) {
+    //   throw new Error("User not found");
+    // }
+    // if(!identity.email) {
+    //   throw new Error("User email not found");
+    // }
 
-    const user = await getUserHelper(ctx, identity.email);
+    // const user = await getUserHelper(ctx, identity.email);
+    // if(!user) {
+    //   throw new Error("User not found");
+    // }
+
+    const user = await ctx.db.get(userId);
     if(!user) {
       throw new Error("User not found");
     }

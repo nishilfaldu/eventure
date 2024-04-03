@@ -9,9 +9,10 @@ import type { DefaultEventsMap } from "socket.io/dist/typed-events";
 import type { Socket } from "socket.io-client";
 
 import { api } from "../../../../convex/_generated/api";
-import { useUserStore } from "../UserStoreProvider";
 import { toast } from "@/components/ui/use-toast";
 import socketClient from "@/lib/socketClient";
+import { usePersistedState } from "@/lib/usePersistedStorage";
+import type { Id } from "convex/_generated/dataModel";
 
 
 // Define types for the context and peer connection
@@ -44,8 +45,8 @@ type SocketContextProviderProps = {
 
 
 function SocketContextProvider({ children }: SocketContextProviderProps) {
-  const userId = useUserStore(state => state.userId);
-  const userFullname = useUserStore(state => state.userFullname);
+//   const userId = useUserStore(state => state.userId);
+  const [{ userId, userFullname }] = usePersistedState("userDetails", undefined);
   const storeSocketId = useMutation(api.users.storeSocketId);
 
   const [callAccepted, setCallAccepted] = useState<boolean>(false);
@@ -70,7 +71,7 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
 
   // Initialize the socket instance only once
   useEffect(() => {
-    socketRef.current = socketClient(userId);
+    socketRef.current = socketClient(userId as Id<"users">);
 
     // Listen for the "connect" event
     socketRef.current.on("connect", async () => {
@@ -85,7 +86,7 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
         return;
       }
       // Store the socket id in your database
-      await storeSocketId({ socketId });
+      await storeSocketId({ socketId, userId: userId as Id<"users"> });
     });
 
     return () => {
