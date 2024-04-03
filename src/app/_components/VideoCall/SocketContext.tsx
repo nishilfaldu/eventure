@@ -10,6 +10,7 @@ import type { Socket } from "socket.io-client";
 
 import { api } from "../../../../convex/_generated/api";
 import { useUserStore } from "../UserStoreProvider";
+import { toast } from "@/components/ui/use-toast";
 import socketClient from "@/lib/socketClient";
 
 
@@ -77,7 +78,14 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
     socketRef.current.on("connect", async () => {
       // Access the socket id after the connection is established
       const socketId = socketRef.current?.id;
+      if (!socketId) {
+        toast({
+          title: "Error",
+          description: "Socket ID not found",
+        });
 
+        return;
+      }
       // Store the socket id in your database
       await storeSocketId({ socketId });
     });

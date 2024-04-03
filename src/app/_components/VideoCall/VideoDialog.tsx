@@ -17,7 +17,7 @@ import {
 
 
 interface VideoDialogProps {
-  userToCallId: string;
+  userToCallId: string | undefined;
   calleeNameOnCallerSide: string;
 }
 
@@ -38,6 +38,7 @@ export function VideoDialog({ userToCallId, calleeNameOnCallerSide }: VideoDialo
         <Button className="rounded-full w-8 h-8" size="icon" variant="ghost"
           onClick={() => {
             setOpenModal(true);
+            if (!userToCallId) { return; }
             callUser(userToCallId);
           }
           }>

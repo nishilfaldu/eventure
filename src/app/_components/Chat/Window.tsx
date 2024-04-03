@@ -29,7 +29,7 @@ export function ChatWindow(
     defaultLayout = [265, 440, 655], defaultCollapsed = false,
     navCollapsedSize,
   }: WindowProps) {
-  const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
+  const [isCollapsed] = useState(defaultCollapsed);
   const conversations = useQuery(api.conversations.getConversations);
   const users = conversations?.map(conversation => ({
     ...conversation.filteredUsers[0],
@@ -57,12 +57,12 @@ export function ChatWindow(
           collapsible={true}
           minSize={15}
           maxSize={20}
-          onCollapse={collapsed => {
-            setIsCollapsed(collapsed);
-            document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-              collapsed
-            )}`;
-          }}
+          //   onCollapse={(collapsed)=> {
+          //     setIsCollapsed(collapsed);
+          // document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+          //   collapsed
+          // )}`;
+          //   }}
           className={cn(isCollapsed && "min-w-[50px] transition-all duration-300 ease-in-out")}
         >
           <div className={cn("flex h-[57px] items-center justify-center", isCollapsed ? "h-[52px]": "px-2")}>

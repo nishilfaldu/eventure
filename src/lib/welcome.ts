@@ -19,20 +19,13 @@ export function generateEmail(guestName: string, eventName: string,
       <tbody>
         <tr style="width:100%">
           <td>
-            <table align="center" width="100%" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="padding:30px 20px">
-              <tbody>
-                <tr>
-                  <td><img src="${baseUrl}/images/eventure-logo.png" style="display:block;outline:none;border:none;text-decoration:none" /></td>
-                </tr>
-              </tbody>
-            </table>
             <table align="center" width="100%" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="border:1px solid rgb(0,0,0, 0.1);border-radius:3px;overflow:hidden">
               <tbody>
                 <tr>
                   <td>
                     <table align="center" width="100%" border="0" cellPadding="0" cellSpacing="0" role="presentation">
                       <tbody style="width:100%">
-                        <tr style="width:100%"><img src="https://react-email-demo-ijnnx5hul-resend.vercel.app/static/yelp-header.png" style="display:block;outline:none;border:none;text-decoration:none;max-width:100%" width="620" /></tr>
+                        <tr style="width:100%"><img src="${baseUrl}/images/eventure-banner.png" style="display:block;outline:none;border:none;text-decoration:none;max-width:100%" width="620" /></tr>
                       </tbody>
                     </table>
                     <table align="center" width="100%" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="padding:20px;padding-bottom:0">
@@ -57,7 +50,7 @@ export function generateEmail(guestName: string, eventName: string,
                     <table align="center" width="100%" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="padding:20px;padding-top:0">
                       <tbody style="width:100%">
                         <tr style="width:100%">
-                          <td colSpan="2" data-id="__react-email-column" style="display:flex;justify-content:center;width:100%"><a style="background-color:#e00707;border-radius:3px;color:#FFF;font-weight:bold;border:1px solid rgb(0,0,0, 0.1);cursor:pointer;padding:12px 30px 12px 30px;line-height:100%;text-decoration:none;display:inline-block;max-width:100%" target="_blank" href=${registerHref}><span><!--[if mso]><i style="letter-spacing: 30px;mso-font-width:-100%;mso-text-raise:18" hidden>&nbsp;</i><![endif]--></span><span style="max-width:100%;display:inline-block;line-height:120%;mso-padding-alt:0px;mso-text-raise:9px">Register</span><span><!--[if mso]><i style="letter-spacing: 30px;mso-font-width:-100%" hidden>&nbsp;</i><![endif]--></span></a></td>
+                          <td colSpan="2" data-id="__react-email-column" style="display:flex;justify-content:center;width:100%"><a style="background-color:#e00707;border-radius:3px;color:#FFF;font-weight:bold;border:1px solid rgb(0,0,0, 0.1);cursor:pointer;padding:12px 30px 12px 30px;line-height:100%;text-decoration:none;display:inline-block;max-width:100%" href="${registerHref}" target="_blank"><span><!--[if mso]><i style="letter-spacing: 30px;mso-font-width:-100%;mso-text-raise:18" hidden>&nbsp;</i><![endif]--></span><span style="max-width:100%;display:inline-block;line-height:120%;mso-padding-alt:0px;mso-text-raise:9px">Register</span><span><!--[if mso]><i style="letter-spacing: 30px;mso-font-width:-100%" hidden>&nbsp;</i><![endif]--></span></a></td>
                         </tr>
                       </tbody>
                     </table>

@@ -44,7 +44,7 @@ export const createUser = mutation({
       throw new Error("Name or email is undefined in identity object");
     }
 
-    return await ctx.db.insert("users", {
+    const newUserId = await ctx.db.insert("users", {
       pictureUrl: identity.pictureUrl,
       tokenIdentifier: identity.tokenIdentifier,
       firstName: identity.givenName,
@@ -55,6 +55,10 @@ export const createUser = mutation({
       expert: false,
       verified: false,
     });
+
+    const newUser = await ctx.db.get(newUserId);
+
+    return { userId: newUser?._id, fullName: newUser?.firstName + " " + newUser?.lastName, stripeId: newUser?.stripeId };
   },
 });
 
@@ -235,14 +239,26 @@ export const getProfessionalsByCategoryId = query({
     categoryParam: v.optional(v.id("categories")),
     nameParam: v.optional(v.string()),
   },
-  handler: async (ctx, { categoryParam, nameParam }) => {
+  handler: async (ctx, { categoryParam }) => {
     if(categoryParam) {
-      return await getManyVia(ctx.db, "userCategories", "userId", "categoryId", categoryParam, "categoryId");
-    } else if(nameParam) {
-      let queryBuilder = ctx.db.query("users").filter(q => q.eq(q.field("expert"), true));
-      queryBuilder = queryBuilder.filter(q => q.or(q.eq("firstName", nameParam), q.eq("firstName", nameParam)));
+      const professionals = await getManyVia(ctx.db, "userCategories", "userId", "categoryId", categoryParam, "categoryId");
+      const professionalsWithRatings = await Promise.all(professionals.map(async professional => {
+        if(!professional) {
+          return null;
+        }
+        const ratings = await ctx.db.query("reviews").withIndex("revieweeId", q => q.eq("revieweeId", professional._id)).collect();
+        const averageRating = ratings.reduce((acc, rating) => acc + rating.ratingValue, 0) / ratings.length;
 
-      return await queryBuilder.collect();
+        return { ...professional, averageRating };
+      }   ));
+
+      return professionalsWithRatings;
+      // } else if(nameParam) {
+      //   let queryBuilder = ctx.db.query("users").filter(q => q.eq(q.field("expert"), true));
+      //   queryBuilder = queryBuilder.filter(q => q.or(q.eq("firstName", nameParam), q.eq("firstName", nameParam)));
+
+    //   return await queryBuilder.collect();
+    // }
     }
   },
 });

@@ -30,7 +30,7 @@ export default function SearchPage() {
                 <VendorListing
                 //   currentUser={currentUser}
                   key={`professional-${professional?._id}`}
-                  professional={professional!}
+                  professional={professional!} /* TODO FIXME */
                   index={i}
                 />
               ))
