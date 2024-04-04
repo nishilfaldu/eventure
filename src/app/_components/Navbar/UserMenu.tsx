@@ -3,7 +3,7 @@
 import { SignOutButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import MenuItem from "./MenuItem";
 import MenuItemDivider from "./MenuItemDivider";
@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 
 export function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const divRef = useRef(null);
+  const divRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
   const toggleOpen = useCallback(() => {
@@ -26,11 +26,27 @@ export function UserMenu() {
     router.push("/");
   }, [router]);
 
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const handleClickOutside = (event: any) => {
+      if (divRef.current && !divRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [divRef]);
+
   if (!isSignedIn || !isLoaded) { return; }
 
-
   return(
-    <div className="relative inline-block text-left z-20">
+    <div
+      ref={divRef}
+      className="relative inline-block text-left z-20">
       <div>
         <Button
           aria-expanded="true"

@@ -14,7 +14,6 @@ const nextConfig = {
   },
   images: {
     domains: [
-    //   "api.minnect.com",
       "img.clerk.com",
       "creativesilhouettes.ca",
       "localhost",

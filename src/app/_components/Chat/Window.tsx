@@ -81,7 +81,7 @@ export function ChatWindow(
               users ? users.map(user => (
                 {
                   title: user.firstName + " " + user.lastName,
-                  label: "4",
+                  label: "",
                   // eslint-disable-next-line max-len
                   icon: <AvatarGeneral key={user._id}
                     firstName={user.firstName!}

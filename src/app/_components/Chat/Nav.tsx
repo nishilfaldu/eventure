@@ -71,7 +71,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
               >
                 {/* <link.icon className="mr-2 h-4 w-4" /> */}
                 <span className="flex items-center justify-between">
-                  <span className="flex items-center">
+                  <span className="flex items-center gap-x-2">
                     {link.icon}
                     {link.title}
                   </span>
