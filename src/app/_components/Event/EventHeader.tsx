@@ -47,7 +47,7 @@ export function EventHeader() {
         <Button onClick={showModal} className="p-3 text-base">Create new event</Button>
       </div>
       <Tabs
-        defaultActiveKey="1"
+        defaultActiveKey="2"
         type="card"
         size="large"
         items={

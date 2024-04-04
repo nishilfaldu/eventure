@@ -81,7 +81,7 @@ export function EventModal({ visible, onCancel, onSubmit }: EventModalProps) {
   };
 
   return (
-    <Modal title="Create New Event" visible={visible} onOk={handleSubmit} onCancel={onCancel}>
+    <Modal title="Create New Event" visible={visible} onOk={handleSubmit} onCancel={onCancel} okButtonProps={{ style: { backgroundColor: "black" } }}>
       <div>
         <label className="block">Event Name</label>
         <input type="text" name="name" value={eventData.name} onChange={handleChange} className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 mb-4" />

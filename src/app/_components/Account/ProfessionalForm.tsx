@@ -217,7 +217,7 @@ export function ProfessionalForm({ username }: {username: string}) {
                 </SelectContent>
               </Select>
               <FormDescription>
-                    This is the gender that will be displayed in the dashboard.
+                    This is the country that will be displayed on the dashboard.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -234,7 +234,7 @@ export function ProfessionalForm({ username }: {username: string}) {
                 <Input placeholder="Your city name" {...field} />
               </FormControl>
               <FormDescription>
-                This is the city name that will be displayed in the dashboard
+                This is the city name that will be displayed on the dashboard.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -258,7 +258,7 @@ export function ProfessionalForm({ username }: {username: string}) {
                 />
               </FormControl>
               <FormDescription>
-                This is the bio that will be displayed on your professional profile
+                This is the bio that will be displayed on your professional profile.
               </FormDescription>
               <FormMessage />
             </FormItem>

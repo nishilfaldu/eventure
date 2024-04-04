@@ -8,7 +8,7 @@ export default async function EventsPage() {
 
   return (
     <div>
-      <div className="text-6xl mt-16 text-black font-medium break-words">
+      <div className="text-5xl mt-16 text-black font-medium break-words">
         <h1 className="text-black">My Events</h1>
       </div>
       <EventHeader />
