@@ -16,7 +16,7 @@ export function Navbar() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= 968);
+      setIsSmallScreen(window.innerWidth <= 850);
     };
 
     handleResize();
