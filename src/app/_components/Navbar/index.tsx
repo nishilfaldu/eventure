@@ -16,7 +16,7 @@ export function Navbar() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= 768);
+      setIsSmallScreen(window.innerWidth <= 968);
     };
 
     handleResize();
@@ -40,13 +40,13 @@ export function Navbar() {
           </Link>
           <CategoryNavigationMenu/>
         </div>
-        <nav className={`md:ml-auto flex-wrap items-center text-base justify-center min-[1200px]:block ${isSmallScreen && !isMenuOpen ? "hidden md:block" : "hidden"}`}>
+        <nav className={`md:ml-auto flex-wrap items-center text-base justify-center min-[1200px]:block ${isSmallScreen ? "hidden md:block" : "hidden"}`}>
           <Link href={"/"} className="mr-5 hover:text-gray-900 hover:cursor-pointer">Find an Expert</Link>
           <Link href={"/events"} className="mr-5 hover:text-gray-900 hover:cursor-pointer">My Events</Link>
           <Link href={"/chats"} className="mr-5 hover:text-gray-900 hover:cursor-pointer">Chats</Link>
         </nav>
         <div className="flex items-center">
-          <div className="md:hidden">
+          <div className={`md:hidden ${isSmallScreen ? "block" : "hidden"}`}>
             <div className="relative">
               <button
                 onClick={toggleMenu}
@@ -84,3 +84,5 @@ export function Navbar() {
     </header>
   );
 }
+
+
