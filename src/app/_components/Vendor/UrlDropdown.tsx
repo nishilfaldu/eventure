@@ -1,4 +1,5 @@
 import { ChevronDown } from "lucide-react";
+import { useMemo } from "react";
 
 import { InstagramIcon, LinkedinIcon, TwitterIcon, WebsiteIcon } from "../Icons";
 import { Button } from "@/components/ui/button";
@@ -22,30 +23,41 @@ interface UrlDropdownProps {
 export function UrlDropdown(
   { linkedInHref, instagramHref, twitterHref, websiteHref }
   : UrlDropdownProps) {
+  const checkLinks = useMemo(() => {
+    return ((linkedInHref && linkedInHref.length > 0)
+    || (instagramHref && instagramHref.length > 0)
+    || (twitterHref && twitterHref.length > 0)
+    || (websiteHref && websiteHref.length > 0)
+    );
+  }, [linkedInHref, instagramHref, twitterHref, websiteHref]);
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="h-4 w-4"><ChevronDown/></Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        <Separator orientation="vertical"/>
-        {instagramHref && instagramHref.length > 0 ? <DropdownMenuItem>
-          <InstagramIcon className="mr-2 h-4 w-4" />
-          <a href={instagramHref} target="_blank" rel="noopener noreferrer">Instagram</a>
-        </DropdownMenuItem> : null}
-        {linkedInHref && linkedInHref.length > 0 ? <DropdownMenuItem>
-          <LinkedinIcon className="mr-2 h-4 w-4" />
-          <a href={linkedInHref} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </DropdownMenuItem> : null}
-        {twitterHref && twitterHref.length > 0 ? <DropdownMenuItem>
-          <TwitterIcon className="mr-2 h-4 w-4" />
-          <a href={twitterHref} target="_blank" rel="noopener noreferrer">Twitter</a>
-        </DropdownMenuItem> : null}
-        {websiteHref && websiteHref.length > 0 ? <DropdownMenuItem>
-          <WebsiteIcon className="mr-2 h-4 w-4" />
-          <a href={websiteHref} target="_blank" rel="noopener noreferrer">Wesbite</a>
-        </DropdownMenuItem> : null}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+      {checkLinks ?
+        (<DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon" className="h-4 w-4"><ChevronDown/></Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <Separator orientation="vertical"/>
+            {instagramHref && instagramHref.length > 0 ? <DropdownMenuItem>
+              <InstagramIcon className="mr-2 h-4 w-4" />
+              <a href={instagramHref} target="_blank" rel="noopener noreferrer">Instagram</a>
+            </DropdownMenuItem> : null}
+            {linkedInHref && linkedInHref.length > 0 ? <DropdownMenuItem>
+              <LinkedinIcon className="mr-2 h-4 w-4" />
+              <a href={linkedInHref} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </DropdownMenuItem> : null}
+            {twitterHref && twitterHref.length > 0 ? <DropdownMenuItem>
+              <TwitterIcon className="mr-2 h-4 w-4" />
+              <a href={twitterHref} target="_blank" rel="noopener noreferrer">Twitter</a>
+            </DropdownMenuItem> : null}
+            {websiteHref && websiteHref.length > 0 ? <DropdownMenuItem>
+              <WebsiteIcon className="mr-2 h-4 w-4" />
+              <a href={websiteHref} target="_blank" rel="noopener noreferrer">Wesbite</a>
+            </DropdownMenuItem> : null}
+          </DropdownMenuContent>
+        </DropdownMenu>) : null }
+    </>
   );
 }
