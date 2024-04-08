@@ -54,7 +54,6 @@ export const createUser = mutation({
       email: identity.email,
       expert: false,
       verified: false,
-      subscribed: false,
     });
 
     const newUser = await ctx.db.get(newUserId);
@@ -335,19 +334,5 @@ export const storeSocketId = mutation({
     await ctx.db.patch(user._id, {
       socketId: socketId,
     });
-  },
-});
-
-export const getStripeDetails = query({
-  args: {
-    userId: v.id("users"),
-  },
-  handler: async (ctx, { userId }) => {
-    const user = await ctx.db.get(userId);
-    if(!user) {
-      throw new Error("User not found");
-    }
-
-    return { stripeId: user.stripeId, subscribed: user.subscribed };
   },
 });
