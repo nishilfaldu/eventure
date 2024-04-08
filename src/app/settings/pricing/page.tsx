@@ -1,6 +1,9 @@
 "use client";
+import { AuthLoading, Authenticated } from "convex/react";
+
 import { SubscriptionDetails } from "@/app/_components/Stripe/SubscriptionDetails";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 
 
 
@@ -14,7 +17,12 @@ export default function PricingPage() {
         </p>
       </div>
       <Separator />
-      <SubscriptionDetails/>
+      <Authenticated>
+        <SubscriptionDetails/>
+      </Authenticated>
+      <AuthLoading>
+        <Skeleton className="h-[100px] w-full rounded-xl" />
+      </AuthLoading>
     </div>
   );
 }

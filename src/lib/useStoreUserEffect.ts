@@ -1,5 +1,5 @@
 import { useUser } from "@clerk/nextjs";
-import { useConvexAuth, useMutation } from "convex/react";
+import { useAction, useConvexAuth, useMutation } from "convex/react";
 import { useEffect, useState } from "react";
 
 import { api } from "../../convex/_generated/api";
@@ -18,6 +18,7 @@ export default function useStoreUserEffect() {
   const [stripeId, setStripeId] = useState<string | null | undefined>(null);
 
   const storeUser = useMutation(api.users.createUser);
+  const storeStripeCustomerId = useAction(api.stripe.storeStripeCustomerId);
   // Call the `storeUser` mutation function to store
   // the current user in the `users` table and return the `Id` value.
 
@@ -30,7 +31,9 @@ export default function useStoreUserEffect() {
     // Recall that `storeUser` gets the user information via the `auth`
     // object on the server. You don't need to pass anything manually here.
     async function createUser() {
-      const { userId, fullName, stripeId } = await storeUser();
+      const { userId, fullName } = await storeUser();
+      const stripeId = await storeStripeCustomerId();
+
       setUserId(userId);
       setUserFullname(fullName);
       setStripeId(stripeId);
@@ -39,7 +42,7 @@ export default function useStoreUserEffect() {
     createUser();
 
     return () => setUserId(null);
-  }, [isAuthenticated, storeUser, user?.id]);
+  }, [isAuthenticated, storeUser, user?.id, storeStripeCustomerId]);
 
   return { userId, userFullname, stripeId };
 }

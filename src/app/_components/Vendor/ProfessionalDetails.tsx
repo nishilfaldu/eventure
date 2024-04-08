@@ -1,13 +1,14 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
 import type { Preloaded } from "convex/react";
-import { usePreloadedQuery } from "convex/react";
+import { Authenticated, usePreloadedQuery } from "convex/react";
 import { useMutation } from "convex/react";
 import { useQuery } from "convex/react";
 import { MessagesSquare, ShieldCheck, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { AddReviewDialog } from "./AddReviewDialog";
 import { api } from "../../../../convex/_generated/api";
@@ -19,7 +20,7 @@ import { UrlDropdown } from "@/app/_components/Vendor/UrlDropdown";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useHasSubscription } from "@/lib/stripe";
+import { checkHasSubscription } from "@/lib/stripe";
 
 
 
@@ -32,7 +33,8 @@ interface ProfessionalDetailsProps {
 export function ProfessionalDetails(
   { preloadedProfessional,
     preloadedCategories,
-    preloadedReviews } : ProfessionalDetailsProps) {
+    preloadedReviews,
+  } : ProfessionalDetailsProps) {
   const { user, isLoaded, isSignedIn } = useUser();
   const router = useRouter();
   const professional = usePreloadedQuery(preloadedProfessional);
@@ -42,8 +44,19 @@ export function ProfessionalDetails(
   //   const [conversationId, setConversationId] = useState<string | undefined>(undefined);
   const currentUser = useQuery(api.users.getCurrentUser);
   const conversationMutation = useMutation(api.conversations.getOrCreateConversation);
+  const [hasSubscription, setHasSubscription] = useState<boolean | undefined>(undefined);
 
-  const { hasSubscription }= useHasSubscription(currentUser?.stripeId);
+  useEffect(() => {
+    const handleStripe = async () => {
+      const hasSubscription = await checkHasSubscription(currentUser?.stripeId);
+      console.log(hasSubscription, "hasSubscription");
+      if(hasSubscription !== undefined) {
+        setHasSubscription(hasSubscription);
+      }
+    };
+
+    handleStripe();
+  }, [currentUser?.stripeId]);
 
   //   TODO: add loading indicators here
   if(!professional) { return null; }
@@ -158,8 +171,9 @@ export function ProfessionalDetails(
       </div>
       {/* ReviewModal for seeing more reviews */}
       <ReviewModal reviewsWithUsers={reviews.reviewsWithUserInfo}/>
-
-      {!hasSubscription && <SubscribeDialog/>}
+      <Authenticated>
+        {hasSubscription === false && <SubscribeDialog hasSubscription={hasSubscription}/>}
+      </Authenticated>
     </section>
   );
 }

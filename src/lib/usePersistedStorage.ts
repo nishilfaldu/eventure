@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 interface PersistedStateType {
   userId: string;
   userFullname: string;
+  hasSubscription: boolean;
 }
 
 export function usePersistedState(key: string, defaultValue: string | undefined)

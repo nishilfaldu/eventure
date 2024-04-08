@@ -114,7 +114,18 @@ function SocketContextProvider({ children }: SocketContextProviderProps) {
     socketRef.current?.on("callUser", ({ from, name: callerName, signal }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
-  }, [userFullname]);
+
+    // on unmounting of the component revoke permissions to camera and audio
+    // Cleanup function
+    // return () => {
+    //   console.log("cleanup");
+    //   if (stream_) {
+    //     stream_.getTracks().forEach(track => {
+    //       track.stop();
+    //     });
+    //   }
+    // };
+  }, [userFullname, stream]);
 
   const answerCall = () => {
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })

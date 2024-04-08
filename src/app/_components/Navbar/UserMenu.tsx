@@ -62,7 +62,7 @@ export function UserMenu() {
           </Avatar>
         </Button>
       </div>
-      {isOpen && <div ref={divRef} className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+      {isOpen && <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
         <div aria-labelledby="options-menu" aria-orientation="vertical" className="py-1" role="menu">
           <div className="px-4 py-3 border-b border-gray-200">
             <p className="text-sm font-medium text-gray-800">{user.fullName}</p>
@@ -71,13 +71,12 @@ export function UserMenu() {
 
           {/* MenuItems Group 1 */}
           <MenuItem label="Profile" href="/settings/" otherClassName="mt-2" />
-          <MenuItem label="Transactions" href="/settings/transactions"/>
           <MenuItem label="Become a professional" href="/settings/become-a-professional" />
 
           <MenuItemDivider/>
 
           {/* MenuItems Group 2 */}
-          <MenuItem label="Pricing" href="/settings/pricing" />
+          <MenuItem label="Billing" href="/settings/pricing" />
 
           <MenuItemDivider/>
 

@@ -1,7 +1,7 @@
 import { preloadQuery } from "convex/nextjs";
 
 import { api } from "../../../../convex/_generated/api";
-import { ProfessionalDetails } from "@/app/_components/Vendor/ProfessionalDetails";
+import { ProfessionalDetailsComposer } from "@/app/_components/Vendor/ProfessionalDetailsComposer";
 import type { Id } from "convex/_generated/dataModel";
 
 
@@ -13,7 +13,7 @@ export default async function ProfessionalPage({ params }: {params: {id: string}
 
   return (
     <>
-      <ProfessionalDetails
+      <ProfessionalDetailsComposer
         preloadedProfessional={preloadedProfessional}
         preloadedCategories={preloadedCategoriesForProfessional}
         preloadedReviews={preloadedReviews}

@@ -1,8 +1,10 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
+import { AuthLoading, Authenticated } from "convex/react";
 
 import { ProfessionalForm } from "@/app/_components/Account/ProfessionalForm";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 
 
 
@@ -18,7 +20,18 @@ export default function BecomeAVendorPage() {
         </p>
       </div>
       <Separator />
-      {isLoaded ? <ProfessionalForm username={user!.username!}/> : "Loading..."}
+      <AuthLoading>
+        <div className="flex flex-col space-y-3">
+          <Skeleton className="h-[125px] w-full rounded-xl" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+          </div>
+        </div>
+      </AuthLoading>
+      <Authenticated>
+        {isLoaded ? <ProfessionalForm username={user!.username!}/> : "Loading..."}
+      </Authenticated>
     </div>
   );
 }

@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 
 import { useUserStore } from "./UserStoreProvider";
+import { useHasSubscription } from "@/lib/stripe";
 import { usePersistedState } from "@/lib/usePersistedStorage";
 import useStoreUserEffect from "@/lib/useStoreUserEffect";
 
@@ -16,18 +17,22 @@ export function Composer({ children } : {children: React.ReactNode}) {
     state => state,
   );
 
+  const hasSubscription = useHasSubscription(stripeId ?? undefined);
+
+
   useEffect(() => {
     if (!userId || !userFullname) { return; }
     setUserId(userId);
     setUserPersistedState({
       userId: userId,
       userFullname: userFullname,
+      hasSubscription: hasSubscription ?? false,
     });
     setUserFullname(userFullname);
     if(!stripeId) { return; }
     setStripeId(stripeId);
   }, [userId, setUserId, userFullname, setUserFullname, stripeId,
-    setStripeId, setUserPersistedState]);
+    setStripeId, setUserPersistedState, hasSubscription]);
 
   return (
     <div>
@@ -44,7 +49,6 @@ export function Composer({ children } : {children: React.ReactNode}) {
       <br/>
       <div>
         {userId_ ? children : "Storing or updating user..."}
-        {/* <SubscribeDialog /> */}
       </div>
     </div>
   );

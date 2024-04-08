@@ -1,8 +1,8 @@
-import { useAction, useConvexAuth } from "convex/react";
+import { useConvexAuth } from "convex/react";
 import { useEffect, useState } from "react";
 import Stripe from "stripe";
 
-import { api } from "../../convex/_generated/api";
+import { toast } from "@/components/ui/use-toast";
 
 
 
@@ -14,35 +14,30 @@ export const stripe = new Stripe(
     typescript: true,
   }
 );
+export async function checkHasSubscription(customer: string | undefined) {
+  if (!customer) { return; }
 
+  try {
+    const subscriptions = await stripe.subscriptions.list({
+      customer: customer,
+    });
 
-export default function useStoreStripeCustomerEffect() {
-  const { isAuthenticated } = useConvexAuth();
-  const [stripeCustomerId, setStripeCustomerId] = useState<string | null>(null);
+    return (subscriptions.data.length > 0);
+  } catch (error) {
+    // TODO: throw an error
+    toast({
+      title: "Error",
+      description: "There was an error while checking if the user has subscription",
+    });
+    console.log(error);
 
-  const storeStripeCustomerId = useAction(api.stripe.storeStripeCustomerId);
-
-  useEffect(() => {
-    if (!isAuthenticated) { return; }
-
-    async function createStoreStripeCustomer() {
-      const id = await storeStripeCustomerId();
-      setStripeCustomerId(id);
-    }
-
-    createStoreStripeCustomer();
-
-    return () => setStripeCustomerId(null);
-  }, [storeStripeCustomerId, isAuthenticated]);
-
-  return stripeCustomerId;
+    return undefined;
+  }
 }
-
 
 export function useHasSubscription(stripeCustomerId: string | undefined) {
   const { isAuthenticated } = useConvexAuth();
   const [hasSubscription, setHasSubscription] = useState<boolean | null>(null);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if(!isAuthenticated || !stripeCustomerId) {
@@ -55,7 +50,6 @@ export function useHasSubscription(stripeCustomerId: string | undefined) {
       });
 
       setHasSubscription(subscriptions.data.length > 0);
-      setLoading(false);
     }
 
     checkSubscription();
@@ -65,8 +59,37 @@ export function useHasSubscription(stripeCustomerId: string | undefined) {
     };
   }, [isAuthenticated, stripeCustomerId]);
 
-  return { hasSubscription, loading };
+  return hasSubscription;
 }
+
+export async function generateCheckoutLink(customer: string | undefined) {
+  if (!customer) { return; }
+
+  try {
+    const checkout = await stripe.checkout.sessions.create({
+      success_url: process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:3000/",
+      cancel_url: process.env.NEXT_PUBLIC_SERVER_URL ?? "http://localhost:3000/",
+      customer: customer,
+      line_items: [
+        {
+          price: "price_1OwFzZIv5IqZqEz6BZoWShXj",
+          quantity: 1,
+        },
+      ],
+      mode: "subscription",
+    });
+
+    return checkout.url;
+  } catch (error) {
+    // TODO: throw an error
+    toast({
+      title: "Error",
+      description: "There was an error while generating the customer checkout link",
+    });
+    console.log(error);
+  }
+}
+
 
 export function useCreateCheckoutLink(customer: string | undefined) {
   const { isAuthenticated } = useConvexAuth();

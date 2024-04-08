@@ -1,36 +1,31 @@
 "use client";
-import { useAction, useQuery } from "convex/react";
+import { useQuery } from "convex/react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { api } from "../../../../convex/_generated/api";
-import { useUserStore } from "../UserStoreProvider";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { useCreateCheckoutLink, useHasSubscription } from "@/lib/stripe";
+import { generateCheckoutLink } from "@/lib/stripe";
 
 
 
-export function SubscribeDialog() {
-  //   TODO: fix setting of stripeId in zustand state
-  const storeStripeCustomerId = useAction(api.stripe.storeStripeCustomerId);
-  const [stripeCustomerId, setStripeCustomerId] = useState<string | null>(null);
+export function SubscribeDialog({ hasSubscription } : {hasSubscription: boolean}) {
   const user = useQuery(api.users.getCurrentUser);
-  const { setStripeId } = useUserStore(
-    state => state,
-  );
-  const checkoutLink = useCreateCheckoutLink(stripeCustomerId!);
-  const { hasSubscription } = useHasSubscription(user?.stripeId);
+  const [checkoutLink, setCheckoutLink] = useState<string | null>(null);
 
-  const handleStripeSubmission = async () => {
-    const id = await storeStripeCustomerId();
-    if(!id) { return; }
-    setStripeId(id);
-    setStripeCustomerId(id);
-  };
+  useEffect(() => {
+    const handleStripeSubmission = async () => {
+      const checkoutLink = await generateCheckoutLink(user?.stripeId);
+      if(checkoutLink) { setCheckoutLink(checkoutLink); }
+    };
+
+    handleStripeSubmission();
+  }, [user?.stripeId]);
+
 
   return (
-    <Dialog open={!hasSubscription }>
+    <Dialog open={!hasSubscription}>
       <DialogTrigger asChild>
         {/* <span className="flex md:px-20 my-8">
           <Button size="lg" variant="outline" className="bg-white text-black hover:bg-black hover:text-white border-neutral-800 font-bold">Show all reviews</Button>
@@ -48,7 +43,7 @@ export function SubscribeDialog() {
             <Button size="lg" variant="default">
               <Link href={checkoutLink ?? ""}>Checkout</Link>
             </Button> :
-            <Button size="lg" variant="default" onClick={handleStripeSubmission}>Become a customer</Button>
+            <Button size="lg" variant="default"><Link href="/settings/pricing">Go to Billing</Link></Button>
           }
         </DialogFooter>
       </DialogContent>
